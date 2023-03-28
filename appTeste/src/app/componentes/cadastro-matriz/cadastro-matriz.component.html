@@ -1,49 +1,95 @@
 <div class="container">
     <h1>Formulário de Cadastro</h1>
     <form>
-        <div class="form-group">
-            <label for="tipo-empresa">Tipo de Empresa</label>
-            <input type="text" class="form-control" id="tipo-empresa" name="tipo-empresa"
-                placeholder="Digite o tipo de empresa">
-        </div>
-        <div class="form-group">
-            <label for="nome-empresa">Nome da Empresa</label>
-            <input type="text" class="form-control" id="nome-empresa" name="nome-empresa"
-                placeholder="Digite o nome da empresa">
-        </div>
-        <div class="form-group">
-            <label for="cnpj-empresa">CNPJ da Empresa</label>
-            <input type="text" class="form-control" id="cnpj-empresa" name="cnpj-empresa"
-                placeholder="Digite o CNPJ da empresa">
-        </div>
-        <div class="form-group">
-            <label for="cep">CEP</label>
-            <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite o CEP">
-        </div>
-        <div class="form-group">
-            <label for="endereco">Endereço</label>
-            <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Digite o endereço">
-        </div>
-        <div class="form-group">
-            <label for="bairro">Bairro</label>
-            <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Digite o bairro">
-        </div>
-        <div class="form-group">
-            <label for="cidade">Cidade</label>
-            <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Digite a cidade">
-        </div>
-        <div class="form-group">
-            <label for="estado">Estado</label>
-            <input type="text" class="form-control" id="estado" name="estado" placeholder="Digite o estado">
-        </div>
-        <div class="form-group">
-            <label for="complemento">Complemento</label>
-            <input type="text" class="form-control" id="complemento" name="complemento"
-                placeholder="Digite o complemento">
-        </div>
-        <div class="form-group">
-            <label for="celular">Celular</label>
-            <input type="text" class="form-control" id="celular" name="celular" placeholder="Digite o celular">
+        <div class="container">
+            <div class="row">
+                <div class="form-group col-4">
+                    <label for="tipo-empresa">Tipo de Empresa</label>
+                    <input type="text" class="form-control" id="tipo-empresa" name="tipo-empresa"
+                        placeholder="Digite o tipo de empresa">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-7">
+                    <label for="nome-empresa">Nome da Empresa</label>
+                    <input type="text" class="form-control" id="nome-empresa" name="nome-empresa"
+                        placeholder="Digite o nome da empresa">
+                </div>
+                <div class="form-group col-5">
+                    <label for="cnpj-empresa">CNPJ da Empresa</label>
+                    <input type="text" class="form-control" id="cnpj-empresa" name="cnpj-empresa"
+                        placeholder="Digite o CNPJ da empresa">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-4">
+                    <label for=" cep">CEP</label>
+                    <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite o CEP">
+                </div>
+                <div class="form-group col-8">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" class="form-control" id="endereco" name="endereco"
+                        placeholder="Digite o endereço">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-5">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro">
+                </div>
+                <div class="form-group col-5">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Cidade">
+                </div>
+                <div class="form-group col-2">
+                    <label for="estado">Estado</label>
+                    <input type="text" class="form-control" id="estado" name="estado" placeholder="UF">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-8">
+                    <label for="complemento">Complemento</label>
+                    <input type="text" class="form-control" id="complemento" name="complemento"
+                        placeholder="Digite o complemento">
+                </div>
+                <div class="form-group col-4">
+                    <label for="celular">Celular</label>
+                    <input type="text" class="form-control" id="celular" name="celular" placeholder="Digite o celular">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-8">
+                    <label for="nomeAdministrador">Nome do Administrador</label>
+                    <input type="text" class="form-control" id="nomeAdministrador" name="nomeAdministrador"
+                        placeholder="Digite o nome do Administrador">
+                </div>
+                <div class="form-group col-4">
+                    <label for="cpf">CPF</label>
+                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite o CPF">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-Mail</label>
+                <input type="text" class="form-control" id="email" name="email" placeholder="Digite o Email">
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-11" style="text-align: right;">
+                    <button type="button" class="btn btn-secondary">Cancelar</button>
+                </div>
+                <div class="col-1" style="text-align: right;">
+                    <button type="button" class="btn btn-primary">Salvar</button>
+                </div>
+            </div>
         </div>
     </form>
 </div>
