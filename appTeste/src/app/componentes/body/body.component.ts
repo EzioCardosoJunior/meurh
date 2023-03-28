@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { TelaLoginService } from 'src/app/services/tela-login.service';
 
 @Component({
   selector: 'app-body',
@@ -8,16 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BodyComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private logUser: TelaLoginService) { }
 
-  verificaLogin: any = 1
+  verificaLogin: any;
   telaLogin: any;
   telaBody: any;
   larg: any;
 
   ngOnInit(): void {
-    console.log(location.pathname)
-    location.pathname == "/app-login" ? (this.telaLogin = true) && (this.telaBody = false) : (this.telaBody = true) && (this.larg = "col-9");
-  } 
+   // this.logUser.isAuthenticated() ? alert(22) : alert(44);
+   this.logUser.isAuthenticated();
 
+   this.logUser.isAuthenticated() ? (this.verificaLogin = true) && (this.larg="col-9") :
+   (this.verificaLogin = false) && (this.larg="col-12")
+   
+    console.log(this.logUser.isAuthenticated())
+
+  }
 }

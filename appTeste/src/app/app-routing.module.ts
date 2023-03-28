@@ -29,7 +29,7 @@ const routes: Routes = [
 
   {
     path: '', 
-    redirectTo: 'app-home', 
+    redirectTo: 'app-login', 
     pathMatch: 'full'
   },
 

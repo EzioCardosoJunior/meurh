@@ -12,6 +12,7 @@ import { LoginComponent } from './componentes/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroMatrizComponent } from './componentes/cadastro-matriz/cadastro-matriz.component';
 import { BodyComponent } from './componentes/body/body.component';
+import { PerfilEmpresaComponent } from './componentes/perfil-empresa/perfil-empresa.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { BodyComponent } from './componentes/body/body.component';
     ContentComponent,
     LoginComponent,
     CadastroMatrizComponent,
-    BodyComponent
+    BodyComponent,
+    PerfilEmpresaComponent
   ],
   imports: [
     BrowserModule,

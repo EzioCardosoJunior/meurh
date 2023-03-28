@@ -1,14 +1,7 @@
 
-<div *ngIf="telaLogin" class="container">
-    <div class="row">        
-        <div class="col-12">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
-</div>
-<div *ngIf="telaBody" class="container">
+<div  class="container">
     <div class="row">
-        <div class="col-3">
+        <div *ngIf="verificaLogin" class="col-3">
             <app-sidebar></app-sidebar>
         </div>
         <div class="{{larg}}">

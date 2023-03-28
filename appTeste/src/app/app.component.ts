@@ -10,10 +10,8 @@ export class AppComponent implements OnInit {
 
   constructor(){};
 
-  ngOnInit(): any{
-
-
-
-  }
+  ngOnInit(): void {
+   
+  } 
 
 }

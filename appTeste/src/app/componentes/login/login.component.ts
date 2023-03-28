@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,9 +12,12 @@ export class LoginComponent implements OnInit {
 
   cadastroProfissional: FormGroup; 
  
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router ) { }
 
-  ngOnInit(): void {      
+  ngOnInit(): void { 
+    
+    localStorage.removeItem('token');
+    //this.logUser.isAuthenticated() ? alert(22) : alert(44);
         
     this.cadastroProfissional = new FormGroup({
       CampoNome: new FormControl('', Validators.required),
@@ -29,8 +33,9 @@ export class LoginComponent implements OnInit {
   }
 
 
-  teste() {   
-    console.log(this.cadastroProfissional.value.CampoSenha)
+  salvaUsuario() {     
+    localStorage.setItem('token', this.cadastroProfissional.value.CampoNome); 
+    
     if (!this.cadastroProfissional.valid) {
       console.log("Formulário inválido");
       return;
