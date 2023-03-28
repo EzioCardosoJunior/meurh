@@ -13,37 +13,48 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) { }
 
-  
 
 
 
-ngOnInit(): void {
-  this.cadastroProfissional = this.formBuilder.group({
 
-    CampoNome: ['', Validators.required],
-    CampoSenha: ['', Validators.required],
-    CampoConfirmacaoSenha: ['', Validators.required],
-    CampoEmail: ['', [
-      Validators.required,
-      Validators.email
-    ]]
-  });
+  ngOnInit(): void {
 
-  /* this.cadastroProfissional = new FormGroup({
-    CampoConfirmacaoSenha: new FormControl(Validators.required),
-    CampoNome: new FormControl(),
-    CampoSenha: new FormControl(),
-    CampoEmail: new FormControl()
-  }) */
+    /* this.cadastroProfissional = this.formBuilder.group({
+      CampoNome: ['', Validators.required],
+      CampoSenha: ['', Validators.minLength(6)],
+      CampoConfirmacaoSenha: ['', Validators.minLength(2)],
+      CampoEmail: ['', [
+        Validators.required,
+        Validators.email
+      ]]
+    });
+   */
+    this.cadastroProfissional = new FormGroup({
+      CampoNome: new FormControl('', Validators.required),
+      CampoSenha: new FormControl('', ),
+      CampoConfirmacaoSenha: new FormControl(''),
+      CampoEmail: new FormControl('', [
+        Validators.required,
+        Validators.email
+      ]),
+      CampoTermos: new FormControl('', Validators.required)
+    })
 
-}
+    function passwordMatchValidator(g: FormGroup) {
+      console.log(g)
+      /* return g.get('CampoSenha').value === g.get('passwordConfirm').value
+        ? null : { 'mismatch': true }; */
+    }
 
-teste(){
-  if (!this.cadastroProfissional.valid) {
-    console.log("Formulário inválido");
-    return;
   }
-  console.log(this.cadastroProfissional)
-}
+
+
+  teste() {   
+    if (!this.cadastroProfissional.valid) {
+      console.log("Formulário inválido");
+      return;
+    }
+    console.log(this.cadastroProfissional)
+  }
 
 }
