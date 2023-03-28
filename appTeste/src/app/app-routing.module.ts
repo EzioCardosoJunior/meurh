@@ -1,3 +1,6 @@
+import { ContentComponent } from './componentes/content/content.component';
+import { BodyComponent } from './componentes/body/body.component';
+import { CadastroMatrizComponent } from './componentes/cadastro-matriz/cadastro-matriz.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -10,6 +13,18 @@ const routes: Routes = [
   {
     path:"app-login",
     component: LoginComponent
+  },
+  {
+    path:"app-cadastro-matriz",
+    component: CadastroMatrizComponent
+  },
+  {
+    path:"app-body",
+    component: BodyComponent
+  },
+  {
+    path:"app-content",
+    component: ContentComponent
   },
 
   {
