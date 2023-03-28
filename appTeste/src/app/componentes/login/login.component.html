@@ -9,30 +9,30 @@
                 <h5 class="display-6">Crie uma conta profissional</h5>
                 <p class="lead">Preencha seus dados para ter acesso</p>
                 <hr class="my-4">
-                <form>
-                   
+
+                <form action="" [formGroup]="cadastroProfissional">                  
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form3Example3">Nome</label>
-                        <input type="text" id="campoNome" class="form-control form-control-lg"
+                        <input type="text" id="campoNome" formControlName="CampoNome" class="form-control form-control-lg"
                             placeholder="Nome" />
                     </div>
                     
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form3Example3">Email</label>
-                        <input type="email" id="campoEmail" class="form-control form-control-lg"
+                        <input type="email" id="campoEmail" formControlName="CampoEmail" class="form-control form-control-lg"
                             placeholder="Digite seu Email" />
                     </div>                   
 
                     
                     <div class="form-outline mb-3">
                         <label class="form-label" for="form3Example4">Digite sua senha</label>
-                        <input type="password" id="campoSenha" class="form-control form-control-lg"
+                        <input type="password" id="campoSenha" formControlName="CampoSenha" class="form-control form-control-lg"
                             placeholder="Digite a senha" />
                     </div>
                     
                     <div class="form-outline mb-3">
                         <label class="form-label" for="form3Example4">Confirme sua senha</label>
-                        <input type="password" id="campoConfirmacaoSenha" class="form-control form-control-lg"
+                        <input type="password" id="campoConfirmacaoSenha" formControlName="CampoConfirmacaoSenha" class="form-control form-control-lg"
                             placeholder="Repita sua senha" />
                     </div>
 
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="text-center text-lg-start mt-4 pt-2">
-                        <button type="button" class="btn btn-primary btn-lg"
+                        <button [disabled]="!cadastroProfissional.valid" type="button" (click)="teste()" class="btn btn-primary btn-lg"
                             style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
                         
                     </div>
