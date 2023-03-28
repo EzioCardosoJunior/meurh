@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { ContentComponent } from './componentes/content/content.component';
 import { LoginComponent } from './componentes/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CadastroMatrizComponent } from './componentes/cadastro-matriz/cadastro-matriz.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     HomeComponent,
     ContentComponent,
-    LoginComponent
+    LoginComponent,
+    CadastroMatrizComponent
   ],
   imports: [
     BrowserModule,

@@ -9,26 +9,15 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  cadastroProfissional: FormGroup;
+  cadastroProfissional: FormGroup;  
 
-  constructor(private formBuilder: FormBuilder) { }
-
-
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
 
 
-  ngOnInit(): void {
 
-    /* this.cadastroProfissional = this.formBuilder.group({
-      CampoNome: ['', Validators.required],
-      CampoSenha: ['', Validators.minLength(6)],
-      CampoConfirmacaoSenha: ['', Validators.minLength(2)],
-      CampoEmail: ['', [
-        Validators.required,
-        Validators.email
-      ]]
-    });
-   */
+
+  ngOnInit(): void {    
     this.cadastroProfissional = new FormGroup({
       CampoNome: new FormControl('', Validators.required),
       CampoSenha: new FormControl('', ),
@@ -38,23 +27,22 @@ export class LoginComponent implements OnInit {
         Validators.email
       ]),
       CampoTermos: new FormControl('', Validators.required)
-    })
-
-    function passwordMatchValidator(g: FormGroup) {
-      console.log(g)
-      /* return g.get('CampoSenha').value === g.get('passwordConfirm').value
-        ? null : { 'mismatch': true }; */
-    }
+    })   
 
   }
 
 
   teste() {   
+    console.log(this.cadastroProfissional.value.CampoSenha)
     if (!this.cadastroProfissional.valid) {
       console.log("Formulário inválido");
       return;
+    } else if (this.cadastroProfissional.value.CampoSenha != this.cadastroProfissional.value.CampoConfirmacaoSenha){
+      console.log("Senha e confirmação precisam ser iguais");
+      return
     }
     console.log(this.cadastroProfissional)
+    this.router.navigate(['app-home']);
   }
 
 }

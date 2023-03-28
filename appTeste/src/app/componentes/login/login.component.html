@@ -12,38 +12,41 @@
 
                 <form action="" [formGroup]="cadastroProfissional">
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form3Example3">Nome</label>
-                        <input type="text" id="campoNome" formControlName="CampoNome"
+                        <label class="form-label" for="form3Example3">Nome *</label>
+                        <input type="text" id="campoNome" required formControlName="CampoNome"
                             class="form-control form-control-lg" placeholder="Nome" />
                     </div>
 
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="form3Example3">Email</label>
-                        <input type="email" id="campoEmail" formControlName="CampoEmail"
+                        <label class="form-label" for="form3Example3">Email *</label>
+                        <input type="email" id="campoEmail" required formControlName="CampoEmail"
                             class="form-control form-control-lg" placeholder="Digite seu Email" />
                     </div>
 
 
                     <div class="form-outline mb-3">
-                        <label class="form-label" for="form3Example4">Digite sua senha</label>
-                        <input type="password" id="campoSenha" formControlName="CampoSenha"
+                        <label class="form-label" for="form3Example4">Digite sua senha *</label>
+                        <input type="password" id="campoSenha" required formControlName="CampoSenha"
                             class="form-control form-control-lg" placeholder="Digite a senha" />
                     </div>
 
                     <div class="form-outline mb-3">
-                        <label class="form-label" for="form3Example4">Confirme sua senha</label>
-                        <input type="password" id="campoConfirmacaoSenha" formControlName="CampoConfirmacaoSenha"
-                            class="form-control form-control-lg" placeholder="Repita sua senha" />
+                        <label class="form-label" for="form3Example4">Confirme sua senha *</label>
+                        <input type="password" id="campoConfirmacaoSenha" required
+                            formControlName="CampoConfirmacaoSenha" class="form-control form-control-lg"
+                            placeholder="Repita sua senha" />
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <!-- Checkbox -->
                         <div class="form-check mb-0">
                             <input class="form-check-input me-2" type="checkbox" value="" id="campoTermos"
-                                formControlName="CampoTermos" />
+                                required formControlName="CampoTermos" />
                             <label class="form-check-label" for="form2Example3">
-                                Termos de privacidade
+                                Termos de privacidade *
                             </label>
+                            <p><b>* Campos obrigatórios
+                            </b></p> 
                         </div>
 
                     </div>
@@ -51,7 +54,7 @@
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button [disabled]="!cadastroProfissional.valid" type="button" (click)="teste()"
                             class="btn btn-primary btn-lg"
-                            style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
+                            style="padding-left: 2.5rem; padding-right: 2.5rem;" >Login</button>
 
                     </div>
 
