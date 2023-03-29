@@ -17,6 +17,11 @@ export class TelaLoginService {
     this.token ? this.mostraSidebar.emit(true) : this.mostraSidebar.emit(false)     
     this.router.navigate(['app-home']);
   }
+  verificaAuth(): any {    
+    this.token = localStorage.getItem('token'); 
+    this.token ? this.mostraSidebar.emit(true) : this.mostraSidebar.emit(false)    
+   
+  }
 
  
 }

@@ -16,8 +16,8 @@ export class LoginComponent implements OnInit {
   constructor( private router: Router, private mostraTela: TelaLoginService ) { }
 
   ngOnInit(): void { 
-    
     localStorage.removeItem('token');
+    this.mostraTela.verificaAuth();
         
     this.cadastroProfissional = new FormGroup({
       campoNome: new FormControl('', Validators.required),
