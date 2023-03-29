@@ -38,7 +38,13 @@ export class CadastroMatrizComponent implements OnInit {
 
   consultaCep(){
     this.consultaCepService.getConfig(this.cadastroEmpresa.value.cep).subscribe((result: any) => {
-      console.log(result)      
+      //console.log(this.cadastroEmpresa.get('endereco')?.value) 
+      console.log(result) 
+      this.cadastroEmpresa.value.endereco = '123' 
+      this.cadastroEmpresa.get('endereco')?.setValue(result.logradouro);
+      this.cadastroEmpresa.get('bairro')?.setValue(result.bairro);
+      this.cadastroEmpresa.get('cidade')?.setValue(result.localidade);
+      this.cadastroEmpresa.get('estado')?.setValue(result.uf);
     });
   }
 
