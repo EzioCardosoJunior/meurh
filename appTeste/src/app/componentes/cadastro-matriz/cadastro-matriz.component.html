@@ -107,7 +107,7 @@
                     <button type="button" class="btn btn-secondary">Cancelar</button>
                 </div>
                 <div class="col-1" style="text-align: right;">
-                    <button type="button" (click)="salvarEmpresa()" class="btn btn-primary">Salvar</button>
+                    <button [disabled]="!cadastroEmpresa.valid" type="button" (click)="salvarEmpresa()" class="btn btn-primary">Salvar</button>
                 </div>
             </div>
         </div>
