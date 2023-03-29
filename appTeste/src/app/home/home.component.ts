@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
@@ -8,11 +9,18 @@ import { Location } from '@angular/common';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private location: Location){}
+  primeiroNome: any;
+
+  constructor(private router: Router){}
 
   ngOnInit(): void {
     
+    this.primeiroNome = localStorage.getItem('token')
 
+  }
+
+  iniciarConfiguracao(){
+    this.router.navigate(['app-cadastro-matriz']);
   }
 
 }

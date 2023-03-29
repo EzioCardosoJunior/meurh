@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,10 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class TelaLoginService {
 
+  mostraSidebar = new EventEmitter<boolean>();
+  token: any;
   constructor(private router: Router) { }
-
-  isAuthenticated(): any {
-    const token = localStorage.getItem('token');    
-    return token
+  
+  
+  isAuthenticated(): any {    
+    this.token = localStorage.getItem('token'); 
+    this.token ? this.mostraSidebar.emit(true) : this.mostraSidebar.emit(false)     
+    this.router.navigate(['app-home']);
   }
+
+ 
 }

@@ -1,1 +1,93 @@
-<p>perfil-empresa works!</p>
+<div class="container px-4 py-5">
+    <h2 class="pb-2 border-bottom">Empresa</h2>
+
+    <div class="row row-cols-1align-items-md-center g-5 py-5">
+        <div class="col">
+            <div class="row row-cols-1 row-cols-sm-4 ">
+                <div class="col d-flex flex-column ">
+                    <button type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i> Editar
+                        Empresa</button>
+                </div>
+
+                <div class="col d-flex flex-column ">
+                    <button type="button" class="btn btn-outline-primary"><i class="bi bi-ui-checks-grid"></i> Gestão de
+                        Filiais</button>
+
+                </div>
+
+                <div class="col d-flex flex-column ">
+                    <button type="button" class="btn btn-outline-primary"><i class="bi bi-credit-card"></i> Faixas
+                        salariais</button>
+
+                </div>
+
+                <div class="col d-flex flex-column ">
+                    <button type="button" class="btn btn-outline-primary"><i class="bi bi-person-video3"></i> Job
+                        Level</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="row row-cols-1  align-items-md-center g-5 py-5">
+        <div class="col">
+            <div class="row row-cols-1 row-cols-sm-3 g-4">
+                <div class="col d-flex flex-column gap-2">
+                    <h6 class="fw-semibold mb-0">Nome da Empresa</h6>
+                    <p class="text-body-secondary">{{dadosEmpresa.nomeEmpresa}}</p>
+                </div>
+
+                <div class="col d-flex flex-column gap-2">                   
+                    <h6 class="fw-semibold mb-0">CNPJ da Empresa</h6>
+                    <p class="text-body-secondary">{{dadosEmpresa.cnpjEmpresa}}</p>
+                </div>
+
+                <div class="col d-flex flex-column gap-2">                    
+                    <h6 class="fw-semibold mb-0">Nome do Administrador</h6>
+                    <p class="text-body-secondary">{{dadosEmpresa.nomeAdministrador}}</p>
+                </div>                
+            </div>
+            
+            
+            <div class="row row-cols-1 row-cols-sm-3 g-4">
+                <div class="col d-flex flex-column gap-2">
+                    <h6 class="fw-semibold mb-0">CPF Administrador</h6>
+                    <p class="text-body-secondary">{{dadosEmpresa.cpf}}</p>
+                </div>
+
+                <div class="col d-flex flex-column gap-2">                   
+                    <h6 class="fw-semibold mb-0">E-mail</h6>
+                    <p class="text-body-secondary">{{dadosEmpresa.email}}</p>
+                </div>
+
+                <div class="col d-flex flex-column gap-2">                    
+                    <h6 class="fw-semibold mb-0">Telefone</h6>
+                    <p class="text-body-secondary">{{dadosEmpresa.celular}}</p>
+                </div>                
+            </div>
+            
+            
+            <div class="row row-cols-1 row-cols-sm-3 g-4">
+                <div class="col d-flex flex-column gap-2">
+                    <h6 class="fw-semibold mb-0">CEP</h6>
+                    <p class="text-body-secondary">{{dadosEmpresa.cep}}</p>
+                </div>
+
+                <div class="col d-flex flex-column gap-2">                   
+                    <h6 class="fw-semibold mb-0">Endereço</h6>
+                    <p class="text-body-secondary">{{dadosEmpresa.endereco}}</p>
+                </div>
+                             
+            </div>
+
+
+        </div>
+    </div>
+</div>

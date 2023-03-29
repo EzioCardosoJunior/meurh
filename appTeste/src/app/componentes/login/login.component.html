@@ -12,27 +12,27 @@
                 <form action="" [formGroup]="cadastroProfissional">
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form3Example3">Nome *</label>
-                        <input type="text" id="campoNome" required formControlName="CampoNome"
+                        <input type="text" id="campoNome" required formControlName="campoNome"
                             class="form-control form-control-lg" placeholder="Nome" />
                     </div>
 
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form3Example3">Email *</label>
-                        <input type="email" id="campoEmail" required formControlName="CampoEmail"
+                        <input type="email" id="campoEmail" required formControlName="campoEmail"
                             class="form-control form-control-lg" placeholder="Digite seu Email" />
                     </div>
 
 
                     <div class="form-outline mb-3">
-                        <label class="form-label" for="form3Example4">Digite sua senha *</label>
-                        <input type="password" id="campoSenha" required formControlName="CampoSenha"
+                        <label class="form-label" for="form3Example4">Digite sua senha (mínimo 6 caracteres)*</label>
+                        <input type="password" id="campoSenha" required formControlName="campoSenha"
                             class="form-control form-control-lg" placeholder="Digite a senha" />
                     </div>
 
                     <div class="form-outline mb-3">
                         <label class="form-label" for="form3Example4">Confirme sua senha *</label>
                         <input type="password" id="campoConfirmacaoSenha" required
-                            formControlName="CampoConfirmacaoSenha" class="form-control form-control-lg"
+                            formControlName="campoConfirmacaoSenha" class="form-control form-control-lg"
                             placeholder="Repita sua senha" />
                     </div>
 
@@ -40,7 +40,7 @@
                         <!-- Checkbox -->
                         <div class="form-check mb-0">
                             <input class="form-check-input me-2" type="checkbox" value="" id="campoTermos"
-                                required formControlName="CampoTermos" />
+                                required formControlName="campoTermos" />
                             <label class="form-check-label" for="form2Example3">
                                 Termos de privacidade *
                             </label>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TelaLoginService } from './services/tela-login.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,16 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'appTesteRH';
 
-  constructor(){};
+  mostraSb: boolean = false;
 
-  ngOnInit(): void {
-   
+  constructor(private mostraMenu: TelaLoginService){};
+
+  ngOnInit() {  
+    this.mostraMenu.mostraSidebar.subscribe(
+      mostra => this.mostraSb = mostra
+      );
+      console.log(this.mostraSb)
+
   } 
 
 }

@@ -1,10 +1,10 @@
-import { ContentComponent } from './componentes/content/content.component';
 import { BodyComponent } from './componentes/body/body.component';
 import { CadastroMatrizComponent } from './componentes/cadastro-matriz/cadastro-matriz.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './componentes/login/login.component';
+import { PerfilEmpresaComponent } from './componentes/perfil-empresa/perfil-empresa.component';
 const routes: Routes = [
   {
     path:"app-home",
@@ -23,10 +23,10 @@ const routes: Routes = [
     component: BodyComponent
   },
   {
-    path:"app-content",
-    component: ContentComponent
+    path:"app-perfil-empresa",
+    component: PerfilEmpresaComponent
   },
-
+  
   {
     path: '', 
     redirectTo: 'app-login', 

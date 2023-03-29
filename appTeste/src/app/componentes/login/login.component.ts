@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TelaLoginService } from 'src/app/services/tela-login.service';
 
 
 @Component({
@@ -12,39 +13,39 @@ export class LoginComponent implements OnInit {
 
   cadastroProfissional: FormGroup; 
  
-  constructor(private formBuilder: FormBuilder, private router: Router ) { }
+  constructor( private router: Router, private mostraTela: TelaLoginService ) { }
 
   ngOnInit(): void { 
     
     localStorage.removeItem('token');
-    //this.logUser.isAuthenticated() ? alert(22) : alert(44);
         
     this.cadastroProfissional = new FormGroup({
-      CampoNome: new FormControl('', Validators.required),
-      CampoSenha: new FormControl('', ),
-      CampoConfirmacaoSenha: new FormControl(''),
-      CampoEmail: new FormControl('', [
+      campoNome: new FormControl('', Validators.required),
+      campoSenha: new FormControl('', Validators.minLength(6)),
+      campoConfirmacaoSenha: new FormControl('', Validators.minLength(6)),
+      campoEmail: new FormControl('', [
         Validators.required,
         Validators.email
       ]),
-      CampoTermos: new FormControl('', Validators.required)
+      campoTermos: new FormControl('', Validators.required)
     })   
 
   }
 
 
   salvaUsuario() {     
-    localStorage.setItem('token', this.cadastroProfissional.value.CampoNome); 
+    localStorage.setItem('token', this.cadastroProfissional.value.campoNome); 
     
     if (!this.cadastroProfissional.valid) {
       console.log("Formulário inválido");
       return;
-    } else if (this.cadastroProfissional.value.CampoSenha != this.cadastroProfissional.value.CampoConfirmacaoSenha){
+    } else if (this.cadastroProfissional.value.campoSenha != this.cadastroProfissional.value.campoConfirmacaoSenha){
       console.log("Senha e confirmação precisam ser iguais");
       return
     }
     console.log(this.cadastroProfissional)
-    this.router.navigate(['app-home']);
+    this.mostraTela.isAuthenticated();
+    
   }
 
 }
