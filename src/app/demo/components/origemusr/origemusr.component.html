@@ -1,0 +1,112 @@
+<div class="card">
+    <div class="grid grid-nogutter">
+        <div class="col-12 px-4 mt-4 md:mt-6 md:px-6">
+            <span class="text-900 block font-bold text-xl">Nacionalidade e origem</span>
+        </div>
+        <div class="col-12 lg:col-6 h-full px-4 py-4 md:px-6">
+
+            <div class="grid formgrid">
+                <div class="col-12 field mb-6">
+                    <span class="text-900 text-2xl block font-medium mb-5">Nacionalidade</span>
+                    <div class="col-12 field mb-4">
+
+                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" placeholder="Brasileiro / Estrangeiro"
+                            optionLabel="name" [showClear]="true" styleClass="w-full"></p-dropdown>
+                    </div>
+                </div>
+                <div class="col-12 field mb-4">
+                    <span class="text-900 text-2xl block font-medium mt-2">Nacimento</span>
+                    
+                </div>
+                <div class="col-12 lg:col-6 field mb-4">
+                    <input id="cidade" placeholder="Cidade" type="text" class="p-inputtext w-full" />
+                </div>
+                <div class="col-12 lg:col-6 field mb-4">
+                    <input id="uf" placeholder="Estado" type="text" class="p-inputtext w-full" />
+                </div>
+                <div class="col-12 lg:col-6 field mb-4">
+                    <input id="datanasc" placeholder="Data de Nasc" type="date" class="p-inputtext w-full" />
+                </div>
+                <div class="col-12 field mb-4">
+                    <span class="text-900 text-2xl block font-medium mt-2">Filiação</span>
+                    
+                </div>
+                <div class="col-12 lg:col-6 field mb-4">
+                    <input id="pai" placeholder="Nome do Pai" type="text" class="p-inputtext w-full" />
+                </div>
+                <div class="col-12 lg:col-6 field mb-4">
+                    <input id="mae" placeholder="Nome da mae" type="text" class="p-inputtext w-full" />
+                </div>
+                <div
+                    class="col-12 flex flex-column lg:flex-row justify-content-center align-items-center lg:justify-content-end my-6">
+                    <button pButton pRipple
+                        class="p-button-secondary p-button-outlined mt-3 lg:mt-0 w-full lg:w-auto flex-order-2 lg:flex-order-1 lg:mr-4"
+                        label="Refazer" icon="pi pi-fw pi-arrow-left"></button>
+                    <button pButton pRipple class="p-button-primary w-full lg:w-auto flex-order-1 lg:flex-order-2"
+                        label="Salvar" icon="pi pi-fw pi-check"></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 px-4 py-4 md:px-6">
+            <div class="pb-3 surface-border">
+                <span class="text-900 font-medium text-xl">Dados Pessoais</span>
+            </div>
+            <div class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-2 mt-3 surface-border">
+                <img src="assets/demo/images/ecommerce/shop/shop-1.png" class="w-8rem h-8rem flex-shrink-0 mb-3"
+                    alt="product" />
+                <div class="flex-auto lg:ml-3">
+                    <div class="flex align-items-center justify-content-between mb-3">
+                        <span class="text-900 font-bold">Nome do candidato</span>
+                        <span class="text-900 font-bold">10 Pontos</span>
+                    </div>
+                    <div class="text-600 text-sm mb-3">10/10/1980 | 45 anos</div>
+                    <div class="text-600 text-sm mb-3">10/10/1980 | 45 anos</div>
+                    <!--     <div class="flex flex-auto justify-content-between align-items-center">
+                        <p-inputNumber
+                            [showButtons]="true"
+                            buttonLayout="horizontal"
+                            spinnerMode="horizontal"
+                            [min]="0"
+                            inputStyleClass="w-2rem text-center py-2 px-1 border-transparent outline-none shadow-none"
+                            [(ngModel)]="quantities[0]"
+                            class="border-1 surface-border border-round"
+                            decrementButtonClass="p-button-text text-600 hover:text-primary py-1 px-1"
+                            incrementButtonClass="p-button-text text-600 hover:text-primary py-1 px-1"
+                            incrementButtonIcon="pi pi-plus"
+                            decrementButtonIcon="pi pi-minus"
+                        ></p-inputNumber>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-text p-button-rounded"></button>
+                    </div> -->
+                </div>
+            </div>
+            <div class="py-2 mt-3 surface-border">
+                <div class="p-inputgroup mb-3">
+                    <input type="text" [(ngModel)]="value" pInputText placeholder="Promo code" class="w-full" />
+                    <button type="button" pButton pRipple label="Apply" [disabled]="!value"></button>
+                </div>
+            </div>
+            <div class="py-2 mt-3">
+                <div class="flex justify-content-between align-items-center mb-3">
+                    <span class="text-900 font-medium">Pontuação por dados preenchidos</span>
+                    <span class="text-900">3</span>
+                </div>
+                <div class="flex justify-content-between align-items-center mb-3">
+                    <span class="text-900 font-medium">Pontuação por formação e cursos adicionais</span>
+                    <span class="text-primary font-bold">1</span>
+                </div>
+                <div class="flex justify-content-between align-items-center mb-3">
+                    <span class="text-900 font-medium">Pontuação por atividades de anunciante da vaga</span>
+                    <span class="text-primary font-bold">6</span>
+                </div>
+                <div class="flex justify-content-between align-items-center mb-3">
+                    <span class="text-900 font-bold">Total</span>
+                    <span class="text-900 font-medium text-xl">10</span>
+                </div>
+            </div>
+            <div class="py-2 mt-3 bg-yellow-100 flex align-items-center justify-content-center border-round">
+                <img src="assets/demo/images/ecommerce/shop/flag.png" class="mr-2" alt="Country Flag" /><span
+                    class="text-black-alpha-90 font-medium">No additional duties or taxes.</span>
+            </div>
+        </div>
+    </div>
+</div>

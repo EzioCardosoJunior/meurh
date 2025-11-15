@@ -1,0 +1,44 @@
+<div class="card">
+    <span class="block text-900 font-bold text-xl mb-4">Último Emprego</span>
+    <div class="grid grid-nogutter flex-wrap gap-3 p-fluid">
+        <div class="col-12 lg:col-12">
+            <div class="grid formgrid">
+                <div class="col-12 field">
+                    <input pInputText type="text" placeholder="Empresa" label="Empresa" [(ngModel)]="product.name" />
+                </div>
+                <div class="col-12 lg:col-4 field">
+                    <input pInputText type="text" placeholder="Data de entrada" label="Price"
+                        [(ngModel)]="product.price" />
+                </div>
+                <div class="col-12 lg:col-4 field">
+                    <input pInputText type="text" placeholder="Data de término" label="Product Code"
+                        [(ngModel)]="product.code" />
+                </div>
+                <div
+                    class="col-12 lg:col-4 field border-1 surface-border flex justify-content-between align-items-center py-2 px-3 border-round">
+                    <span class="text-900 font-bold p-3">Emprego atual</span>
+                    <p-inputSwitch [(ngModel)]="product.inStock"></p-inputSwitch>
+                </div>
+            </div>
+        </div>
+        <span class="block text-900 font-bold text-xl mb-4">Funções e atividades realizadas</span>
+        <div class="col-12 lg:col-12">
+            <div class="grid formgrid">
+
+
+                <div class="col-12 field">
+                    <p-editor [(ngModel)]="product.description" [style]="{ height: '250px' }"></p-editor>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 w-full lg:w-3 xl:w-4 flex flex-column row-gap-3">
+            <div class="flex flex-column sm:flex-row justify-content-between align-items-center gap-3 py-2">
+                <button pButton pRipple class="p-button-danger flex-1 p-button-outlined" label="Limpar"
+                    icon="pi pi-fw pi-trash"></button>
+                <button pButton pRipple class="p-button-primary flex-1 border-round" label="Salvar"
+                    icon="pi pi-fw pi-check"></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+<div class="surface-0">
+  <div class="flex align-items-center justify-content-between flex-column h-screen">
+    <div class="flex flex-column align-items-center justify-content-center w-full md:w-4 h-full text-center py-6 px-4">
+
+      <a [routerLink]="['/']" class="mb-6">
+        <svg height="56" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M0 0H6.00019V3.82345L17 1.66667V6.66667L6.00019 8.82345V10.4901L17 8.33333V13.3333L6.00019 15.4901V20H0V0Z"
+            fill="url(#paint0_linear)" />
+          <defs>
+            <linearGradient id="paint0_linear" x1="3.33335" y1="3.08442e-08" x2="8.49995" y2="20"
+              gradientUnits="userSpaceOnUse">
+              <stop stop-color="var(--primary-400)" />
+              <stop offset="1" stop-color="var(--primary-700)" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </a>
+
+      <div class="mb-4">
+        <div class="text-900 text-xl font-bold mb-2">Cadastro</div>
+        <span class="text-600 font-medium">Crie sua conta para continuar</span>
+      </div>
+
+      <!-- FORMULÁRIO REATIVO -->
+      <form [formGroup]="form" (ngSubmit)="cadastrar()" class="flex flex-column w-full md:w-25rem text-left">
+
+        <!-- Nome -->
+        <span class="p-input-icon-left w-full mb-3">
+          <i class="pi pi-id-card"></i>
+          <input type="text" pInputText placeholder="Nome completo" formControlName="nome"
+            class="w-full surface-50 border-200" />
+        </span>
+        <small *ngIf="f['nome'].touched && f['nome'].invalid" class="p-error block mb-2">
+          Informe seu nome.
+        </small>
+
+        <!-- Nome de usuário -->
+        <span class="p-input-icon-left w-full mb-3">
+          <i class="pi pi-user"></i>
+          <input type="text" pInputText placeholder="Nome de usuário" formControlName="nome_usuario"
+            class="w-full surface-50 border-200" />
+        </span>
+        <small *ngIf="f['nome_usuario'].touched && f['nome_usuario'].invalid" class="p-error block mb-2">
+          Nome de usuário é obrigatório.
+        </small>
+
+        <!-- Data de nascimento -->
+        <span class="p-input-icon-left w-full mb-3">
+          <i class="pi pi-calendar"></i>
+          <input type="date" pInputText placeholder="Data de nascimento" formControlName="data_nascimento"
+            class="w-full surface-50 border-200" />
+        </span>
+        <small *ngIf="f['data_nascimento'].touched && f['data_nascimento'].invalid" class="p-error block mb-2">
+          Informe sua data de nascimento.
+        </small>
+
+        <span class="p-input-icon-left w-full mb-4">
+          <i class="pi pi-envelope"></i>
+          <input type="email" pInputText class="w-full surface-50 border-200" placeholder="Email" formControlName="email" />
+        </span>
+        <small *ngIf="f['email'].touched && f['email'].invalid" class="p-error block mb-2">
+          Informe seu e-mail.
+        </small>
+
+        <!-- CPF -->
+        <span class="p-input-icon-left w-full mb-3">
+          <i class="pi pi-id-card"></i>
+          <input type="text" pInputText maxlength="11" placeholder="CPF (somente números)" formControlName="cpf"
+            class="w-full surface-50 border-200" />
+        </span>
+        <small *ngIf="f['cpf'].touched && f['cpf'].invalid" class="p-error block mb-2">
+          CPF inválido ou obrigatório.
+        </small>
+
+        <!-- CNPJ -->
+        <span class="p-input-icon-left w-full mb-3">
+          <i class="pi pi-briefcase"></i>
+          <input type="text" pInputText maxlength="14" placeholder="CNPJ (opcional)" formControlName="cnpj"
+            class="w-full surface-50 border-200" />
+        </span>
+
+        <!-- Senha -->
+        <span class="p-input-icon-left w-full mb-3">
+          <i class="pi pi-lock z-2"></i>
+          <p-password placeholder="Senha" formControlName="senha" [inputStyle]="{ paddingLeft: '2.5rem' }"
+            inputStyleClass="w-full surface-50 border-200" [toggleMask]="true" [feedback]="false"></p-password>
+        </span>
+        <small *ngIf="f['senha'].touched && f['senha'].invalid" class="p-error block mb-2">
+          A senha deve ter pelo menos 6 caracteres.
+        </small>
+
+        <!-- Checkbox de Termos -->
+        <div class="mb-4 flex flex-wrap align-items-center">
+          <p-checkbox formControlName="termos" [binary]="true" styleClass="mr-2"></p-checkbox>
+          <label class="text-900 font-medium mr-2">Li e aceito os</label>
+          <a class="text-600 cursor-pointer hover:text-primary">Termos e Condições</a>
+        </div>
+
+        <!-- Botão -->
+        <button pButton type="submit" label="Cadastrar" icon="pi pi-save" class="w-full mb-4"
+          [disabled]="form.invalid"></button>
+
+        <span class="font-medium text-600 text-center">
+          Já tem uma conta?
+          <a class="font-semibold cursor-pointer text-900 hover:text-primary transition-colors transition-duration-300">
+            Entrar
+          </a>
+        </span>
+      </form>
+    </div>
+
+    <div class="flex flex-wrap align-items-center pb-8 px-4">
+      <h4 class="m-0 mr-5" style="line-height: 22px">tendapromos</h4>
+      <h6 class="m-0 font-medium text-300" style="line-height: 17px">
+        © 2025 Tendapromos. Todos os direitos reservados.
+      </h6>
+    </div>
+  </div>
+</div>
+
+<p-toast></p-toast>
+<app-config [minimal]="true"></app-config>
