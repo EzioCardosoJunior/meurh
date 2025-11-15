@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         if (res.sucesso) {
           this.messageService.add({ severity: 'success', summary: 'Bem-vindo', detail: res.usuario.nome });
+          console.log(res)
           this.router.navigate(['/']); // redireciona à home
         } else {
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: res.erro || 'Credenciais inválidas' });
