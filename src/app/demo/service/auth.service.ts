@@ -16,14 +16,13 @@ export class AuthService {
    * Envia o login para o backend e salva o token/localStorage em caso de sucesso
    */
   loginRequest(credentials: { nome_usuario: string; senha: string }): Observable<any> {
-    console.log(credentials)
-    console.log(this.baseUrl)
     
     return this.http.post<any>(`${this.baseUrl}/loginUsr.php`, credentials).pipe(
       tap(response => {
         if (response.sucesso && response.token) {
           this.login(response.token);
           localStorage.setItem('usuario', JSON.stringify(response.usuario));
+          localStorage.setItem('usuario_id', JSON.stringify(response.usuario.id));
         }
       })
     );

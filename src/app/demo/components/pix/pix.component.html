@@ -1,23 +1,37 @@
-<div class="grid">
-    <div class="col-12 md:col-12">
-        <div class="card p-fluid">
-            <h5>PIX</h5>
-            <div class="field">
-                <label htmlFor="name1">Chave PIX</label>
-                <input pInputText id="name1" type="text" />
-            </div>
-            <div class="field">
-                <label htmlFor="email1">Titular</label>
-                <input pInputText id="email1" type="text" />
-            </div>
-            <div class="field">
-                <label htmlFor="age1">CPF do titular</label>
-                <input pInputText id="age1" type="text" />
+<form [formGroup]="pixForm" (ngSubmit)="salvarPix()">
+    <div class="grid">
+        <div class="col-12 md:col-12">
+            <div class="card p-fluid">
+                <h5>PIX</h5>
+
+                <div class="field">
+                    <label for="chavepix">Chave PIX</label>
+                    <input pInputText id="chavepix" type="text" formControlName="chave_pix" />
+                    <small class="p-error" *ngIf="pixForm.controls['chave_pix'].invalid && pixForm.controls['chave_pix'].touched">
+                        Informe uma chave PIX válida.
+                    </small>
+                </div>
+                <p-toast></p-toast>
+
+                <div class="field">
+                    <label for="titularpix">Titular</label>
+                    <input pInputText id="titularpix" type="text" formControlName="titular_nome" />
+                    <small class="p-error" *ngIf="pixForm.controls['titular_nome'].invalid && pixForm.controls['titular_nome'].touched">
+                        Informe o nome do titular.
+                    </small>
+                </div>
+
+                <div class="field">
+                    <label for="cpfpix">CPF do titular</label>
+                    <input pInputText id="cpfpix" type="text" formControlName="titular_cpf" />
+                    <small class="p-error" *ngIf="pixForm.controls['titular_cpf'].invalid && pixForm.controls['titular_cpf'].touched">
+                        Informe um CPF válido.
+                    </small>
+                </div>
+
+                <button pButton type="submit" label="Salvar"></button>
+
             </div>
         </div>
-
     </div>
-
- 
-   
-</div>
+</form>
