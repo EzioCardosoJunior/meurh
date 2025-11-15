@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://tendapromos.com.br/servicoscurr",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" }
+  }
+}
