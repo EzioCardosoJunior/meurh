@@ -1,30 +1,89 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PixService } from '../../service/pix.service';
+import { MessageService } from 'primeng/api';
+import { ContaBancariaService } from '../../service/contabancaria.service';
 
 @Component({
-    templateUrl: './contabancaria.component.html'
+  templateUrl: './contabancaria.component.html',
+  providers: [MessageService]
 })
-export class ContaBancariaComponent {
-    selectedState: any = null;
+export class ContaBancariaComponent implements OnInit {
 
-    states: any[] = [
-        { name: 'Arizona', code: 'Arizona' },
-        { name: 'California', value: 'California' },
-        { name: 'Florida', code: 'Florida' },
-        { name: 'Ohio', code: 'Ohio' },
-        { name: 'Washington', code: 'Washington' }
-    ];
+  contaForm!: FormGroup;
 
-    dropdownItems = [
-        { name: 'Option 1', code: 'Option 1' },
-        { name: 'Option 2', code: 'Option 2' },
-        { name: 'Option 3', code: 'Option 3' }
-    ];
+  constructor(
+    private fb: FormBuilder,
+    private contaService: ContaBancariaService,
+    private messageService: MessageService
+  ) {}
 
-    cities1: any[] = [];
+  ngOnInit(): void {
+    this.contaForm = this.fb.group({
+      nome: ['', Validators.required],
+      sobrenome: ['', Validators.required],
+      banco: ['', Validators.required],
+      agencia: ['', Validators.required],
+      conta: ['', Validators.required]
+    });
+  }
 
-    cities2: any[] = [];
+  salvarConta() {
+    alert(1);   
 
-    city1: any = null;
+    if (this.contaForm.invalid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Preencha todos os campos obrigatórios.'
+      });
+      return;
+    }
 
-    city2: any = null;
+    const usuario = localStorage.getItem('usuario');
+    if (!usuario) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Usuário não autenticado.'
+      });
+      return;
+    }
+
+    const { id } = JSON.parse(usuario);
+
+    const payload = {
+      id_usuario: id,
+      ...this.contaForm.value
+    };
+
+    this.contaService.salvarConta(payload).subscribe({
+      next: (res) => {
+        if (res.sucesso) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: res.mensagem
+          });
+
+          this.contaForm.reset();
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: res.erro || 'Erro ao salvar conta bancária.'
+          });
+        }
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: err.error?.erro || 'Falha na comunicação.'
+        });
+      }
+    });
+
+  }
+
 }

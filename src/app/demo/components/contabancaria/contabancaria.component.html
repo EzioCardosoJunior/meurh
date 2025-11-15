@@ -1,30 +1,42 @@
-<div class="grid">
-    <div class="col-12">
-        <div class="card">
-            <h5>Conta Bancária</h5>
-            <div class="p-fluid p-formgrid grid">
-                <div class="field col-12 md:col-6">
-                    <label htmlFor="firstname2">Nome do titular</label>
-                    <input pInputText id="firstname2" type="text" />
-                </div>
-                <div class="field col-12 md:col-6">
-                    <label htmlFor="lastname2">Sobrenome</label>
-                    <input pInputText id="lastname2" type="text" />
-                </div>
-                <div class="field col-12">
-                    <label htmlFor="address">Banco</label>
-                    <input pInputTextarea id="address" rows="4" />
-                </div>
-                <div class="field col-12 md:col-6">
-                    <label htmlFor="city">Agência</label>
-                    <input pInputText id="city" type="text" />
-                </div>
-               
-                <div class="field col-12 md:col-3">
-                    <label htmlFor="zip">Conta</label>
-                    <input pInputText id="zip" type="text" />
+<form [formGroup]="contaForm" (ngSubmit)="salvarConta()">
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <h5>Conta Bancária</h5>
+                
+                <div class="p-fluid p-formgrid grid">
+
+                    <div class="field col-12 md:col-6">
+                        <label for="nome">Nome do titular</label>
+                        <input pInputText id="nome" type="text" formControlName="nome"/>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="sobrenome">Sobrenome</label>
+                        <input pInputText id="sobrenome" type="text" formControlName="sobrenome"/>
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="banco">Banco</label>
+                        <input pInputText id="banco" type="text" formControlName="banco"/>
+                    </div>
+
+                    <div class="field col-12 md:col-3">
+                        <label for="agencia">Agência</label>
+                        <input pInputText id="agencia" type="text" formControlName="agencia"/>
+                    </div>
+
+                    <div class="field col-12 md:col-3">
+                        <label for="conta">Conta</label>
+                        <input pInputText id="conta" type="text" formControlName="conta"/>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button pButton type="submit" label="Salvar" class="p-button-success w-full"></button>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>

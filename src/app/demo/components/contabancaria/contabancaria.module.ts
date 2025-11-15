@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ContaBancariaComponent } from './contabancaria.component';
 import { ContaBancariaRoutingModule } from './contabancaria-routing.module';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -14,8 +13,16 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputTextModule } from 'primeng/inputtext';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+
+import { MessageService } from 'primeng/api';
+
 @NgModule({
-    imports: [CommonModule, FormsModule, ContaBancariaRoutingModule, AutoCompleteModule, CalendarModule, ChipsModule, DropdownModule, InputMaskModule, InputNumberModule, CascadeSelectModule, MultiSelectModule, InputTextareaModule, InputTextModule],
-    declarations: [ContaBancariaComponent]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, ToastModule, MessagesModule, MessageModule, ContaBancariaRoutingModule, AutoCompleteModule, CalendarModule, ChipsModule, DropdownModule, InputMaskModule, InputNumberModule, CascadeSelectModule, MultiSelectModule, InputTextareaModule, InputTextModule],
+    declarations: [ContaBancariaComponent],
+    providers: [MessageService]
 })
-export class ContaBancariaModule {}
+export class ContaBancariaModule { }
