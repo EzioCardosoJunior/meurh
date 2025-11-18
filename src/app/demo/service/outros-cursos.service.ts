@@ -20,4 +20,10 @@ export class OutrosCursosService {
   getCursos(id_usuario: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/get_outros_cursos.php?id_usuario=${id_usuario}`);
   }
+
+  /** DELETE — Excluir curso */
+  deleteCurso(id_usuario: number, id_curso: number): Observable<any> {
+    const payload = { id_usuario, id_curso };
+    return this.http.post<any>(`${this.baseUrl}/deletar_outros_cursos.php`, payload);
+  }
 }

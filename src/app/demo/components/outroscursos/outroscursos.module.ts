@@ -18,12 +18,14 @@ import { MessagesModule } from 'primeng/messages';
 import { ToastModule } from 'primeng/toast';
 import { PixRoutingModule } from '../pix/pix-routing.module';
 import { TableModule } from 'primeng/table';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     imports: [CommonModule,
         FormsModule,
         OutrosCursosRoutingModule,
-
+        ConfirmDialogModule,
         ReactiveFormsModule,
         PixRoutingModule,
         TableModule,
@@ -39,6 +41,7 @@ import { TableModule } from 'primeng/table';
         DropdownModule,
         InputMaskModule,
         InputNumberModule, CascadeSelectModule, MultiSelectModule, InputTextareaModule, InputTextModule],
-    declarations: [OutrosCursosComponent]
+    declarations: [OutrosCursosComponent],
+    providers: [MessageService, ConfirmationService]
 })
 export class OutrosCursosModule { }

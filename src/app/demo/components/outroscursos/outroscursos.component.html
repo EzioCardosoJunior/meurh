@@ -1,50 +1,51 @@
 <form [formGroup]="cursoForm" (ngSubmit)="salvarCurso()">
 
 
- <div class="col-12 md:col-12 xl:col-12">
+    <div class="col-12 md:col-12 xl:col-12">
 
-    <div class="card">
-        <div class="text-900 text-xl font-semibold mb-3">Cursos Cadastrados</div>
+        <div class="card">
+            <div class="text-900 text-xl font-semibold mb-3">Cursos Cadastrados</div>
+            <p-confirmDialog></p-confirmDialog>
+            <p-table [value]="cursos" responsiveLayout="scroll" [rows]="8" [paginator]="true">
 
-        <p-table [value]="cursos" responsiveLayout="scroll" [rows]="8" [paginator]="true">
-            
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Curso</th>
-                    <th>Instituição</th>
-                    <th>Tipo</th>
-                    <th>Duração</th>
-                    <th style="width: 8rem"></th>
-                </tr>
-            </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Curso</th>
+                        <th>Instituição</th>
+                        <th>Tipo</th>
+                        <th>Duração</th>
+                        <th style="width: 8rem"></th>
+                    </tr>
+                </ng-template>
 
-            <ng-template pTemplate="body" let-curso>
-                <tr>
-                    <td>{{ curso.nome_curso }}</td>
-                    <td>{{ curso.instituicao }}</td>
-                    <td>{{ curso.tipo_certificado }}</td>
-                    <td>
-                        <ng-container *ngIf="curso.duracao_horas">
-                            {{ curso.duracao_horas }}h
-                        </ng-container>
-                        <ng-container *ngIf="curso.duracao_meses">
-                            {{ curso.duracao_meses }} mês(es)
-                        </ng-container>
-                    </td>
-                    <td class="text-center">
-                        <button pButton pRipple icon="pi pi-trash"
-                            class="p-button-danger p-button-text p-button-rounded mr-2"></button>
-
-                      <!--   <button pButton pRipple icon="pi pi-search"
+                <ng-template pTemplate="body" let-curso>
+                    <tr>
+                        <td>{{ curso.nome_curso }}</td>
+                        <td>{{ curso.instituicao }}</td>
+                        <td>{{ curso.tipo_certificado }}</td>
+                        <td>
+                            <ng-container *ngIf="curso.duracao_horas">
+                                {{ curso.duracao_horas }}h
+                            </ng-container>
+                            <ng-container *ngIf="curso.duracao_meses">
+                                {{ curso.duracao_meses }} mês(es)
+                            </ng-container>
+                        </td>
+                        <td class="text-center">
+                            <button pButton pRipple icon="pi pi-trash"
+                                class="p-button-danger p-button-text p-button-rounded mr-2"
+                                (click)="confirmDelete(curso.id)">
+                            </button>
+                            <!--   <button pButton pRipple icon="pi pi-search"
                             class="p-button-text p-button-rounded"></button> -->
-                    </td>
-                </tr>
-            </ng-template>
+                        </td>
+                    </tr>
+                </ng-template>
 
-        </p-table>
+            </p-table>
 
+        </div>
     </div>
-</div>
 
 
 
