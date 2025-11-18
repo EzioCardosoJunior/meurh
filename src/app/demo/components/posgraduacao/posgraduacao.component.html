@@ -1,53 +1,119 @@
-<div class="grid">
-    <div class="col-12 md:col-6">
-        <div class="card p-fluid">
-            <h5>Instituição</h5>
-            <div class="field">
-                <label htmlFor="name1">Nome</label>
-                <input pInputText id="name1" type="text" />
-            </div>
-            <div class="field">
-                <label htmlFor="email1">Cidade/estado</label>
-                <input pInputText id="email1" type="text" />
-            </div>
-        </div>
+<form [formGroup]="posForm" (ngSubmit)="salvarPosGraduacao()">
 
-        <div class="card p-fluid">
-            <h5>Curso</h5>
-            <div class="p-formgrid grid">
-                <div class="field col">
-                    <label htmlFor="name2">Nome</label>
-                    <input pInputText id="name2" type="text" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12 md:col-6">
-        <div class="card p-fluid">
-            <h5>Nível (Lato ou Stricto Sensu)</h5>
-            <div class="field grid">
-                <label htmlFor="name3" class="col-12 mb-2 md:col-2 md:mb-0">Nível</label>
-                <div class="col-12 md:col-10">
-                    <input pInputText id="name3" type="text" />
-                </div>
-            </div>
-        </div>
+    <div class="col-12 md:col-12 xl:col-12">
 
         <div class="card">
-            <h5>Duração</h5>
-            <div class="formgroup-inline">
-                <div class="field">
-                    <label htmlFor="firstname1" class="p-sr-only">Data de início</label>
-                    <input pInputText id="firstname1" type="text" placeholder="Data de início" />
-                </div>
-                <div class="field">
-                    <label htmlFor="lastname1" class="p-sr-only">Data final</label>
-                    <input pInputText id="lastname1" type="text" placeholder="Data final" />
-                </div>
-                <button pButton label="Submit"></button>
-            </div>
+            <div class="text-900 text-xl font-semibold mb-3">Pós-Graduações Cadastradas</div>
+
+            <p-confirmDialog></p-confirmDialog>
+
+            <p-table [value]="posCursos" responsiveLayout="scroll" [rows]="8" [paginator]="true">
+
+                <!-- Cabeçalho -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Instituição</th>
+                        <th>Cidade/Estado</th>
+                        <th>Curso</th>
+                        <th>Nível</th>
+                        <th>Período</th>
+                        <th style="width: 8rem"></th>
+                    </tr>
+                </ng-template>
+
+                <!-- Corpo -->
+                <ng-template pTemplate="body" let-pos>
+                    <tr>
+                        <td>{{ pos.instituicao }}</td>
+                        <td>{{ pos.cidade_estado }}</td>
+                        <td>{{ pos.nome_curso }}</td>
+                        <td>{{ pos.nivel }}</td>
+                        <td>
+                            {{ pos.data_inicio | date:'dd/MM/yyyy' }} -
+                            {{ pos.data_fim | date:'dd/MM/yyyy' }}
+                        </td>
+
+                        <td class="text-center">
+                            <button pButton pRipple icon="pi pi-trash"
+                                class="p-button-danger p-button-text p-button-rounded mr-2"
+                                (click)="confirmDelete(pos.id)">
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+
         </div>
     </div>
 
-</div>
+
+
+
+    <div class="grid">
+        <!-- COLUNA ESQUERDA -->
+        <div class="col-12 md:col-6">
+            <p-toast></p-toast>
+            <!-- INSTITUIÇÃO -->
+            <div class="card p-fluid">
+                <h5>Instituição</h5>
+
+                <div class="field">
+                    <label for="instituicao">Nome da Instituição</label>
+                    <input pInputText id="instituicao" type="text" formControlName="instituicao" />
+                </div>
+
+                <div class="field">
+                    <label for="cidade_estado">Cidade / Estado</label>
+                    <input pInputText id="cidade_estado" type="text" formControlName="cidade_estado" />
+                </div>
+            </div>
+
+            <!-- CURSO -->
+            <div class="card p-fluid">
+                <h5>Curso</h5>
+                <div class="field">
+                    <label for="nome_curso">Nome do Curso</label>
+                    <input pInputText id="nome_curso" type="text" formControlName="nome_curso" />
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COLUNA DIREITA -->
+        <div class="col-12 md:col-6">
+
+            <!-- NIVEL -->
+            <div class="card p-fluid">
+                <h5>Nível (Lato ou Stricto Sensu)</h5>
+
+                <div class="field">
+                    <label for="nivel">Nível</label>
+                    <input pInputText id="nivel" type="text" formControlName="nivel" />
+                </div>
+            </div>
+
+            <!-- DATAS -->
+            <div class="card">
+                <h5>Duração</h5>
+                <div class="formgroup-inline">
+
+                    <div class="field">
+                        <label for="data_inicio" class="p-sr-only">Data de início</label>
+                        <input pInputText id="data_inicio" type="date" formControlName="data_inicio"
+                            placeholder="Data de início" />
+                    </div>
+
+                    <div class="field">
+                        <label for="data_fim" class="p-sr-only">Data final</label>
+                        <input pInputText id="data_fim" type="date" formControlName="data_fim"
+                            placeholder="Data final" />
+                    </div>
+
+                    <button pButton label="Salvar" type="submit"></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
