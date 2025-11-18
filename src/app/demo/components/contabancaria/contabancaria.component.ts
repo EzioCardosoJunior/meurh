@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PixService } from '../../service/pix.service';
 import { MessageService } from 'primeng/api';
 import { ContaBancariaService } from '../../service/contabancaria.service';
 
@@ -11,6 +10,7 @@ import { ContaBancariaService } from '../../service/contabancaria.service';
 export class ContaBancariaComponent implements OnInit {
 
   contaForm!: FormGroup;
+  id_usuario = Number(localStorage.getItem('usuario_id'));
 
   constructor(
     private fb: FormBuilder,
@@ -20,70 +20,48 @@ export class ContaBancariaComponent implements OnInit {
 
   ngOnInit(): void {
     this.contaForm = this.fb.group({
-      nome: ['', Validators.required],
-      sobrenome: ['', Validators.required],
+      titular_nome: ['', Validators.required],
+      titular_sobrenome: ['', Validators.required],
       banco: ['', Validators.required],
       agencia: ['', Validators.required],
       conta: ['', Validators.required]
     });
+
+    this.carregarConta();
+  }
+
+  carregarConta() {   
+
+    this.contaService.getConta(this.id_usuario).subscribe({
+      next: (res) => {
+        if (res && res.conta) {
+          this.contaForm.patchValue(res.conta);
+        }
+      },
+      error: () => {
+        // Se 404 → não tem conta cadastrada → form vazio mesmo
+      }
+    });
   }
 
   salvarConta() {
-    alert(1);   
-
-    if (this.contaForm.invalid) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Atenção',
-        detail: 'Preencha todos os campos obrigatórios.'
-      });
-      return;
-    }
-
-    const usuario = localStorage.getItem('usuario');
-    if (!usuario) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Erro',
-        detail: 'Usuário não autenticado.'
-      });
-      return;
-    }
-
-    const { id } = JSON.parse(usuario);
-
-    const payload = {
-      id_usuario: id,
-      ...this.contaForm.value
-    };
-
-    this.contaService.salvarConta(payload).subscribe({
-      next: (res) => {
-        if (res.sucesso) {
+    if (this.contaForm.invalid) return;
+    this.contaService.salvarOuAtualizar(this.id_usuario, this.contaForm.value)
+      .subscribe({
+        next: (res) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Sucesso',
-            detail: res.mensagem
+            detail: res?.mensagem || 'Conta salva com sucesso!'
           });
-
-          this.contaForm.reset();
-        } else {
+        },
+        error: (err) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Erro',
-            detail: res.erro || 'Erro ao salvar conta bancária.'
+            detail: err?.error || 'Falha ao salvar.'
           });
         }
-      },
-      error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: err.error?.erro || 'Falha na comunicação.'
-        });
-      }
-    });
-
+      });
   }
-
 }

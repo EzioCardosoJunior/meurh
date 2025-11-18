@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 export class PixComponent implements OnInit {
 
     pixForm!: FormGroup;
+    id_usuario = Number(localStorage.getItem('usuario_id'));
 
     constructor(
         private fb: FormBuilder,
@@ -23,58 +24,61 @@ export class PixComponent implements OnInit {
             titular_nome: ['', Validators.required],
             titular_cpf: ['', Validators.required]
         });
+
+        this.carregarPix();
     }
 
-    salvarPix() {
-        if (this.pixForm.invalid) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: 'Atenção',
-                detail: 'Preencha todos os campos.'
-            });
-            return;
-        }
-
+    carregarPix() {
         const id_usuario = Number(localStorage.getItem('usuario_id'));
+        if (!id_usuario) return;
 
-        if (!id_usuario) {
-            this.messageService.add({
-                severity: 'error',
-                summary: 'Erro',
-                detail: 'Usuário não autenticado.'
-            });
-            return;
-        }
-
-        const payload = {
-            id_usuario,
-            ...this.pixForm.value
-        };
-
-        this.pixService.salvarPix(payload).subscribe({
+        this.pixService.getPix(id_usuario).subscribe({
             next: (res) => {
-                if (res.sucesso) {
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Sucesso',
-                        detail: res.mensagem
-                    });
-                } else {
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Erro',
-                        detail: res.erro || 'Erro ao salvar PIX.'
+                console.log(res);
+                if (res?.sucesso && res?.dados) {
+                    this.pixForm.patchValue({
+                        chave_pix: res.dados.chave_pix,
+                        titular_nome: res.dados.titular_nome,
+                        titular_cpf: res.dados.titular_cpf
                     });
                 }
             },
-            error: (err) => {
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erro',
-                    detail: err.error?.erro || 'Falha na comunicação.'
-                });
+            error: () => {
+
             }
         });
+    }
+    salvarPix() {
+        
+        if (this.pixForm.invalid) {
+            this.pixForm.markAllAsTouched();
+            return;
+        }
+
+        this.pixService.salvarOuAtualizar(this.id_usuario, this.pixForm.value)
+            .subscribe({
+                next: (res) => {
+                    const isUpdate = !!this.pixForm.get('id')?.value;
+
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Sucesso',
+                        detail: isUpdate ? 'PIX atualizado com sucesso!' : 'PIX cadastrado com sucesso!'
+                    });
+
+                    // Atualiza o ID no form (caso tenha sido cadastro)
+                    if (res.id) {
+                        this.pixForm.patchValue({ id: res.id });
+                    }
+                },
+                error: () => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erro',
+                        detail: 'Falha ao salvar o PIX.'
+                    });
+                }
+            });
     }
 
 }

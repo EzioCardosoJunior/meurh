@@ -7,12 +7,49 @@ import { Observable } from 'rxjs';
 })
 export class PixService {
 
-  private baseUrl = '/api'; // usando o proxy
+  private baseUrl = '/api';   // usa seu proxy
 
   constructor(private http: HttpClient) {}
 
-  salvarPix(data: any): Observable<any> {
-    alert(12)
-    return this.http.post(`${this.baseUrl}/pix_cadastrar.php`, data);
+  /** GET - Obtém o PIX do usuário */
+  getPix(id_usuario: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/get_pix.php?id_usuario=${id_usuario}`);
   }
+
+  /** POST - Cadastra um novo PIX */
+  salvarPix(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/salvar_pix.php`, payload);
+  }
+
+  /** POST - Atualiza um PIX existente */
+  atualizarPix(payload: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/update_pix.php`, payload);
+  }
+
+  /**
+   * Decide automaticamente se deve salvar ou atualizar
+   */
+  salvarOuAtualizar(id_usuario: number, dados: any): Observable<any> {
+    const payload = { id_usuario, ...dados };
+
+    return new Observable(observer => {
+      this.getPix(id_usuario).subscribe({
+        next: (res) => {
+          console.log('Resposta getPix:', res);
+          if (res && res.dados.titular_cpf) {
+            // PIX EXISTE → atualizar
+            this.atualizarPix(payload).subscribe(observer);
+          } else {
+            // NÃO EXISTE → salvar
+            this.salvarPix(payload).subscribe(observer);
+          }
+        },
+        error: () => {
+          // Se voltar erro (ex.: 404), tratar como inexistente
+          this.salvarPix(payload).subscribe(observer);
+        }
+      });
+    });
+  }
+
 }
