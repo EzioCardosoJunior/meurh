@@ -1,38 +1,121 @@
-<div class="grid">
+<form [formGroup]="ensinoForm" (ngSubmit)="salvarEnsino()">
+  <p-toast></p-toast>
 
-
+  <div class="grid">
+    <!-- CARD: Ensino Fundamental -->
     <div class="col-12 md:col-6">
-        <div class="card">
-            <h5>Ensino fundamental</h5>
-            <div class="formgroup-inline">
-                <div class="field">
-                    <label htmlFor="Instituição" class="p-sr-only">Instituição</label>
-                    <input pInputText id="Instituição" type="text" placeholder="Instituição" />
-                </div>
-                <div class="field">
-                    <label htmlFor="Ano de Conclusão" class="p-sr-only">Ano de conclusão</label>
-                    <input pInputText id="Ano de Conclusão" type="text" placeholder="Ano de Conclusão" />
-                </div>
-                <button pButton label="Salvar"></button>
-            </div>
+      <div class="card">
+        <h5>Ensino Fundamental</h5>
+
+        <div class="p-fluid formgroup-inline">
+          <div class="field">
+            <label for="fundInst" class="p-sr-only">Instituição (Fundamental)</label>
+            <input
+              pInputText
+              id="fundInst"
+              type="text"
+              placeholder="Instituição"
+              formControlName="fundamental_instituicao"
+            />
+            <small class="p-error" *ngIf="ensinoForm.controls['fundamental_instituicao'].invalid && ensinoForm.controls['fundamental_instituicao'].touched">
+              Informe a instituição.
+            </small>
+          </div>
+
+          <div class="field">
+            <label for="fundAno" class="p-sr-only">Ano de conclusão (Fundamental)</label>
+            <input
+              pInputText
+              id="fundAno"
+              type="text"
+              placeholder="Ano de Conclusão (ex: 2008)"
+              formControlName="fundamental_ano_conclusao"
+            />
+            <small class="p-error" *ngIf="ensinoForm.controls['fundamental_ano_conclusao'].invalid && ensinoForm.controls['fundamental_ano_conclusao'].touched">
+              Informe o ano de conclusão.
+            </small>
+          </div>
         </div>
+      </div>
     </div>
+
+    <!-- CARD: Ensino Médio -->
     <div class="col-12 md:col-6">
-        <div class="card">
-            <h5>Ensino Médio</h5>
-            <div class="formgroup-inline">
-                <div class="field">
-                    <label htmlFor="Instituição" class="p-sr-only">Instituição</label>
-                    <input pInputText id="Instituição" type="text" placeholder="Instituição" />
-                </div>
-                <div class="field">
-                    <label htmlFor="Ano de Conclusão" class="p-sr-only">Ano de conclusão</label>
-                    <input pInputText id="Ano de Conclusão" type="text" placeholder="Ano de Conclusão" />
-                </div>
-                <button pButton label="Salvar"></button>
-            </div>
+      <div class="card">
+        <h5>Ensino Médio</h5>
+
+        <div class="p-fluid formgroup-inline">
+          <div class="field">
+            <label for="medInst" class="p-sr-only">Instituição (Médio)</label>
+            <input
+              pInputText
+              id="medInst"
+              type="text"
+              placeholder="Instituição"
+              formControlName="medio_instituicao"
+            />
+            <small class="p-error" *ngIf="ensinoForm.controls['medio_instituicao'].invalid && ensinoForm.controls['medio_instituicao'].touched">
+              Informe a instituição.
+            </small>
+          </div>
+
+          <div class="field">
+            <label for="medAno" class="p-sr-only">Ano de conclusão (Médio)</label>
+            <input
+              pInputText
+              id="medAno"
+              type="text"
+              placeholder="Ano de Conclusão (ex: 2011)"
+              formControlName="medio_ano_conclusao"
+            />
+            <small class="p-error" *ngIf="ensinoForm.controls['medio_ano_conclusao'].invalid && ensinoForm.controls['medio_ano_conclusao'].touched">
+              Informe o ano de conclusão.
+            </small>
+          </div>
         </div>
+      </div>
     </div>
 
+    <!-- BOTÃO SUBMIT -->
+    <div class="col-12">
+      <button pButton type="submit" label="Salvar" class="p-button-success w-6"></button>
+    </div>
+  </div>
+</form>
 
+<!-- Tabela de registros cadastrados -->
+<div class="col-12 mt-4">
+  <div class="card">
+    <div class="text-900 text-xl font-semibold mb-3">Registros Salvos</div>
+    <p-confirmDialog></p-confirmDialog>
+
+    <p-table [value]="registros" responsiveLayout="scroll" [rows]="8" [paginator]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Instituição (Fund.)</th>
+          <th>Ano (Fund.)</th>
+          <th>Instituição (Med.)</th>
+          <th>Ano (Med.)</th>
+          <th style="width: 8rem"></th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.fundamental_instituicao }}</td>
+          <td>{{ item.fundamental_ano_conclusao }}</td>
+          <td>{{ item.medio_instituicao }}</td>
+          <td>{{ item.medio_ano_conclusao }}</td>
+          <td class="text-center">
+            <button
+              pButton pRipple
+              icon="pi pi-trash"
+              class="p-button-danger p-button-text p-button-rounded mr-2"
+              (click)="confirmDelete(item.id)">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>

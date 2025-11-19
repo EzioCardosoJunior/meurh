@@ -5,7 +5,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header('Content-Type: application/json; charset=utf-8');
 
 // === CONEXÃO COM O BANCO ===
-$host = 'mysql.tendappromos.com.br';
+$host = 'mysql.tendapromos.com.br';
 $dbname = 'tendapromos01';
 $user = 'tendapro01_add1';
 $pass = '060610Ejcj1';
@@ -22,14 +22,14 @@ try {
 // === RECEBE OS DADOS JSON ===
 $dados = json_decode(file_get_contents("php://input"), true);
 
-if (!$dados || empty($dados['id_usuario']) || empty($dados['id'])) {
+if (!$dados || empty($dados['id_usuario']) || empty($dados['id_registro'])) {
     http_response_code(400);
     echo json_encode(['erro' => 'id_usuario e id são obrigatórios.']);
     exit;
 }
 
 $id_usuario = intval($dados['id_usuario']);
-$id         = intval($dados['id']);
+$id         = intval($dados['id_registro']);
 
 // === VERIFICAR SE O USUÁRIO EXISTE ===
 try {

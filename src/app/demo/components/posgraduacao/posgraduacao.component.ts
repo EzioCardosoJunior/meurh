@@ -40,12 +40,11 @@ export class PosGraduacaoComponent implements OnInit {
     carregarPos() {
         const id_usuario = Number(localStorage.getItem('usuario_id'));
         if (!id_usuario) return;
-
         this.posService.getPos(id_usuario).subscribe({
-            next: (res) => {
+            next: (res) => {                
                 this.posCursos = res?.dados || [];
             },
-            error: () => {
+            error: () => {                
                 this.messageService.add({
                     severity: 'error',
                     summary: 'Erro',

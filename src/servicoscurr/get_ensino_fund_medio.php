@@ -19,7 +19,7 @@ try {
     exit;
 }
 
-// === VALIDAR PARÂMETRO ===
+// === VALIDAR id_usuario ===
 if (!isset($_GET['id_usuario']) || empty($_GET['id_usuario'])) {
     http_response_code(400);
     echo json_encode(['erro' => "Parâmetro 'id_usuario' é obrigatório."]);
@@ -48,16 +48,13 @@ try {
 $sql = "SELECT 
             id,
             id_usuario,
-            instituicao_nome,
-            cidade_estado,
-            curso_nome,
-            nivel,
-            data_inicio,
-            data_fim,
-            status
-        FROM ensino_tecnico_graduacao
+            fund_instituicao,
+            fund_conclusao,
+            medio_instituicao,
+            medio_conclusao
+        FROM ensino_fundamental_medio
         WHERE id_usuario = :id_usuario
-        ORDER BY data_inicio DESC";
+        ORDER BY id DESC";
 
 try {
     $stmt = $pdo->prepare($sql);
@@ -69,6 +66,7 @@ try {
         'mensagem' => 'Registros encontrados.',
         'dados'    => $dados
     ]);
+
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(['erro' => 'Erro ao consultar registros: ' . $e->getMessage()]);
