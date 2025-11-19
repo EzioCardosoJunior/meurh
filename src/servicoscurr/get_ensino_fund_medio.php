@@ -48,10 +48,10 @@ try {
 $sql = "SELECT 
             id,
             id_usuario,
-            fund_instituicao,
-            fund_conclusao,
+            fundamental_instituicao,
+            fundamental_ano_conclusao,
             medio_instituicao,
-            medio_conclusao
+            medio_ano_conclusao
         FROM ensino_fundamental_medio
         WHERE id_usuario = :id_usuario
         ORDER BY id DESC";

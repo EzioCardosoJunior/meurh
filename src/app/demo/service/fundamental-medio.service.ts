@@ -19,6 +19,7 @@ export class FundamentalMedioService {
 
   /** GET — Buscar registros do usuário */
   getFundMedio(id_usuario: number): Observable<any> {
+    console.log('Buscando registros para o usuário ID:', id_usuario);
     return this.http.get<any>(`${this.baseUrl}/get_ensino_fund_medio.php?id_usuario=${id_usuario}`);
   }
 
