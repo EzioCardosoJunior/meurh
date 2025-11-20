@@ -18,14 +18,12 @@ export class TecnicoGradService {
 
   /** GET — Buscar TODOS os registros do usuário */
   getTecnicoGrad(id_usuario: number): Observable<any> {
-    console.log(id_usuario);
     return this.http.get<any>(`${this.baseUrl}/get_tecnico_grad.php?id_usuario=${id_usuario}`);
   }
  
   /** DELETE — Excluir registro (POST, igual a outros serviços) */
   deleteTecnicoGrad(id_usuario: number, id_registro: number): Observable<any> {
     const payload = { id_usuario, id_registro };
-    console.log(payload);
     return this.http.post<any>(`${this.baseUrl}/deletar_tecnico_grad.php`, payload);
   }
 }

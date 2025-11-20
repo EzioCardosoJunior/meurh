@@ -13,7 +13,6 @@ export class PosGraduacaoService {
 
   /** POST — Salvar nova pós-graduação */
   salvarPos(payload: any): Observable<any> {
-    console.log('Payload para salvar pós-graduação:', payload);
     return this.http.post<any>(`${this.baseUrl}/salvar_pos.php`, payload);
   }
 

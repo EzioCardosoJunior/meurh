@@ -31,7 +31,6 @@ export class FundamentalMedioComponent implements OnInit {
     }
 
     carregarRegistros() {
-        console.log('Carregando registros de ensino fundamental e médio');
         const id_usuario = Number(localStorage.getItem('usuario_id'));
         if (!id_usuario) return;
 

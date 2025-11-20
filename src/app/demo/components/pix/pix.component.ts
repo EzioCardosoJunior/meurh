@@ -34,7 +34,6 @@ export class PixComponent implements OnInit {
 
         this.pixService.getPix(id_usuario).subscribe({
             next: (res) => {
-                console.log(res);
                 if (res?.sucesso && res?.dados) {
                     this.pixForm.patchValue({
                         chave_pix: res.dados.chave_pix,

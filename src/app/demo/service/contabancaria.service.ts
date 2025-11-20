@@ -13,7 +13,6 @@ export class ContaBancariaService {
 
   /** GET — Obtém a conta bancária do usuário */
   getConta(id_usuario: number): Observable<any> {
-    console.log('Payload para salvar conta:', id_usuario );
     return this.http.get(`${this.baseUrl}/get_conta_bancaria.php?id_usuario=${id_usuario}`);
   }
 

@@ -35,7 +35,6 @@ export class PixService {
     return new Observable(observer => {
       this.getPix(id_usuario).subscribe({
         next: (res) => {
-          console.log('Resposta getPix:', res);
           if (res && res.dados.titular_cpf) {
             // PIX EXISTE → atualizar
             this.atualizarPix(payload).subscribe(observer);
