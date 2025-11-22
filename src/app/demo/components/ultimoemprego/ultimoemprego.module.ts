@@ -13,7 +13,10 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { EditorModule } from 'primeng/editor';
 
 @NgModule({
-    imports: [CommonModule, UltimoEmpregoRoutingModule, InputTextModule, ChipModule, DropdownModule, FormsModule, FileUploadModule, ButtonModule, RippleModule, InputSwitchModule, EditorModule],
+    imports: [CommonModule, UltimoEmpregoRoutingModule, 
+        InputTextModule, ChipModule, 
+        DropdownModule, 
+        FormsModule, FileUploadModule, ButtonModule, RippleModule, InputSwitchModule, EditorModule],
     declarations: [UltimoEmpregoComponent]
 })
 export class UltimoEmpregoModule {}

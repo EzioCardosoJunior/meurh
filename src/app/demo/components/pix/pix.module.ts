@@ -26,9 +26,9 @@ import { MessageService } from 'primeng/api';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     PixRoutingModule,
-
+    
+    ReactiveFormsModule,
     ToastModule,
     MessagesModule,
     MessageModule,
@@ -47,4 +47,4 @@ import { MessageService } from 'primeng/api';
   declarations: [PixComponent],
   providers: [MessageService]
 })
-export class PixModule {}
+export class PixModule { }

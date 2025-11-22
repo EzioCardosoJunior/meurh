@@ -1,46 +1,107 @@
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>
+
 <div class="grid">
-    <div class="col-12 md:col-6">
-        <div class="card p-fluid">
-            <h5>Empresa</h5>
-            <div class="field">
-                <label htmlFor="name1">Nome da empresa</label>
-                <input pInputText id="name1" type="text" />
-            </div>
-            <div class="field">
-                <label htmlFor="email1">Data de entrada</label>
-                <input pInputText id="email1" type="text" />
-            </div>
-            <div class="field">
-                <label htmlFor="age1">Data de saída</label>
-                <input pInputText id="age1" type="text" />
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12 md:col-6">
-        <div class="card p-fluid">
-            <h5>Chefe ou líder de setor</h5>
-            <div class="field grid">
-                <label htmlFor="name3" class="col-12 mb-2 md:col-2 md:mb-0">Nome</label>
-                <div class="col-12 md:col-10">
-                    <input pInputText id="name3" type="text" />
-                </div>
-            </div>
-            <div class="field grid">
-                <label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">Contato</label>
-                <div class="col-12 md:col-10">
-                    <input pInputText id="email3" type="text" />
-                </div>
-            </div>
-        </div>
-
+    <!-- TABELA -->
+    <div class="col-12">
         <div class="card">
-            <h5>Cargo ou função</h5>
-            <div class="field p-fluid">
-                <label htmlFor="username">Cargo ou função</label>
-                <input pInputText id="username" type="text" />
-                <small>Cargo ou função realizada de forma resumida</small>
-            </div>
+            <div class="text-900 text-xl font-semibold mb-3">Empregos Cadastrados</div>
+
+            <p-table [value]="empregos" [paginator]="true" [rows]="8" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Empresa</th>
+                        <th>Entrada</th>
+                        <th>Saída</th>
+                        <th>Cargo</th>
+                        <th style="width: 6rem;"></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-emp>
+                    <tr>
+                        <td>{{ emp.nome_empresa }}</td>
+                        <td>{{ emp.data_entrada }}</td>
+                        <td>{{ emp.data_saida }}</td>
+                        <td>{{ emp.cargo_funcao }}</td>
+                        <td class="text-center">
+                            <button pButton icon="pi pi-trash" class="p-button-danger p-button-text p-button-rounded"
+                                (click)="confirmDelete(emp.id)">
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
     </div>
+    <!-- FORMULÁRIO -->
+    <div class="col-12">
+        <div class="card p-fluid">
+            <h5 class="mb-4">Empregos Anteriores</h5>
+
+            <form [formGroup]="empregoForm">
+
+                <div class="grid">
+                    <!-- COLUNA 1 -->
+                    <div class="col-12 md:col-6">
+
+                        <div class="field">
+                            <label>Nome da empresa</label>
+                            <input pInputText formControlName="nome_empresa" />
+                        </div>
+
+                        <div class="field">
+                            <label>Data de entrada</label>
+                            <input pInputText formControlName="data_entrada" />
+                        </div>
+
+                        <div class="field">
+                            <label>Data de saída</label>
+                            <input pInputText formControlName="data_saida" />
+                        </div>
+                    </div>
+
+                    <!-- COLUNA 2 -->
+                    <div class="col-12 md:col-6">
+
+                        <div class="field">
+                            <label>Chefe/Líder - Nome</label>
+                            <input pInputText formControlName="chefe_nome" />
+                        </div>
+
+                        <div class="field">
+                            <label>Chefe/Líder - Contato</label>
+                            <input pInputText formControlName="chefe_contato" />
+                        </div>
+
+                        <div class="field">
+                            <label>Cargo ou função</label>
+                            <input pInputText formControlName="cargo_funcao" />
+                        </div>
+                    </div>
+
+                    <!-- DESCRIÇÃO -->
+                    <div class="col-12">
+                        <div class="field">
+                            <label>Descrição detalhada das atividades</label>
+                            <p-editor formControlName="descricao_atividades" [style]="{height: '250px'}"></p-editor>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 mt-4">
+                    <button pButton class="p-button-danger p-button-outlined flex-1" label="Limpar" icon="pi pi-trash"
+                        type="button" (click)="empregoForm.reset()">
+                    </button>
+
+                    <button pButton class="p-button-primary flex-1" label="Salvar" icon="pi pi-check" type="button"
+                        (click)="salvarEmprego()">
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
 </div>
