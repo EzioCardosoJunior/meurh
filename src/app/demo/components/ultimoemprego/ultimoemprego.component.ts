@@ -1,88 +1,101 @@
-import { Component, ViewChildren, QueryList, ElementRef } from '@angular/core';
-
-interface Product {
-    name: string;
-    price: string;
-    code: string;
-    sku: string;
-    status: string;
-    tags: string[];
-    category: string;
-    colors: string[];
-    stock: string;
-    inStock: boolean;
-    description: string;
-    images: Image[];
-}
-
-interface Image {
-    name: string;
-    objectURL: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UltimoEmpregoService } from '../../service/ultimo-emprego.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
     templateUrl: './ultimoemprego.component.html',
-    styleUrls: ['./ultimoemprego.component.scss']
+    providers: [MessageService]
 })
-export class UltimoEmpregoComponent {
-    @ViewChildren('buttonEl') buttonEl!: QueryList<ElementRef>;
+export class UltimoEmpregoComponent implements OnInit {
 
-    text: string = '';
+    empregoForm!: FormGroup;
+    id_usuario = Number(localStorage.getItem('usuario_id'));
 
-    categoryOptions = ['Sneakers', 'Apparel', 'Socks'];
+    constructor(
+        private fb: FormBuilder,
+        private empregoService: UltimoEmpregoService,
+        private messageService: MessageService
+    ) {}
 
-    colorOptions: any[] = [
-        { name: 'Black', background: 'bg-gray-900' },
-        { name: 'Orange', background: 'bg-orange-500' },
-        { name: 'Navy', background: 'bg-blue-500' }
-    ];
+    ngOnInit(): void {
+        this.empregoForm = this.fb.group({
+            empresa: ['', Validators.required],
+            funcao: ['', Validators.required],
+            data_entrada: ['', Validators.required],
+            data_termino: [''],
+            atual: [false],
+            atividades: ['']
+        });
 
-    product: Product = {
-        name: '',
-        price: '',
-        code: '',
-        sku: '',
-        status: 'Draft',
-        tags: ['Nike', 'Sneaker'],
-        category: 'Sneakers',
-        colors: ['Blue'],
-        stock: 'Sneakers',
-        inStock: true,
-        description: '',
-        images: []
-    };
-
-    uploadedFiles: any[] = [];
-
-    showRemove: boolean = false;
-
-    onChipRemove(item: string) {
-        this.product.tags = this.product.tags.filter((i) => i !== item);
+        this.monitorarEmpregoAtual();
+        this.carregarDados();
     }
 
-    onColorSelect(color: string) {
-        this.product.colors.indexOf(color) == -1 ? this.product.colors.push(color) : this.product.colors.splice(this.product.colors.indexOf(color), 1);
+    monitorarEmpregoAtual() {
+        this.empregoForm.get('atual')?.valueChanges.subscribe((value) => {
+            const dtTermino = this.empregoForm.get('data_termino');
+
+            if (value) {
+                dtTermino?.disable();
+                dtTermino?.setValue('');
+            } else {
+                dtTermino?.enable();
+            }
+        });
     }
 
-    onUpload(event: any) {
-        for (let file of event.files) {
-            this.product.images.push(file);
+    carregarDados() {
+        if (!this.id_usuario) return;
+
+        this.empregoService.getUltimoEmprego(this.id_usuario).subscribe({
+            next: (res) => {
+                if (res?.sucesso && res?.dados) {
+                    this.empregoForm.patchValue(res.dados);
+
+                    if (res.dados.atual) {
+                        this.empregoForm.get('data_termino')?.disable();
+                    }
+                }
+            }
+        });
+    }
+
+    salvar() {
+        if (this.empregoForm.invalid) {
+            this.empregoForm.markAllAsTouched();
+            return;
         }
+
+        this.empregoService.salvarOuAtualizar(this.id_usuario, this.empregoForm.getRawValue())
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Sucesso',
+                        detail: 'Dados do emprego salvos com sucesso!'
+                    });
+                },
+                error: () => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erro',
+                        detail: 'Falha ao salvar.'
+                    });
+                }
+            });
     }
 
-    onImageMouseOver(file: Image) {
-        this.buttonEl.toArray().forEach((el) => {
-            el.nativeElement.id === file.name ? (el.nativeElement.style.display = 'flex') : null;
+    limpar() {
+        this.empregoForm.reset({
+            empresa: '',
+            funcao: '',
+            data_entrada: '',
+            data_termino: '',
+            atual: false,
+            atividades: ''
         });
-    }
 
-    onImageMouseLeave(file: Image) {
-        this.buttonEl.toArray().forEach((el) => {
-            el.nativeElement.id === file.name ? (el.nativeElement.style.display = 'none') : null;
-        });
-    }
-
-    removeImage(file: Image) {
-        this.product.images = this.product.images.filter((i) => i !== file);
+        this.empregoForm.get('data_termino')?.enable();
     }
 }
