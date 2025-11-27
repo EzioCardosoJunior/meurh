@@ -1,3 +1,37 @@
+<p-table [value]="registroEmprego || []" responsiveLayout="scroll">
+    <p-toast></p-toast>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Empresa</th>
+            <th>Função</th>
+            <th>Período</th>
+            <th>Atual</th>
+            <th>Atividades</th>
+            <th style="width: 8rem"></th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{ item.dados.empresa }}</td>
+            <td>{{ item.dados.funcao }}</td>
+            <td>
+                {{ item.dados.data_entrada | date:'dd/MM/yyyy' }} -
+                {{ item.dados.atual ? 'Atual' : (item.dados.data_termino | date:'dd/MM/yyyy') }}
+            </td>
+            <td>{{ item.dados.atual ? 'Sim' : 'Não' }}</td>
+            <td [innerHTML]="item.dados.atividades"></td>
+            <td class="text-center">
+                <button pButton pRipple icon="pi pi-trash" class="p-button-danger p-button-text p-button-rounded"
+                    (click)="confirmDelete(item.dados.id)">
+                </button>
+            </td>
+        </tr>
+    </ng-template>
+
+</p-table>
+
+
 <div class="card">
     <p-toast></p-toast>
 
@@ -38,8 +72,7 @@
 
                     <span class="text-900 font-bold">Emprego atual</span>
 
-                    <p-inputSwitch
-                        formControlName="atual">
+                    <p-inputSwitch formControlName="atual">
                     </p-inputSwitch>
 
                 </div>
@@ -55,9 +88,7 @@
         <div class="col-12">
             <div class="grid formgrid">
                 <div class="col-12 field">
-                    <p-editor
-                        formControlName="atividades"
-                        [style]="{ height: '250px' }">
+                    <p-editor formControlName="atividades" [style]="{ height: '250px' }">
                     </p-editor>
                 </div>
             </div>
@@ -66,21 +97,22 @@
         <!-- BOTÕES -->
         <div class="col-12 flex flex-column sm:flex-row justify-content-between align-items-center gap-3 py-2">
 
-            <button
-                pButton
-                class="p-button-danger flex-1 p-button-outlined"
-                label="Limpar"
-                icon="pi pi-trash"
+            <button pButton class="p-button-danger flex-1 p-button-outlined" label="Limpar" icon="pi pi-trash"
                 (click)="limpar()">
             </button>
 
-            <button
-                pButton
-                class="p-button-primary flex-1"
-                label="Salvar"
-                icon="pi pi-check"
-                (click)="salvar()">
+            <button pButton class="p-button-primary flex-1" label="Salvar" icon="pi pi-check" (click)="salvar()">
             </button>
+
+            <button *ngIf="empregoForm.get('id')" pButton class="p-button-danger flex-1" label="Excluir registro"
+                icon="pi pi-trash" (click)="excluir()">
+            </button>
+
+            <button *ngIf="!empregoForm.disabled" pButton class="p-button-primary flex-1" label="Salvar"
+                icon="pi pi-check" (click)="salvar()">
+            </button>
+
+
 
         </div>
 

@@ -16,6 +16,7 @@ import { MessageModule } from 'primeng/message';
 import { MessagesModule } from 'primeng/messages';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
     imports: [CommonModule, UltimoEmpregoRoutingModule,
@@ -28,6 +29,7 @@ import { ToastModule } from 'primeng/toast';
         ConfirmDialogModule,
         TableModule,
         FormsModule, FileUploadModule, ButtonModule, RippleModule, InputSwitchModule, EditorModule],
-    declarations: [UltimoEmpregoComponent]
+    declarations: [UltimoEmpregoComponent], providers: [ConfirmationService]
+
 })
 export class UltimoEmpregoModule { }
