@@ -5,48 +5,67 @@
         </div>
         <div class="col-12 lg:col-6 h-full px-4 py-4 md:px-6">
 
-            <div class="grid formgrid">
+            <form [formGroup]="origemForm" class="grid formgrid">
+
                 <div class="col-12 field mb-6">
                     <span class="text-900 text-2xl block font-medium mb-5">Nacionalidade</span>
-                    <div class="col-12 field mb-4">
 
-                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" placeholder="Brasileiro / Estrangeiro"
-                            optionLabel="name" [showClear]="true" styleClass="w-full"></p-dropdown>
+                    <div class="col-12 field mb-4">
+                        <p-dropdown placeholder="Brasileiro / Estrangeiro" [options]="[
+                        { label: 'Brasileiro', value: 'Brasileiro' },
+                        { label: 'Estrangeiro', value: 'Estrangeiro' }
+                    ]" formControlName="nacionalidade" optionLabel="label" optionValue="value" [showClear]="true"
+                            styleClass="w-full">
+                        </p-dropdown>
                     </div>
                 </div>
+
                 <div class="col-12 field mb-4">
-                    <span class="text-900 text-2xl block font-medium mt-2">Nacimento</span>
-                    
+                    <span class="text-900 text-2xl block font-medium mt-2">Nascimento</span>
                 </div>
+
                 <div class="col-12 lg:col-6 field mb-4">
-                    <input id="cidade" placeholder="Cidade" type="text" class="p-inputtext w-full" />
+                    <input id="cidade" placeholder="Cidade" type="text" class="p-inputtext w-full"
+                        formControlName="nascimento_cidade" />
                 </div>
+
                 <div class="col-12 lg:col-6 field mb-4">
-                    <input id="uf" placeholder="Estado" type="text" class="p-inputtext w-full" />
+                    <input id="uf" placeholder="Estado" type="text" class="p-inputtext w-full"
+                        formControlName="nascimento_estado" />
                 </div>
+
                 <div class="col-12 lg:col-6 field mb-4">
-                    <input id="datanasc" placeholder="Data de Nasc" type="date" class="p-inputtext w-full" />
+                    <input id="datanasc" placeholder="Data de Nasc" type="date" class="p-inputtext w-full"
+                        formControlName="nascimento_data" />
                 </div>
+
                 <div class="col-12 field mb-4">
                     <span class="text-900 text-2xl block font-medium mt-2">Filiação</span>
-                    
                 </div>
+
                 <div class="col-12 lg:col-6 field mb-4">
-                    <input id="pai" placeholder="Nome do Pai" type="text" class="p-inputtext w-full" />
+                    <input id="pai" placeholder="Nome do Pai" type="text" class="p-inputtext w-full"
+                        formControlName="nome_pai" />
                 </div>
+
                 <div class="col-12 lg:col-6 field mb-4">
-                    <input id="mae" placeholder="Nome da mae" type="text" class="p-inputtext w-full" />
+                    <input id="mae" placeholder="Nome da mãe" type="text" class="p-inputtext w-full"
+                        formControlName="nome_mae" />
                 </div>
+
                 <div
                     class="col-12 flex flex-column lg:flex-row justify-content-center align-items-center lg:justify-content-end my-6">
                     <button pButton pRipple
                         class="p-button-secondary p-button-outlined mt-3 lg:mt-0 w-full lg:w-auto flex-order-2 lg:flex-order-1 lg:mr-4"
-                        label="Refazer" icon="pi pi-fw pi-arrow-left"></button>
+                        label="Refazer" icon="pi pi-fw pi-arrow-left" type="button" (click)="limpar()"></button>
+
                     <button pButton pRipple class="p-button-primary w-full lg:w-auto flex-order-1 lg:flex-order-2"
-                        label="Salvar" icon="pi pi-fw pi-check"></button>
+                        label="Salvar" icon="pi pi-fw pi-check" type="button" (click)="salvar()"></button>
                 </div>
-            </div>
+
+            </form>
         </div>
+
         <div class="col-12 lg:col-6 px-4 py-4 md:px-6">
             <div class="pb-3 surface-border">
                 <span class="text-900 font-medium text-xl">Dados Pessoais</span>
@@ -81,8 +100,8 @@
             </div>
             <div class="py-2 mt-3 surface-border">
                 <div class="p-inputgroup mb-3">
-                    <input type="text" [(ngModel)]="value" pInputText placeholder="Promo code" class="w-full" />
-                    <button type="button" pButton pRipple label="Apply" [disabled]="!value"></button>
+                    <input type="text" pInputText placeholder="Promo code" class="w-full" />
+                    <button type="button" pButton pRipple label="Apply"></button>
                 </div>
             </div>
             <div class="py-2 mt-3">
