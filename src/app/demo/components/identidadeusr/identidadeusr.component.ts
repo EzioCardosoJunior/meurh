@@ -1,24 +1,77 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { IdentidadeUsrService } from '../../service/identidade-usr.service';
+                                               
 @Component({
-    templateUrl: './identidadeusr.component.html'
+    templateUrl: './identidadeusr.component.html',
+    providers: [MessageService]
 })
-export class IdentidadeUsrComponent {
-    quantities: number[] = [1, 1, 1];
+export class IdentidadeUsrComponent implements OnInit {
 
-    value: string = '';
+    identidadeForm!: FormGroup;
+    id_usuario = Number(localStorage.getItem('usuario_id'));
 
-    checked: boolean = true;
+    constructor(
+        private fb: FormBuilder,
+        private identidadeService: IdentidadeUsrService,
+        private messageService: MessageService
+    ) {}
 
-    checked2: boolean = true;
+    ngOnInit(): void {
+        this.criarFormulario();
+        this.carregarDados();
+    }
 
-    cities = [
-        { name: 'USA / New York', code: 'NY' },
-        { name: 'Italy / Rome', code: 'RM' },
-        { name: 'United Kingdoom / London', code: 'LDN' },
-        { name: 'Turkey / Istanbul', code: 'IST' },
-        { name: 'France / Paris', code: 'PRS' }
-    ];
+    criarFormulario() {
+        this.identidadeForm = this.fb.group({
+            cnh: [''],
+            reservista: [''],
+            rg: [''],
+            pontos_preenchimento: ['']
+        });
+    }
 
-    selectedCity: string = '';
+    carregarDados() {
+        if (!this.id_usuario) return;
+
+        this.identidadeService.getUsuario(this.id_usuario).subscribe({
+            next: (res) => {
+                if (res?.sucesso && res?.dados) {
+
+                    // Preenche dados automaticamente
+                    this.identidadeForm.patchValue({
+                        cnh: res.dados.cnh ?? '',
+                        reservista: res.dados.reservista ?? '',
+                        rg: res.dados.rg ?? '',
+                        pontos_preenchimento: res.dados.pontos_preenchimento ?? ''
+                    });
+                }
+            }
+        });
+    }
+
+    salvar() {
+        const payload = {
+            id_usuario: this.id_usuario,
+            ...this.identidadeForm.getRawValue()
+        };
+
+        this.identidadeService.updateUsuario(payload).subscribe({
+            next: () => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Sucesso',
+                    detail: 'Informações atualizadas!'
+                });
+            },
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erro',
+                    detail: 'Falha ao atualizar os dados.'
+                });
+            }
+        });
+    }
 }

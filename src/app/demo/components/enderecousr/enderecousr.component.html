@@ -1,55 +1,78 @@
 <div class="card">
+    <p-toast></p-toast>
     <div class="grid grid-nogutter">
         <div class="col-12 px-4 mt-4 md:mt-6 md:px-6">
             <span class="text-900 block font-bold text-xl">Endereço e localização</span>
         </div>
+
         <div class="col-12 lg:col-6 h-full px-4 py-4 md:px-6">
 
-            <div class="grid formgrid">
+            <!-- FORM AQUI -->
+            <form [formGroup]="enderecoForm" class="grid formgrid">
+
                 <div class="col-12 field mb-6">
                     <span class="text-900 text-2xl block font-medium mb-5">Tipo Residência</span>
                     <div class="col-12 field mb-4">
 
-                        <p-dropdown [options]="cities" [(ngModel)]="selectedCity" placeholder="Própria / Alugada ou cedida"
-                            optionLabel="name" [showClear]="true" styleClass="w-full"></p-dropdown>
+                        <p-dropdown placeholder="Própria / Alugada ou cedida" [options]="[
+                        { label: 'Própria', value: 'Propria' },
+                        { label: 'Alugada', value: 'Alugada' },
+                        { label: 'Outros', value: 'Outros' }
+                    ]" optionLabel="label" optionValue="value" formControlName="tipo_residencia" [showClear]="true"
+                            styleClass="w-full">
+                        </p-dropdown>
+
                     </div>
                 </div>
+
                 <div class="col-12 field mb-4">
                     <span class="text-900 text-2xl block font-medium mb-5">Endereço</span>
-                    <p-dropdown [options]="cities" [(ngModel)]="selectedCity" placeholder="Estado" optionLabel="name"
-                        [showClear]="true" styleClass="w-full"></p-dropdown>
+
+                    <p-dropdown placeholder="Estado" [options]="estados" optionLabel="label" optionValue="value"
+                        formControlName="estado" [showClear]="true" styleClass="w-full">
+                    </p-dropdown>
                 </div>
+
                 <div class="col-12 lg:col-6 field mb-4">
-                    <input id="cidade" placeholder="Cidade" type="text" class="p-inputtext w-full" />
+                    <input id="cidade" placeholder="Cidade" type="text" class="p-inputtext w-full"
+                        formControlName="cidade" />
                 </div>
+
                 <div class="col-12 lg:col-6 field mb-4">
-                    <input id="bairro" placeholder="Bairro" type="text" class="p-inputtext w-full" />
+                    <input id="bairro" placeholder="Bairro" type="text" class="p-inputtext w-full"
+                        formControlName="bairro" />
                 </div>
+
                 <div class="col-12 field mb-4">
-                    <input id="rua" placeholder="Rua" type="text" class="p-inputtext w-full" />
+                    <input id="rua" placeholder="Rua" type="text" class="p-inputtext w-full" formControlName="rua" />
                 </div>
+
                 <div class="col-12 field mb-4">
-                    <input id="complemento" placeholder="Complemento" type="text" class="p-inputtext w-full" />
+                    <input id="complemento" placeholder="Complemento" type="text" class="p-inputtext w-full"
+                        formControlName="complemento" />
                 </div>
+
                 <div class="col-12 lg:col-6 field mb-4">
-                    <input id="cep" placeholder="CEP" type="text" class="p-inputtext w-full" />
+                    <input id="cep" placeholder="CEP" type="text" class="p-inputtext w-full" formControlName="cep" />
                 </div>
-                <!--  <div class="col-12 lg:col-6 field mb-4">
-                    <input id="cidade" placeholder="Cidade type="text" class="p-inputtext w-full" />
-                </div> -->
-                <!--  <div class="col-12 lg:col-6 field mb-4">
-                    <p-checkbox name="checkbox-1" [(ngModel)]="checked2" [binary]="true" label="Save for next purchase" class="text-900" inputId="id"></p-checkbox>
-                </div> -->
+
                 <div
                     class="col-12 flex flex-column lg:flex-row justify-content-center align-items-center lg:justify-content-end my-6">
+
                     <button pButton pRipple
                         class="p-button-secondary p-button-outlined mt-3 lg:mt-0 w-full lg:w-auto flex-order-2 lg:flex-order-1 lg:mr-4"
-                        label="Refazer" icon="pi pi-fw pi-arrow-left"></button>
+                        label="Refazer" icon="pi pi-fw pi-arrow-left" type="button" (click)="limpar()">
+                    </button>
+
                     <button pButton pRipple class="p-button-primary w-full lg:w-auto flex-order-1 lg:flex-order-2"
-                        label="Salvar" icon="pi pi-fw pi-check"></button>
+                        label="Salvar" icon="pi pi-fw pi-check" type="button" (click)="salvar()">
+                    </button>
+
                 </div>
-            </div>
+
+            </form>
         </div>
+
         <div class="col-12 lg:col-6 px-4 py-4 md:px-6">
             <div class="pb-3 surface-border">
                 <span class="text-900 font-medium text-xl">Dados Pessoais</span>
@@ -84,8 +107,8 @@
             </div>
             <div class="py-2 mt-3 surface-border">
                 <div class="p-inputgroup mb-3">
-                    <input type="text" [(ngModel)]="value" pInputText placeholder="Promo code" class="w-full" />
-                    <button type="button" pButton pRipple label="Apply" [disabled]="!value"></button>
+                    <input type="text" pInputText placeholder="Promo code" class="w-full" />
+                    <button type="button" pButton pRipple label="Apply"></button>
                 </div>
             </div>
             <div class="py-2 mt-3">

@@ -1,48 +1,141 @@
 <div class="card">
     <div class="grid grid-nogutter">
-        <div class="col-12 px-4 mt-4 md:mt-6 md:px-6">
-            <span class="text-900 block font-bold text-xl">Identidade</span>
-        </div>
-        <div class="col-12 lg:col-6 h-full px-4 py-4 md:px-6">
-           
-            <div class="grid formgrid">
-                <div class="col-12 field mb-6">
-                    <span class="text-900 text-2xl block font-medium mb-5">Email e Senha</span>
-                    <input id="email" placeholder="Email" type="text" class="p-inputtext w-full mb-4" />
-                    <p-checkbox name="checkbox-1" [(ngModel)]="checked" [binary]="true" label="Enviar novas vagas por e-mail" class="text-900" inputId="id"></p-checkbox>
-                </div>
-                <div class="col-12 lg:col-6 field mb-4">
-                    <input id="nsenha" placeholder="Nova senha" type="text" class="p-inputtext w-full" />
-                </div>
-                <div class="col-12 lg:col-6 field mb-4">
-                    <input id="rnsenha" placeholder="Repetir Nova Senha" type="text" class="p-inputtext w-full" />
-                </div>
-                <div class="col-12 field mb-4">
-                    <input id="nomeusr" placeholder="Nome de Usuário" type="text" class="p-inputtext w-full" />
-                </div>
+    <div class="col-12 px-4 mt-4 md:mt-6 md:px-6">
+    <span class="text-900 block font-bold text-xl">Identidade</span>
+</div>
+
+<div class="col-12 lg:col-6 h-full px-4 py-4 md:px-6">
+
+    <!-- FORM PRINCIPAL -->
+    <form [formGroup]="identidadeForm">
+
+        <div class="grid formgrid">
+            <div class="col-12 field mb-6">
+                <span class="text-900 text-2xl block font-medium mb-5">Email e Senha</span>
+
+                <input
+                    id="email"
+                    placeholder="Email"
+                    type="text"
+                    class="p-inputtext w-full mb-4"
+                    formControlName="email"
+                />
+
+                <p-checkbox
+                    name="enviarVagas"
+                    inputId="chkVagas"
+                    label="Enviar novas vagas por e-mail"
+                    class="text-900"
+                    [binary]="true"
+                    formControlName="receber_vagas"
+                ></p-checkbox>
             </div>
-            <div class="grid formgrid">
-                <div class="col-12 field mb-6">
-                    <span class="text-900 text-2xl block font-medium mt-2">Documentos</span>                   
-                </div>
-                <div class="col-12 lg:col-6 field mb-4">
-                    <input id="cpf" placeholder="CPF" type="text" class="p-inputtext w-full" />
-                </div>
-                <div class="col-12 lg:col-6 field mb-4">
-                    <input id="rg" placeholder="RG" type="text" class="p-inputtext w-full" />
-                </div>
-                <div class="col-12 lg:col-6 field mb-4">
-                    <input id="reservista" placeholder="Certificado de Reservista" type="text" class="p-inputtext w-full" />
-                </div>
-                <div class="col-12 lg:col-6 field mb-4">
-                    <input id="cnh" placeholder="CNH" type="text" class="p-inputtext w-full" />
-                </div>
-                <div class="col-12 flex flex-column lg:flex-row justify-content-center align-items-center lg:justify-content-end my-6">
-                    <button pButton pRipple class="p-button-secondary p-button-outlined mt-3 lg:mt-0 w-full lg:w-auto flex-order-2 lg:flex-order-1 lg:mr-4" label="Refazer" icon="pi pi-fw pi-arrow-left"></button>
-                    <button pButton pRipple class="p-button-primary w-full lg:w-auto flex-order-1 lg:flex-order-2" label="Salvar" icon="pi pi-fw pi-check"></button>
-                </div>
+
+            <div class="col-12 lg:col-6 field mb-4">
+                <input
+                    id="nsenha"
+                    placeholder="Nova senha"
+                    type="password"
+                    class="p-inputtext w-full"
+                    formControlName="nova_senha"
+                />
+            </div>
+
+            <div class="col-12 lg:col-6 field mb-4">
+                <input
+                    id="rnsenha"
+                    placeholder="Repetir Nova Senha"
+                    type="password"
+                    class="p-inputtext w-full"
+                    formControlName="repetir_senha"
+                />
+            </div>
+
+            <div class="col-12 field mb-4">
+                <input
+                    id="nomeusr"
+                    placeholder="Nome de Usuário"
+                    type="text"
+                    class="p-inputtext w-full"
+                    formControlName="nome_usuario"
+                />
             </div>
         </div>
+
+        <!-- Documentos -->
+        <div class="grid formgrid">
+            <div class="col-12 field mb-6">
+                <span class="text-900 text-2xl block font-medium mt-2">Documentos</span>
+            </div>
+
+            <div class="col-12 lg:col-6 field mb-4">
+                <input
+                    id="cpf"
+                    placeholder="CPF"
+                    type="text"
+                    class="p-inputtext w-full"
+                    formControlName="cpf"
+                />
+            </div>
+
+            <div class="col-12 lg:col-6 field mb-4">
+                <input
+                    id="rg"
+                    placeholder="RG"
+                    type="text"
+                    class="p-inputtext w-full"
+                    formControlName="rg"
+                />
+            </div>
+
+            <div class="col-12 lg:col-6 field mb-4">
+                <input
+                    id="reservista"
+                    placeholder="Certificado de Reservista"
+                    type="text"
+                    class="p-inputtext w-full"
+                    formControlName="reservista"
+                />
+            </div>
+
+            <div class="col-12 lg:col-6 field mb-4">
+                <input
+                    id="cnh"
+                    placeholder="CNH"
+                    type="text"
+                    class="p-inputtext w-full"
+                    formControlName="cnh"
+                />
+            </div>
+
+            <div class="col-12 flex flex-column lg:flex-row justify-content-center align-items-center lg:justify-content-end my-6">
+
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-secondary p-button-outlined mt-3 lg:mt-0 w-full lg:w-auto flex-order-2 lg:flex-order-1 lg:mr-4"
+                    label="Refazer"
+                    icon="pi pi-fw pi-arrow-left"
+                    type="button"
+                    (click)="limpar()"
+                ></button>
+
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-primary w-full lg:w-auto flex-order-1 lg:flex-order-2"
+                    label="Salvar"
+                    icon="pi pi-fw pi-check"
+                    type="button"
+                    (click)="salvar()"
+                ></button>
+
+            </div>
+        </div>
+
+    </form>
+</div>
+
         <div class="col-12 lg:col-6 px-4 py-4 md:px-6">
             <div class="pb-3 surface-border">
                 <span class="text-900 font-medium text-xl">Dados Pessoais</span>
@@ -76,8 +169,8 @@
             </div>
             <div class="py-2 mt-3 surface-border">
                 <div class="p-inputgroup mb-3">
-                    <input type="text" [(ngModel)]="value" pInputText placeholder="Promo code" class="w-full" />
-                    <button type="button" pButton pRipple label="Apply" [disabled]="!value"></button>
+                    <input type="text"  pInputText placeholder="Promo code" class="w-full" />
+                    <button type="button" pButton pRipple label="Apply"></button>
                 </div>
             </div>
             <div class="py-2 mt-3">
