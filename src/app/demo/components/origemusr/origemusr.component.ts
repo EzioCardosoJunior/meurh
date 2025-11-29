@@ -18,7 +18,7 @@ export class OrigemUsrComponent implements OnInit {
         private origemService: OrigemUsrService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.criarFormulario();
@@ -40,31 +40,34 @@ export class OrigemUsrComponent implements OnInit {
     carregarTabela() {
         this.origemService.getOrigemCandidato(this.id_usuario).subscribe({
             next: (res) => {
-                this.registroOrigem = res ? [res] : [];
+                this.registroOrigem = res?.sucesso && res?.dados ? [res.dados] : [];
             }
         });
     }
+
 
     carregarDados() {
         if (!this.id_usuario) return;
 
         this.origemService.getOrigemCandidato(this.id_usuario).subscribe({
             next: (res) => {
-                if (res && res.id) {
-                    this.origemForm.patchValue(res);
+                if (res?.sucesso && res?.dados) {
 
-                    // Desabilita edição
-                    this.origemForm.disable();
+                    // Preenche corretamente os campos
+                    this.origemForm.patchValue(res.dados);
 
-                    // Guarda ID no form
-                    this.origemForm.addControl('id', this.fb.control(res.id));
+                    if (!this.origemForm.get('id_usuario')) {
+                        this.origemForm.addControl('id_usuario', this.fb.control(res.dados.id_usuario));
+                    }
                 }
             }
         });
     }
 
+
     salvar() {
         if (this.origemForm.invalid) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
             this.origemForm.markAllAsTouched();
             return;
         }
@@ -100,22 +103,22 @@ export class OrigemUsrComponent implements OnInit {
         });
     } */
 
-   /*  excluir() {
-        this.origemService.deleteOrigem(this.id_usuario).subscribe({
-            next: () => {
-                this.messageService.add({
-                    severity: 'success',
-                    summary: 'Sucesso',
-                    detail: 'Registro excluído!'
-                });
-
-                this.registroOrigem = [];
-                this.limpar();
-                this.origemForm.enable();
-                this.origemForm.removeControl('id');
-            }
-        });
-    } */
+    /*  excluir() {
+         this.origemService.deleteOrigem(this.id_usuario).subscribe({
+             next: () => {
+                 this.messageService.add({
+                     severity: 'success',
+                     summary: 'Sucesso',
+                     detail: 'Registro excluído!'
+                 });
+ 
+                 this.registroOrigem = [];
+                 this.limpar();
+                 this.origemForm.enable();
+                 this.origemForm.removeControl('id');
+             }
+         });
+     } */
 
     limpar() {
         this.origemForm.reset({

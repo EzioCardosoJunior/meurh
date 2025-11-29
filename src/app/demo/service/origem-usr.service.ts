@@ -9,7 +9,7 @@ export class OrigemUsrService {
 
   private baseUrl = '/api'; // usa seu proxy
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /** GET — Busca a origem do candidato (retorna {sucesso, dados} no padrão dos seus PHPs) */
   getOrigemCandidato(id_usuario: number): Observable<any> {
@@ -22,11 +22,14 @@ export class OrigemUsrService {
   }
 
   /** POST — Atualiza um registro de origem (seguindo seu padrão de usar POST para update) */
-  updateOrigemCandidato(id: number, payload: any): Observable<any> {
-    // incluímos o id no payload por segurança (muitos dos seus update PHPs esperam id no body)
-    const body = { id, ...payload };
-    return this.http.post<any>(`${this.baseUrl}/update_origem_candidato.php`, body);
+  updateOrigemCandidato(id_usuario: number, payload: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/update_origem_candidato.php`,
+      { id_usuario, ...payload }
+    );
   }
+
+
 
   /** POST — Deletar registro (por id_usuario, conforme padrão dos seus deletes anteriores) */
   deleteOrigemCandidato(id_usuario: number): Observable<any> {
@@ -44,16 +47,17 @@ export class OrigemUsrService {
 
     return this.getOrigemCandidato(id_usuario).pipe(
       switchMap(res => {
-        // espera-se formato { sucesso: true/false, dados: {...} } — ajusta conforme seu PHP
-        if (res && res.sucesso && res.dados && res.dados.id) {
-          // já existe → atualizar usando o id retornado
-          return this.updateOrigemCandidato(res.dados.id, payload);
+        if (res?.sucesso && res?.dados) {
+          // Já existe → UPDATE
+          return this.updateOrigemCandidato(id_usuario, payload);
         }
-        // não existe → criar
+
+        // Não existe → CREATE
         return this.createOrigemCandidato(payload);
       }),
-      // se a consulta falhar (ex.: 404), tratamos como inexistente e salvamos
       catchError(() => this.createOrigemCandidato(payload))
     );
   }
+
+
 }
