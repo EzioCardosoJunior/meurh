@@ -1,49 +1,77 @@
-<form >
-    <div class="grid">
-        <div class="col-12">
-            <div class="card">
-                <h5>Conta Bancária</h5>
+<div class="card">
+  <p-toast></p-toast>
 
-                <div class="p-fluid p-formgrid grid">
-                    <p-toast></p-toast>
+  <div class="px-4 mt-4">
+    <span class="text-900 block font-bold text-xl">Cadastro de Vaga</span>
+  </div>
 
-                    <div class="field col-12 md:col-6">
-                        <label for="nome">Nome do titular</label>
-                        <input pInputText id="nome" type="text" formControlName="titular_nome" />
-                    </div>
-
-                    <div class="field col-12 md:col-6">
-                        <label for="sobrenome">Sobrenome</label>
-                        <input pInputText id="sobrenome" type="text" formControlName="titular_sobrenome" />
-                    </div>
-
-                    <div class="field col-12 md:col-6">
-                        <label for="banco">Banco</label>
-                        <input pInputText id="banco" type="text" formControlName="banco" />
-                    </div>
-
-                    <div class="field col-12 md:col-3">
-                        <label for="agencia">Agência</label>
-                        <input pInputText id="agencia" type="text" formControlName="agencia" />
-                    </div>
-
-                    <div class="field col-12 md:col-3">
-                        <label for="conta">Conta</label>
-                        <input pInputText id="conta" type="text" formControlName="conta" />
-                    </div>
-
-                    <div class="col-12 mt-3">
-                        <button 
-                            pButton 
-                            type="submit" 
-                            label="Salvar"
-                            class="p-button-success w-full">
-                        </button>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
+  <form [formGroup]="vagaForm" class="grid p-4">
+    
+    <div class="col-12 lg:col-6 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Título da vaga</label>
+      <input pInputText placeholder="Ex: Vendedor, Analista, Gerente..."
+             formControlName="titulo"
+             class="w-full" />
     </div>
-</form>
+
+    <div class="col-12 lg:col-6 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Salário</label>
+      <input pInputText placeholder="Ex: 2500.00"
+             formControlName="salario"
+             class="w-full" />
+    </div>
+
+    <div class="col-12 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Descrição da vaga</label>
+      <textarea pInputTextarea rows="5"
+                placeholder="Descreva responsabilidades, requisitos, benefícios..."
+                formControlName="descricao"
+                class="w-full"></textarea>
+    </div>
+
+    <div class="col-12 lg:col-6 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Modelo de trabalho</label>
+      <p-dropdown 
+        [options]="modelosTrabalho"
+        placeholder="Selecione"
+        formControlName="modelo_trabalho"
+        styleClass="w-full">
+      </p-dropdown>
+    </div>
+
+    <div class="col-12 lg:col-6 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Tipo de contrato</label>
+      <p-dropdown 
+        [options]="tiposContrato"
+        placeholder="Selecione"
+        formControlName="tipo_contrato"
+        styleClass="w-full">
+      </p-dropdown>
+    </div>
+
+    <div class="col-12 lg:col-6 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Cidade</label>
+      <input pInputText placeholder="Cidade"
+             formControlName="cidade"
+             class="w-full" />
+    </div>
+
+    <div class="col-12 lg:col-6 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Estado (UF)</label>
+      <input pInputText maxlength="2"
+             placeholder="Ex: SP, RJ, MG"
+             formControlName="estado"
+             class="w-full uppercase" />
+    </div>
+
+    <div class="col-12 flex justify-content-end mt-4">
+      <button pButton type="button" 
+              label="Salvar vaga"
+              icon="pi pi-check"
+              class="p-button-primary"
+              (click)="salvarVaga()">
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -33,7 +33,8 @@ const routes: Routes = [
             { path: 'outroscursos', data: { breadcrumb: 'Outros Cursos' }, loadChildren: () => import('./demo/components/outroscursos/outroscursos.module').then((m) => m.OutrosCursosModule) },
             { path: 'contabancaria', data: { breadcrumb: 'Conta Bancária' }, loadChildren: () => import('./demo/components/contabancaria/contabancaria.module').then((m) => m.ContaBancariaModule) },
             { path: 'pix', data: { breadcrumb: 'Pix' }, loadChildren: () => import('./demo/components/pix/pix.module').then((m) => m.PixModule) },
-            { path: 'apps', data: { breadcrumb: 'Apps' }, loadChildren: () => import('./demo/components/apps/apps.module').then((m) => m.AppsModule) }
+            { path: 'apps', data: { breadcrumb: 'Apps' }, loadChildren: () => import('./demo/components/apps/apps.module').then((m) => m.AppsModule) },
+            { path: 'cadastrovagas', data: { breadcrumb: 'Cadastro de Vagas' }, loadChildren: () => import('./demo/components/cadastrovagas/cadastrovagas.module').then((m) => m.CadastroVagasModule) }
         ]
     },
     { path: 'auth', data: { breadcrumb: 'Auth' }, loadChildren: () => import('./demo/components/auth/auth.module').then((m) => m.AuthModule) },

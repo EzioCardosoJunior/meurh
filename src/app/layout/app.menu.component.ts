@@ -133,7 +133,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Cadastrar Vaga',
                         icon: 'pi pi-fw pi-folder',
-                        routerLink: ['/contabancaria']
+                        routerLink: ['/cadastrovagas']
                     },
                     {
                         label: 'Listar inscritos por vaga',
