@@ -13,9 +13,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarModule } from 'primeng/calendar';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, HttpClientModule, CardModule, ToastModule, RegisterRoutingModule, FormsModule, ButtonModule, RippleModule, InputTextModule, CheckboxModule, AppConfigModule, PasswordModule],
+    imports: [CommonModule, ReactiveFormsModule,  FullCalendarModule, CalendarModule, DropdownModule,
+        HttpClientModule, CardModule, ToastModule, RegisterRoutingModule, FormsModule, ButtonModule, RippleModule, InputTextModule, CheckboxModule, AppConfigModule, PasswordModule],
     declarations: [RegisterComponent]
 })
 export class RegisterModule {}

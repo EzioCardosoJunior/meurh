@@ -20,9 +20,7 @@ export class IdentidadeUsrService {
 
   /** POST — Atualizar dados do usuário */
   updateUsuario(payload: any): Observable<any> {
-    return this.http.post<any>(
-      `${this.baseUrl}/update_usuario.php`,
-      payload
-    );
+    console.log('Payload enviado para atualização:', payload);
+    return this.http.post<any>(`${this.baseUrl}/update_usuario.php`, payload);
   }
 }

@@ -1,6 +1,6 @@
 <div class="surface-0">
   <div class="flex align-items-center justify-content-between flex-column h-screen">
-    <div class="flex flex-column align-items-center justify-content-center w-full md:w-4 h-full text-center py-6 px-4">
+    <div class="flex flex-column align-items-center justify-content-center w-full md:w-8 h-full text-center py-6 px-4">
 
       <a [routerLink]="['/']" class="mb-6">
         <svg height="56" viewBox="0 0 17 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,82 +22,109 @@
         <span class="text-600 font-medium">Crie sua conta para continuar</span>
       </div>
 
-      <!-- FORMULÁRIO REATIVO -->
-      <form [formGroup]="form" (ngSubmit)="cadastrar()" class="flex flex-column w-full md:w-25rem text-left">
+      <form [formGroup]="form" (ngSubmit)="cadastrar()" class="flex flex-column w-full md:w-500rem text-left">
 
-        <!-- Nome -->
-        <span class="p-input-icon-left w-full mb-3">
-          <i class="pi pi-id-card"></i>
-          <input type="text" pInputText placeholder="Nome completo" formControlName="nome"
-            class="w-full surface-50 border-200" />
-        </span>
-        <small *ngIf="f['nome'].touched && f['nome'].invalid" class="p-error block mb-2">
-          Informe seu nome.
-        </small>
+        <div class="grid">
 
-        <!-- Nome de usuário -->
-        <span class="p-input-icon-left w-full mb-3">
-          <i class="pi pi-user"></i>
-          <input type="text" pInputText placeholder="Nome de usuário" formControlName="nome_usuario"
-            class="w-full surface-50 border-200" />
-        </span>
-        <small *ngIf="f['nome_usuario'].touched && f['nome_usuario'].invalid" class="p-error block mb-2">
-          Nome de usuário é obrigatório.
-        </small>
+          <!-- Nome -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-id-card"></i>
+              <input type="text" pInputText placeholder="Nome completo" formControlName="nome"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
 
-        <!-- Data de nascimento -->
-        <span class="p-input-icon-left w-full mb-3">
-          <i class="pi pi-calendar"></i>
-          <input type="date" pInputText placeholder="Data de nascimento" formControlName="data_nascimento"
-            class="w-full surface-50 border-200" />
-        </span>
-        <small *ngIf="f['data_nascimento'].touched && f['data_nascimento'].invalid" class="p-error block mb-2">
-          Informe sua data de nascimento.
-        </small>
+          <!-- Nome de usuário -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-user"></i>
+              <input type="text" pInputText placeholder="Nome de usuário" formControlName="nome_usuario"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
 
-        <span class="p-input-icon-left w-full mb-4">
-          <i class="pi pi-envelope"></i>
-          <input type="email" pInputText class="w-full surface-50 border-200" placeholder="Email" formControlName="email" />
-        </span>
-        <small *ngIf="f['email'].touched && f['email'].invalid" class="p-error block mb-2">
-          Informe seu e-mail.
-        </small>
+          <!-- Data de nascimento -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-calendar"></i>
+              <input type="date" pInputText placeholder="Data de nascimento" formControlName="data_nascimento"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
 
-        <!-- CPF -->
-        <span class="p-input-icon-left w-full mb-3">
-          <i class="pi pi-id-card"></i>
-          <input type="text" pInputText maxlength="11" placeholder="CPF (somente números)" formControlName="cpf"
-            class="w-full surface-50 border-200" />
-        </span>
-        <small *ngIf="f['cpf'].touched && f['cpf'].invalid" class="p-error block mb-2">
-          CPF inválido ou obrigatório.
-        </small>
+          <!-- Email -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-envelope"></i>
+              <input type="email" pInputText placeholder="Email" formControlName="email"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
 
-        <!-- CNPJ -->
-        <span class="p-input-icon-left w-full mb-3">
-          <i class="pi pi-briefcase"></i>
-          <input type="text" pInputText maxlength="14" placeholder="CNPJ (opcional)" formControlName="cnpj"
-            class="w-full surface-50 border-200" />
-        </span>
+          <!-- CPF -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-id-card"></i>
+              <input type="text" maxlength="11" pInputText placeholder="CPF (somente números)" formControlName="cpf"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
 
-        <!-- Senha -->
-        <span class="p-input-icon-left w-full mb-3">
-          <i class="pi pi-lock z-2"></i>
-          <p-password placeholder="Senha" formControlName="senha" [inputStyle]="{ paddingLeft: '2.5rem' }"
-            inputStyleClass="w-full surface-50 border-200" [toggleMask]="true" [feedback]="false"></p-password>
-        </span>
-        <small *ngIf="f['senha'].touched && f['senha'].invalid" class="p-error block mb-2">
-          A senha deve ter pelo menos 6 caracteres.
-        </small>
+          <!-- CNPJ -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-briefcase"></i>
+              <input type="text" maxlength="14" pInputText placeholder="CNPJ (opcional)" formControlName="cnpj"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
 
-        <!-- Checkbox de Termos -->
+          <!-- RG -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-id-card"></i>
+              <input type="text" pInputText placeholder="RG" formControlName="rg"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
+
+          <!-- Certificado de reservista -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-shield"></i>
+              <input type="text" pInputText placeholder="Certificado de reservista" formControlName="reservista"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
+
+          <!-- CNH -->
+          <div class="col-12 md:col-6 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-car"></i>
+              <input type="text" pInputText placeholder="CNH" formControlName="cnh"
+                class="w-full surface-50 border-200" />
+            </span>
+          </div>
+
+          <!-- Senha (fica sozinha em 1 coluna para caber bem) -->
+          <div class="col-12 mb-3">
+            <span class="p-input-icon-left w-full">
+              <i class="pi pi-lock z-2"></i>
+              <p-password placeholder="Senha" formControlName="senha" [inputStyle]="{ paddingLeft: '2.5rem' }"
+                inputStyleClass="w-full surface-50 border-200" [toggleMask]="true" [feedback]="false"></p-password>
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Termos -->
         <div class="mb-4 flex flex-wrap align-items-center">
           <p-checkbox formControlName="termos" [binary]="true" styleClass="mr-2"></p-checkbox>
           <label class="text-900 font-medium mr-2">Li e aceito os</label>
           <a class="text-600 cursor-pointer hover:text-primary">Termos e Condições</a>
         </div>
 
-        <!-- Botão -->
         <button pButton type="submit" label="Cadastrar" icon="pi pi-save" class="w-full mb-4"
           [disabled]="form.invalid"></button>
 
@@ -108,13 +135,12 @@
           </a>
         </span>
       </form>
+
     </div>
 
     <div class="flex flex-wrap align-items-center pb-8 px-4">
-      <h4 class="m-0 mr-5" style="line-height: 22px">tendapromos</h4>
-      <h6 class="m-0 font-medium text-300" style="line-height: 17px">
-        © 2025 Tendapromos. Todos os direitos reservados.
-      </h6>
+      <h4 class="m-0 mr-5">tendapromos</h4>
+      <h6 class="m-0 font-medium text-300">© 2025 Tendapromos. Todos os direitos reservados.</h6>
     </div>
   </div>
 </div>

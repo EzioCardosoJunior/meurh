@@ -1,0 +1,49 @@
+<form >
+    <div class="grid">
+        <div class="col-12">
+            <div class="card">
+                <h5>Conta Bancária</h5>
+
+                <div class="p-fluid p-formgrid grid">
+                    <p-toast></p-toast>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="nome">Nome do titular</label>
+                        <input pInputText id="nome" type="text" formControlName="titular_nome" />
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="sobrenome">Sobrenome</label>
+                        <input pInputText id="sobrenome" type="text" formControlName="titular_sobrenome" />
+                    </div>
+
+                    <div class="field col-12 md:col-6">
+                        <label for="banco">Banco</label>
+                        <input pInputText id="banco" type="text" formControlName="banco" />
+                    </div>
+
+                    <div class="field col-12 md:col-3">
+                        <label for="agencia">Agência</label>
+                        <input pInputText id="agencia" type="text" formControlName="agencia" />
+                    </div>
+
+                    <div class="field col-12 md:col-3">
+                        <label for="conta">Conta</label>
+                        <input pInputText id="conta" type="text" formControlName="conta" />
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button 
+                            pButton 
+                            type="submit" 
+                            label="Salvar"
+                            class="p-button-success w-full">
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

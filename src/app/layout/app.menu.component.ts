@@ -126,6 +126,22 @@ export class AppMenuComponent implements OnInit {
                     }
                 ]
             },
+             {
+                label: 'Cadastro de Vagas',
+                icon: 'pi pi-users',
+                items: [
+                    {
+                        label: 'Cadastrar Vaga',
+                        icon: 'pi pi-fw pi-folder',
+                        routerLink: ['/contabancaria']
+                    },
+                    {
+                        label: 'Listar inscritos por vaga',
+                        icon: 'pi pi-fw pi-folder-open',
+                        routerLink: ['/pix']
+                    }
+                ]
+            },
             {
                 label: 'Apps',
                 icon: 'pi pi-th-large',

@@ -1,30 +1,42 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface Usuario {
-  nome: string;
+  // Dados pessoais
+  nome?: string;
   nome_usuario: string;
-  data_nascimento: string;  // formato: YYYY-MM-DD
+  email: string;
+  data_nascimento?: string;
+
+  // Documentos
   cpf: string;
-  cnpj?: string | null;
+  rg?: string;
+  cnh?: string;
+  reservista?: string;
+
+  // Dados adicionais
+  cnpj?: string;
+  pontos_preenchimento?: number;
+
+  // Sistema
+  funcao?: string;
+  status?: string;
+
+  // Acesso
   senha: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class UsuarioService {
 
   private baseUrl = '/api'; 
 
   constructor(private http: HttpClient) {}
 
-  cadastrarUsuario(dados: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/cadastrousr.php`, dados);
+  cadastrarUsuario(usuario: Usuario): Observable<any> {
+    return this.http.post(`${this.baseUrl}/cadastrousr.php`, usuario);
   }
 }
-
-

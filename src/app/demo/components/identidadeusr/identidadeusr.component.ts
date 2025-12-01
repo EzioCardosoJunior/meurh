@@ -44,6 +44,7 @@ export class IdentidadeUsrComponent implements OnInit {
     this.identidadeService.getUsuario(this.id_usuario).subscribe({
       next: (res) => {
         if (res?.sucesso && res?.dados) {
+            console.log('Dados do usuário carregados:', res.dados);
           // Preenche os campos retornados (sem sobrescrever campos que não existam)
           this.identidadeForm.patchValue({
             email: res.dados.email ?? '',

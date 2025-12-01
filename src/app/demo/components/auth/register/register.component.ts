@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -21,13 +22,30 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      nome: ['', Validators.required],
+
+      // 🟩 Dados pessoais
+      nome: [''],
       nome_usuario: ['', [Validators.required, Validators.minLength(3)]],
-      data_nascimento: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      data_nascimento: [''],
+
+      // 🟩 Documentos
       cpf: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
+      rg: [''],
+      cnh: [''],
+      reservista: [''],
+
+      // 🟩 Dados adicionais
       cnpj: ['', [Validators.pattern(/^\d{14}$/)]],
+
+      // 🟩 Configurações do usuário
+      funcao: ['funcionario'],   // default igual ao banco
+      status: ['ativo'],         // default igual ao banco
+
+      // 🟩 Senha
       senha: ['', [Validators.required, Validators.minLength(6)]],
+
+      // 🟩 Termos
       termos: [false, Validators.requiredTrue]
     });
   }
@@ -47,10 +65,22 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const novoUsuario = this.form.value;
+    const formValue = { ...this.form.value };
 
-    this.usuarioService.cadastrarUsuario(novoUsuario).subscribe({
-      next: (res) => {
+    // Remove campos opcionais vazios
+    const opcionais = [
+      'nome', 'data_nascimento', 'cnpj',
+      'rg', 'cnh', 'reservista'
+    ];
+
+    opcionais.forEach(c => {
+      if (!formValue[c]) delete formValue[c];
+    });
+
+    delete formValue.termos; // não vai para o backend
+
+    this.usuarioService.cadastrarUsuario(formValue).subscribe({
+      next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
@@ -63,7 +93,7 @@ export class RegisterComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: 'Falha ao cadastrar o usuário. Tente novamente.'
+          detail: err?.error?.erro ?? 'Falha ao cadastrar o usuário.'
         });
       }
     });
@@ -73,6 +103,3 @@ export class RegisterComponent implements OnInit {
     return this.layoutService.config.colorScheme !== 'light';
   }
 }
-
-
-
