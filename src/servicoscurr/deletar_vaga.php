@@ -22,22 +22,31 @@ try {
 // Receber JSON
 $dados = json_decode(file_get_contents("php://input"), true);
 
-if (!$dados || empty($dados['id_vaga'])) {
+if (!$dados || empty($dados['id_vaga']) || empty($dados['id_empresa'])) {
     http_response_code(400);
-    echo json_encode(['erro' => 'ID da vaga não informado.']);
+    echo json_encode(['erro' => 'ID da vaga ou ID da empresa não informado.']);
     exit;
 }
 
 $id_vaga = intval($dados['id_vaga']);
+$id_empresa = intval($dados['id_empresa']);
 
-// Verificar se a vaga existe
+// Verificar se a vaga existe e pertence à empresa
 try {
-    $stmt = $pdo->prepare("SELECT id FROM vagas WHERE id = :id LIMIT 1");
-    $stmt->execute([':id' => $id_vaga]);
+    $stmt = $pdo->prepare("
+        SELECT id 
+        FROM vagas 
+        WHERE id = :id_vaga AND id_empresa = :id_empresa 
+        LIMIT 1
+    ");
+    $stmt->execute([
+        ':id_vaga' => $id_vaga,
+        ':id_empresa' => $id_empresa
+    ]);
 
     if ($stmt->rowCount() === 0) {
         http_response_code(404);
-        echo json_encode(['erro' => 'Vaga não encontrada.']);
+        echo json_encode(['erro' => 'Vaga não encontrada ou não pertence à empresa.']);
         exit;
     }
 } catch (PDOException $e) {
@@ -47,8 +56,15 @@ try {
 
 // Deletar vaga
 try {
-    $stmt = $pdo->prepare("DELETE FROM vagas WHERE id = :id LIMIT 1");
-    $ok = $stmt->execute([':id' => $id_vaga]);
+    $stmt = $pdo->prepare("
+        DELETE FROM vagas 
+        WHERE id = :id_vaga AND id_empresa = :id_empresa 
+        LIMIT 1
+    ");
+    $ok = $stmt->execute([
+        ':id_vaga' => $id_vaga,
+        ':id_empresa' => $id_empresa
+    ]);
 
     if ($ok) {
         echo json_encode([

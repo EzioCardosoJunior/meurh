@@ -3,10 +3,10 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { CadastroVagasService } from '../../service/cadastrovagas.service';
 
 @Component({
-  templateUrl: './listarvagas.component.html',
+  templateUrl: './listarvagascandidatos.component.html',
   providers: [MessageService, ConfirmationService]
 })
-export class ListarVagasComponent implements OnInit {
+export class ListarVagasCandidatosComponent implements OnInit {
 
   id_empresa = Number(localStorage.getItem('usuario_id'));
   vagas: any[] = [];
@@ -53,7 +53,7 @@ export class ListarVagasComponent implements OnInit {
   }
 
   deletarVaga(id: number) {
-    this.vagasService.deletarVaga(id, this.id_empresa).subscribe({
+    this.vagasService.deletarVagaCandidato(id).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',

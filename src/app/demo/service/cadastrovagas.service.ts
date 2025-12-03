@@ -21,8 +21,12 @@ export class CadastroVagasService {
     return this.http.get<any>(`${this.baseUrl}/listar_vagas_empresa.php?id_empresa=${id_empresa}`);
   }
 
-  deletarVaga(id_vaga: number) {
+  deletarVagaCandidato(id_vaga: number) {
     return this.http.post(`${this.baseUrl}/deletar_vaga.php`, { id_vaga });
+  }
+
+  deletarVaga(id_vaga: number, id_empresa: number) {
+    return this.http.post('/api/deletar_vaga.php', { id_vaga, id_empresa });
   }
 
 }
