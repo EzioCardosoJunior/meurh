@@ -67,6 +67,7 @@ export class CadastroVagasComponent implements OnInit {
 
     this.cadastroVagas.criarVaga(payload).subscribe({
       next: (res) => {
+        console.log('Vaga cadastrada:', res);
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',

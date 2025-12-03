@@ -138,7 +138,12 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Listar inscritos por vaga',
                         icon: 'pi pi-fw pi-folder-open',
-                        routerLink: ['/pix']
+                        routerLink: ['/inscritosvagas']
+                    },
+                    {
+                        label: 'Listar vagas',
+                        icon: 'pi pi-fw pi-book',
+                        routerLink: ['/listarvagas']
                     }
                 ]
             },

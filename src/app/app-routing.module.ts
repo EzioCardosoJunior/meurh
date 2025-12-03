@@ -34,7 +34,9 @@ const routes: Routes = [
             { path: 'contabancaria', data: { breadcrumb: 'Conta Bancária' }, loadChildren: () => import('./demo/components/contabancaria/contabancaria.module').then((m) => m.ContaBancariaModule) },
             { path: 'pix', data: { breadcrumb: 'Pix' }, loadChildren: () => import('./demo/components/pix/pix.module').then((m) => m.PixModule) },
             { path: 'apps', data: { breadcrumb: 'Apps' }, loadChildren: () => import('./demo/components/apps/apps.module').then((m) => m.AppsModule) },
-            { path: 'cadastrovagas', data: { breadcrumb: 'Cadastro de Vagas' }, loadChildren: () => import('./demo/components/cadastrovagas/cadastrovagas.module').then((m) => m.CadastroVagasModule) }
+            { path: 'cadastrovagas', data: { breadcrumb: 'Cadastro de Vagas' }, loadChildren: () => import('./demo/components/cadastrovagas/cadastrovagas.module').then((m) => m.CadastroVagasModule) },
+            { path: 'inscritosvagas', data: { breadcrumb: 'Listar inscritos por Vagas' }, loadChildren: () => import('./demo/components/cadastrovagas/cadastrovagas.module').then((m) => m.CadastroVagasModule) },
+            { path: 'listarvagas', data: { breadcrumb: 'Listar Vagas' }, loadChildren: () => import('./demo/components/listarvagas/listarvagas.module').then((m) => m.ListarVagasModule) }
         ]
     },
     { path: 'auth', data: { breadcrumb: 'Auth' }, loadChildren: () => import('./demo/components/auth/auth.module').then((m) => m.AuthModule) },
