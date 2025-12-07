@@ -63,20 +63,16 @@ if (!is_dir($dir)) {
     mkdir($dir, 0777, true);
 }
 
-// Remover foto antiga (se existir)
-$stmt = $pdo->prepare("SELECT foto FROM usuario_fotos WHERE id_usuario = :id LIMIT 1");
-$stmt->execute([':id' => $id_usuario]);
+// Nome fixo do arquivo
+$nomeArquivo = "foto_{$id_usuario}_fotoperfil.$ext";
+$caminhoFinal = $dir . $nomeArquivo;
 
-if ($stmt->rowCount() > 0) {
-    $foto_antiga = $stmt->fetchColumn();
-    if ($foto_antiga && file_exists($foto_antiga)) {
-        unlink($foto_antiga);
+// Remover qualquer foto antiga do usuário (qualquer extensão)
+foreach (glob($dir . "foto_{$id_usuario}_fotoperfil.*") as $arquivoAntigo) {
+    if (file_exists($arquivoAntigo)) {
+        unlink($arquivoAntigo);
     }
 }
-
-// Nome do arquivo
-$nomeArquivo = "foto_" . time() . ".$ext";
-$caminhoFinal = $dir . $nomeArquivo;
 
 // Salvar arquivo
 if (!move_uploaded_file($foto['tmp_name'], $caminhoFinal)) {

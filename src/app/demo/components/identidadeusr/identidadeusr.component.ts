@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { IdentidadeUsrService } from '../../service/identidade-usr.service';
+import { PhotoService } from '../../service/photo.service';
 
 @Component({
   templateUrl: './identidadeusr.component.html',
@@ -12,15 +13,22 @@ export class IdentidadeUsrComponent implements OnInit {
   identidadeForm!: FormGroup;
   id_usuario = Number(localStorage.getItem('usuario_id'));
 
+  fotoUrl: string = 'assets/demo/images/avatar/profile.jpg';
+
+
+  @ViewChild('inputFoto') inputFoto!: ElementRef;
+
   constructor(
     private fb: FormBuilder,
     private identidadeService: IdentidadeUsrService,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private photoService: PhotoService
+  ) { }
 
   ngOnInit(): void {
     this.criarFormulario();
     this.carregarDados();
+    this.carregarFoto();
   }
 
   criarFormulario() {
@@ -44,54 +52,78 @@ export class IdentidadeUsrComponent implements OnInit {
     this.identidadeService.getUsuario(this.id_usuario).subscribe({
       next: (res) => {
         if (res?.sucesso && res?.dados) {
-            console.log('Dados do usuário carregados:', res.dados);
-          // Preenche os campos retornados (sem sobrescrever campos que não existam)
-          this.identidadeForm.patchValue({
-            email: res.dados.email ?? '',
-            receber_vagas: res.dados.receber_vagas ?? false, // se não existir, fica false
-            nome_usuario: res.dados.nome_usuario ?? '',
-
-            cpf: res.dados.cpf ?? '',
-            rg: res.dados.rg ?? '',
-            reservista: res.dados.reservista ?? '',
-            cnh: res.dados.cnh ?? ''
-          });
-
-          // NOTA: não preenche senha por segurança
+          this.identidadeForm.patchValue(res.dados);
         }
-      },
-      error: () => {
-        // opcional: mostrar mensagem ou silencioso
       }
     });
   }
 
+  carregarFoto() {
+    this.photoService.getFotoUsuario(this.id_usuario).subscribe({
+      next: (res) => {
+        console.log('Resposta da foto:', res);
+        if (res?.foto_url) {
+          // força atualização ignorando cache
+          this.fotoUrl = res.foto_url + '?t=' + new Date().getTime();
+          console.log('Foto carregada:', this.fotoUrl);
+        }
+      }
+    });
+  }
+
+
+  selecionarArquivo() {
+    this.inputFoto.nativeElement.click();
+  }
+
+  uploadFoto(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.photoService.uploadFotoUsuario(this.id_usuario, file).subscribe({
+      next: (res) => {
+        // cache-buster para atualizar a imagem
+        this.fotoUrl = res.foto_url + '?t=' + new Date().getTime();
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Foto atualizada!'
+        });
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Falha ao fazer upload da foto.'
+        });
+      }
+    });
+  }
+
+
   salvar() {
-    // validação simples: se nova_senha preenchida, repetir_senha deve bater
     const novaSenha = this.identidadeForm.get('nova_senha')?.value;
     const repetirSenha = this.identidadeForm.get('repetir_senha')?.value;
+
     if (novaSenha && novaSenha !== repetirSenha) {
       this.messageService.add({
         severity: 'warn',
         summary: 'Atenção',
-        detail: 'A nova senha e a repetição não conferem.'
+        detail: 'As senhas não conferem.'
       });
       return;
     }
 
     const payload = {
       id_usuario: this.id_usuario,
-      // apenas enviar campos que importam para update; nome_usuario e email também podem ser atualizados
       email: this.identidadeForm.get('email')?.value,
       nome_usuario: this.identidadeForm.get('nome_usuario')?.value,
-      // enviar senha somente se preenchida
       ...(novaSenha ? { senha: novaSenha } : {}),
-
       cpf: this.identidadeForm.get('cpf')?.value,
       rg: this.identidadeForm.get('rg')?.value,
       reservista: this.identidadeForm.get('reservista')?.value,
       cnh: this.identidadeForm.get('cnh')?.value,
-      // se quiser persistir preferência de receber vagas, certifique-se que o backend suporte esse campo
       receber_vagas: this.identidadeForm.get('receber_vagas')?.value
     };
 
@@ -100,40 +132,24 @@ export class IdentidadeUsrComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: 'Informações atualizadas com sucesso!'
-        });
-
-        // recarrega dados do backend (possível que o backend retorne dados atualizados)
-        this.carregarDados();
-        // limpa campos de senha do formulário por segurança
-        this.identidadeForm.patchValue({ nova_senha: '', repetir_senha: '' });
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Falha ao atualizar os dados.'
+          detail: 'Informações atualizadas!'
         });
       }
     });
   }
 
   limpar() {
-    // Reseta o formulário para os valores iniciais (mantendo o email/nome/receber_vagas caso queira)
     this.identidadeForm.reset({
       email: '',
       receber_vagas: false,
       nova_senha: '',
       repetir_senha: '',
       nome_usuario: '',
-
       cpf: '',
       rg: '',
       reservista: '',
       cnh: ''
     });
-
-    // Opcional: recarregar dados do servidor imediatamente se quiser restaurar os valores salvos
-    // this.carregarDados();
   }
+
 }
