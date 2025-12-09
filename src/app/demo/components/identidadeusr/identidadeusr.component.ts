@@ -13,8 +13,8 @@ export class IdentidadeUsrComponent implements OnInit {
   identidadeForm!: FormGroup;
   id_usuario = Number(localStorage.getItem('usuario_id'));
 
+  // FOTO PADRÃO
   fotoUrl: string = 'assets/demo/images/avatar/profile.jpg';
-
 
   @ViewChild('inputFoto') inputFoto!: ElementRef;
 
@@ -23,7 +23,7 @@ export class IdentidadeUsrComponent implements OnInit {
     private identidadeService: IdentidadeUsrService,
     private messageService: MessageService,
     private photoService: PhotoService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.criarFormulario();
@@ -61,16 +61,23 @@ export class IdentidadeUsrComponent implements OnInit {
   carregarFoto() {
     this.photoService.getFotoUsuario(this.id_usuario).subscribe({
       next: (res) => {
+
         console.log('Resposta da foto:', res);
+
         if (res?.foto_url) {
-          // força atualização ignorando cache
-          this.fotoUrl = res.foto_url + '?t=' + new Date().getTime();
+          
+          // URL COMPLETA ABSOLUTA + cache-buster
+          this.fotoUrl =
+            'https://tendapromos.com.br/servicoscurr/' +
+            res.foto_url +
+            '?t=' +
+            new Date().getTime();
+
           console.log('Foto carregada:', this.fotoUrl);
         }
       }
     });
   }
-
 
   selecionarArquivo() {
     this.inputFoto.nativeElement.click();
@@ -82,8 +89,13 @@ export class IdentidadeUsrComponent implements OnInit {
 
     this.photoService.uploadFotoUsuario(this.id_usuario, file).subscribe({
       next: (res) => {
-        // cache-buster para atualizar a imagem
-        this.fotoUrl = res.foto_url + '?t=' + new Date().getTime();
+
+        // URL COMPLETA ABSOLUTA + cache-buster
+        this.fotoUrl =
+          'https://tendapromos.com.br/servicoscurr/' +
+          res.foto_url +
+          '?t=' +
+          new Date().getTime();
 
         this.messageService.add({
           severity: 'success',
@@ -100,7 +112,6 @@ export class IdentidadeUsrComponent implements OnInit {
       }
     });
   }
-
 
   salvar() {
     const novaSenha = this.identidadeForm.get('nova_senha')?.value;

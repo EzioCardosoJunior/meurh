@@ -85,14 +85,15 @@
                 <!-- FOTO DO USUÁRIO -->
                 <div class="flex flex-column align-items-center mb-3">
 
-                    <!-- Prévia da Foto -->
-                    <img [src]="'https://tendapromos.com.br/servicoscurr/uploads/usuarios/{{fotoUrl}}/foto_12_fotoperfil.jpg'" (click)="selecionarArquivo()" />
+                    <!-- Foto do usuário -->
+                    <img [src]="fotoUrl" class="w-8rem h-8rem flex-shrink-0 mb-3 border-round cursor-pointer shadow-2"
+                        alt="Foto do usuário" (click)="selecionarArquivo()" />
 
-
+                    <!-- Input oculto -->
                     <input type="file" #inputFoto accept="image/*" style="display:none" (change)="uploadFoto($event)" />
 
-
                 </div>
+
 
                 <div class="flex-auto lg:ml-3">
                     <div class="flex align-items-center justify-content-between mb-3">

@@ -56,7 +56,7 @@ export class KanbanService {
 
     addCard(listId: string) {
         const cardId = this.generateId();
-        const title = 'Untitled card';
+        const title = 'Digite o título';
         const newCard = { id: cardId, title: title, description: '', progress: '', assignees: [], attachments: 0, comments: [], startDate: '', dueDate: '', completed: false, taskList: { title: 'Untitled Task List', tasks: [] } };
 
         let lists = [];
