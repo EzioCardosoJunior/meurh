@@ -29,4 +29,10 @@ export class CadastroVagasService {
     return this.http.post('/api/deletar_vaga.php', { id_vaga, id_empresa });
   }
 
+  listarTodasVagas() {
+    return this.http.get<any>(
+      `${this.baseUrl}/listar_todas_vagas.php`
+    );
+  }
+
 }
