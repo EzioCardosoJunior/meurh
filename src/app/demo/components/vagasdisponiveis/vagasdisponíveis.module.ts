@@ -5,7 +5,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
 import { VagasDisponiveisComponent } from './vagasdisponiveis.component';
-import { VagasDisponiveisRoutingModule } from './vagasdisponíveis-routing.module';
+import { VagasDisponiveisRoutingModule } from './vagasdisponiveis-routing.module';
 
 @NgModule({
     imports: [CommonModule, FormsModule, AvatarModule, VagasDisponiveisRoutingModule, DataViewModule, DropdownModule],
