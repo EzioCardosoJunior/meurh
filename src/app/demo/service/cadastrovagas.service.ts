@@ -35,4 +35,35 @@ export class CadastroVagasService {
     );
   }
 
+  /**
+ * Lista todas as vagas marcando se o usuário já se candidatou
+ * (uso exclusivo do módulo "Vagas Disponíveis")
+ */
+  listarTodasVagasParaCandidato(id_usuario: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}/listar_todas_vagas.php?id_usuario=${id_usuario}`
+    );
+  }
+
+  /**
+   * Candidatar usuário a uma vaga
+   */
+  candidatarVaga(id_usuario: number, id_vaga: number) {
+    return this.http.post<any>(
+      `${this.baseUrl}/candidatar_vaga.php`,
+      { id_usuario, id_vaga }
+    );
+  }
+
+  /**
+   * Cancelar candidatura do usuário
+   */
+  cancelarCandidatura(id_usuario: number, id_vaga: number) {
+    return this.http.post<any>(
+      `${this.baseUrl}/cancelar_candidatura.php`,
+      { id_usuario, id_vaga }
+    );
+  }
+
+
 }

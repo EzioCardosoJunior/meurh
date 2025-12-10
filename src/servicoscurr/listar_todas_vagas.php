@@ -23,8 +23,13 @@ try {
     exit;
 }
 
+// id_usuario é OPCIONAL
+$id_usuario = isset($_GET['id_usuario']) ? intval($_GET['id_usuario']) : null;
+
 try {
-    $stmt = $pdo->prepare("
+
+    // Monta SQL dinamicamente apenas para o JOIN de candidaturas
+    $sql = "
         SELECT 
             v.id,
             v.titulo,
@@ -35,24 +40,51 @@ try {
             v.cidade,
             v.estado,
             DATE_FORMAT(v.data_criacao, '%d/%m/%Y %H:%i') AS data_criacao,
-            
+
             -- dados da empresa
             u.id AS id_empresa,
-            u.nome AS nome_empresa
+            u.nome AS nome_empresa,
+
+            -- status de candidatura
+            CASE 
+                WHEN c.id IS NULL THEN 0
+                ELSE 1
+            END AS ja_candidatado
 
         FROM vagas v
-        INNER JOIN usuarios u ON u.id = v.id_empresa
-        WHERE u.funcao = 'empresa'
-        ORDER BY v.data_criacao DESC
-    ");
+        INNER JOIN usuarios u 
+            ON u.id = v.id_empresa
+           AND u.funcao = 'empresa'
+    ";
+
+    if ($id_usuario) {
+        $sql .= "
+            LEFT JOIN candidaturas c
+                ON c.id_vaga = v.id
+               AND c.id_usuario = :id_usuario
+        ";
+    } else {
+        $sql .= "
+            LEFT JOIN candidaturas c
+                ON 1 = 0
+        ";
+    }
+
+    $sql .= " ORDER BY v.data_criacao DESC ";
+
+    $stmt = $pdo->prepare($sql);
+
+    if ($id_usuario) {
+        $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
+    }
 
     $stmt->execute();
     $vagas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode([
         'sucesso' => true,
-        'total' => count($vagas),
-        'dados' => $vagas
+        'total'   => count($vagas),
+        'dados'   => $vagas
     ]);
 
 } catch (PDOException $e) {

@@ -3,41 +3,115 @@ import { CadastroVagasService } from '../../service/cadastrovagas.service';
 import { MessageService } from 'primeng/api';
 
 @Component({
-    templateUrl: './vagasdisponiveis.component.html',
-    providers: [MessageService]
+  templateUrl: './vagasdisponiveis.component.html',
+  providers: [MessageService]
 })
 export class VagasDisponiveisComponent implements OnInit {
 
-    vagas: any[] = [];
-    carregando = false;
+  vagas: any[] = [];
+  carregando = false;
 
-    constructor(
-        private vagasService: CadastroVagasService,
-        private messageService: MessageService
-    ) {}
+  id_usuario = Number(localStorage.getItem('usuario_id'));
 
-    ngOnInit(): void {
-        this.listarVagas();
-    }
+  constructor(
+    private vagasService: CadastroVagasService,
+    private messageService: MessageService
+  ) {}
 
-    listarVagas() {
-        this.carregando = true;
+  ngOnInit(): void {
+    this.carregarVagas();
+  }
 
-        this.vagasService.listarTodasVagas().subscribe({
-            next: (res) => {
-                if (res?.sucesso) {
-                    this.vagas = res.dados || [];
-                }
-                this.carregando = false;
-            },
-            error: () => {
-                this.carregando = false;
-                this.messageService.add({
-                    severity: 'error',
-                    summary: 'Erro',
-                    detail: 'Falha ao carregar vagas.'
-                });
-            }
+  /* =========================
+     CARREGAR VAGAS
+  ========================= */
+  carregarVagas() {
+    this.carregando = true;
+
+    // ✅ Se estiver logado, usa versão com candidatura
+    if (this.id_usuario) {
+      this.vagasService
+        .listarTodasVagasParaCandidato(this.id_usuario)
+        .subscribe({
+          next: (res) => {
+            console.log('Vagas carregadas para usuário', this.id_usuario, res);
+            this.vagas = res?.dados || [];
+            this.carregando = false;
+          },
+          error: () => {
+            this.erroCarregar();
+          }
+        });
+
+    // ✅ Se não estiver logado, lista vagas públicas
+    } else {
+      this.vagasService
+        .listarTodasVagas()
+        .subscribe({
+          next: (res) => {
+            this.vagas = res?.dados || [];
+            this.carregando = false;
+          },
+          error: () => {
+            this.erroCarregar();
+          }
         });
     }
+  }
+
+  private erroCarregar() {
+    this.carregando = false;
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: 'Falha ao carregar vagas.'
+    });
+  }
+
+  /* =========================
+     CANDIDATAR
+  ========================= */
+  candidatar(id_vaga: number) {   
+    if (!this.id_usuario) {
+        
+             alert('Candidatar a vaga ' + id_vaga);
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Você precisa estar logado para se candidatar.'
+      });
+      return;
+    }
+
+    this.vagasService
+      .candidatarVaga(this.id_usuario, id_vaga)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Candidatura realizada!'
+          });
+          this.carregarVagas();
+        }
+      });
+  }
+
+  /* =========================
+     CANCELAR CANDIDATURA
+  ========================= */
+  cancelar(id_vaga: number) {
+    this.vagasService
+      .cancelarCandidatura(this.id_usuario, id_vaga)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Cancelado',
+            detail: 'Candidatura cancelada.'
+          });
+          this.carregarVagas();
+        }
+      });
+  }
 }

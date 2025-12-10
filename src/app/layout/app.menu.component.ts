@@ -153,7 +153,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Vagas disponíveis',
                         icon: 'pi pi-fw pi-book',
-                        routerLink: ['/vagasdisponíveis']
+                        routerLink: ['/vagasdisponiveis']
                     }
                 ]
             },
