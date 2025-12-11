@@ -3,10 +3,10 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { CadastroVagasService } from '../../service/cadastrovagas.service';
 
 @Component({
-  templateUrl: './listarvagascandidatos.component.html',
+  templateUrl: './candidatosporvaga.component.html',
   providers: [MessageService, ConfirmationService]
 })
-export class ListarVagasCandidatosComponent implements OnInit {
+export class CandidatosPorVagaComponent implements OnInit {
 
   id_usuario = Number(localStorage.getItem('usuario_id'));
   vagas: any[] = [];

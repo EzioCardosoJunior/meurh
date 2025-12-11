@@ -64,5 +64,20 @@ export class CadastroVagasService {
     );
   }
 
+  listarVagasCandidatadas(id_usuario: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}/listar_vagas_candidatadas.php?id_usuario=${id_usuario}`
+    );
+  }
+
+  listarCandidatosDaVaga(id_empresa: number, id_vaga: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}/listar_candidatos_vaga.php?id_empresa=${id_empresa}&id_vaga=${id_vaga}`
+    );
+  }
+
+
+
+
 
 }

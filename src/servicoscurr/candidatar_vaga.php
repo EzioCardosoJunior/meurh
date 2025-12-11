@@ -60,7 +60,7 @@ if ($stmt->rowCount() === 0) {
 // Inserir candidatura
 try {
     $sql = "
-        INSERT INTO candidaturas (id_usuario, id_vaga, data_candidatura)
+        INSERT INTO candidaturas_vagas (id_usuario, id_vaga, data_candidatura)
         VALUES (:id_usuario, :id_vaga, NOW())
     ";
 

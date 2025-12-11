@@ -38,7 +38,8 @@ const routes: Routes = [
             { path: 'inscritosvagas', data: { breadcrumb: 'Listar inscritos por Vagas' }, loadChildren: () => import('./demo/components/cadastrovagas/cadastrovagas.module').then((m) => m.CadastroVagasModule) },
             { path: 'listarvagas', data: { breadcrumb: 'Listar Vagas' }, loadChildren: () => import('./demo/components/listarvagas/listarvagas.module').then((m) => m.ListarVagasModule) },
             { path: 'vagasdisponiveis', data: { breadcrumb: 'Vagas Disponíveis' }, loadChildren: () => import('./demo/components/vagasdisponiveis/vagasdisponiveis.module').then((m) => m.VagasDisponiveisModule) },
-            { path: 'listarvagascandidatos', data: { breadcrumb: 'Listar Minhas Vagas' }, loadChildren: () => import('./demo/components/listarvagascandidatos/listarvagascandidatos.module').then((m) => m.ListarVagasCandidatosModule) }
+            { path: 'listarvagascandidatos', data: { breadcrumb: 'Listar Minhas Vagas' }, loadChildren: () => import('./demo/components/listarvagascandidatos/listarvagascandidatos.module').then((m) => m.ListarVagasCandidatosModule) },
+            { path: 'candidatosporvaga', data: { breadcrumb: 'Candidatos Por Vaga' }, loadChildren: () => import('./demo/components/candidatosporvaga/candidatosporvaga.module').then((m) => m.CandidatosPorVagaModule) }
         ]
     },
     { path: 'auth', data: { breadcrumb: 'Auth' }, loadChildren: () => import('./demo/components/auth/auth.module').then((m) => m.AuthModule) },

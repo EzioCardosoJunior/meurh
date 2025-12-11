@@ -41,7 +41,7 @@ $id_vaga    = intval($dados['id_vaga']);
 
 try {
     $stmt = $pdo->prepare("
-        DELETE FROM candidaturas
+        DELETE FROM candidaturas_vagas
         WHERE id_usuario = :id_usuario
           AND id_vaga = :id_vaga
         LIMIT 1

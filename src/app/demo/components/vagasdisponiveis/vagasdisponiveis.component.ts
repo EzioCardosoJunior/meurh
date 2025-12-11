@@ -28,8 +28,20 @@ export class VagasDisponiveisComponent implements OnInit {
     carregarVagas() {
         this.carregando = true;
 
-        // ✅ Se estiver logado, usa versão com candidatura
         if (this.id_usuario) {
+            // USUÁRIO LOGADO → consulta com candidatura
+            this.vagasService
+                .listarTodasVagasParaCandidato(this.id_usuario)
+                .subscribe({
+                    next: (res) => {
+                        this.vagas = res?.dados || [];
+                        this.carregando = false;
+                    },
+                    error: () => this.erroCarregar()
+                });
+
+        } else {
+            // VISITANTE → lista vagas normais
             this.vagasService
                 .listarTodasVagas()
                 .subscribe({
@@ -37,12 +49,11 @@ export class VagasDisponiveisComponent implements OnInit {
                         this.vagas = res?.dados || [];
                         this.carregando = false;
                     },
-                    error: () => {
-                        this.erroCarregar();
-                    }
+                    error: () => this.erroCarregar()
                 });
         }
     }
+
 
     private erroCarregar() {
         this.carregando = false;
