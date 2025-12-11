@@ -59,13 +59,13 @@ try {
 
     if ($id_usuario) {
         $sql .= "
-            LEFT JOIN candidaturas c
+            LEFT JOIN candidaturas_vagas c
                 ON c.id_vaga = v.id
                AND c.id_usuario = :id_usuario
         ";
     } else {
         $sql .= "
-            LEFT JOIN candidaturas c
+            LEFT JOIN candidaturas_vagas c
                 ON 1 = 0
         ";
     }

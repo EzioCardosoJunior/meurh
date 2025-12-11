@@ -30,25 +30,11 @@ export class VagasDisponiveisComponent implements OnInit {
 
     // ✅ Se estiver logado, usa versão com candidatura
     if (this.id_usuario) {
-      this.vagasService
-        .listarTodasVagasParaCandidato(this.id_usuario)
-        .subscribe({
-          next: (res) => {
-            console.log('Vagas carregadas para usuário', this.id_usuario, res);
-            this.vagas = res?.dados || [];
-            this.carregando = false;
-          },
-          error: () => {
-            this.erroCarregar();
-          }
-        });
-
-    // ✅ Se não estiver logado, lista vagas públicas
-    } else {
-      this.vagasService
+            this.vagasService
         .listarTodasVagas()
         .subscribe({
           next: (res) => {
+            console.log(res);
             this.vagas = res?.dados || [];
             this.carregando = false;
           },
@@ -73,8 +59,6 @@ export class VagasDisponiveisComponent implements OnInit {
   ========================= */
   candidatar(id_vaga: number) {   
     if (!this.id_usuario) {
-        
-             alert('Candidatar a vaga ' + id_vaga);
       this.messageService.add({
         severity: 'warn',
         summary: 'Atenção',

@@ -6,9 +6,11 @@ import { DataViewModule } from 'primeng/dataview';
 import { DropdownModule } from 'primeng/dropdown';
 import { VagasDisponiveisComponent } from './vagasdisponiveis.component';
 import { VagasDisponiveisRoutingModule } from './vagasdisponiveis-routing.module';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, AvatarModule, VagasDisponiveisRoutingModule, DataViewModule, DropdownModule],
+    imports: [CommonModule, FormsModule, 
+            ButtonModule, AvatarModule, VagasDisponiveisRoutingModule, DataViewModule, DropdownModule],
     declarations: [VagasDisponiveisComponent]
 })
 export class VagasDisponiveisModule {}
