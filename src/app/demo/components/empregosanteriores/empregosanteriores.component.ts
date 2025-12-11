@@ -40,7 +40,6 @@ export class EmpregosAnterioresComponent implements OnInit {
 
         this.empregosService.getEmpregos(id_usuario).subscribe({
             next: (res) => {
-                console.log('Empregos anteriores carregados:', res);
                 this.empregos = res?.dados || [];
             },
             error: () => {

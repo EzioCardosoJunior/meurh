@@ -21,7 +21,6 @@ export class PhotoService {
     }
 
     getFotoUsuario(id_usuario: number): Observable<any> {
-        console.log('Buscando foto para o usuário ID:', id_usuario);
         return this.http.get<any>(
             `${this.baseUrl}/get_foto_usuario.php?id_usuario=${id_usuario}`
         );

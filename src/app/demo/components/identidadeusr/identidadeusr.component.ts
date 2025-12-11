@@ -62,8 +62,6 @@ export class IdentidadeUsrComponent implements OnInit {
     this.photoService.getFotoUsuario(this.id_usuario).subscribe({
       next: (res) => {
 
-        console.log('Resposta da foto:', res);
-
         if (res?.foto_url) {
           
           // URL COMPLETA ABSOLUTA + cache-buster
@@ -72,8 +70,6 @@ export class IdentidadeUsrComponent implements OnInit {
             res.foto_url +
             '?t=' +
             new Date().getTime();
-
-          console.log('Foto carregada:', this.fotoUrl);
         }
       }
     });

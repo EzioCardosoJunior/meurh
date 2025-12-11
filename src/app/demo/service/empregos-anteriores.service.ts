@@ -29,15 +29,12 @@ export class EmpregosAnterioresService {
     }
 
     getEmpregos(id_usuario: number): Observable<any> {
-        console.log('Fetching empregos anteriores for user ID:', id_usuario);
         return this.http.get<any>(`${this.baseUrl}/get_empregos_anteriores.php?id_usuario=${id_usuario}`);
     }
 
 
     // DELETE (corrigido)
     deletarEmprego(id_usuario: number, id_registro: number): Observable<any> {
-        
-console.log('Deleting emprego anterior with ID:', id_registro, 'for user ID:', id_usuario);
         return this.http.post(`${this.baseUrl}/delete_emprego_anterior.php`, {id_usuario, id_registro});
     }
 

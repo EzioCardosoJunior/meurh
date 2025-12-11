@@ -27,7 +27,6 @@ export class ListarVagasCandidatosComponent implements OnInit {
 
     this.vagasService.listarVagasEmpresa(this.id_empresa).subscribe({
       next: (res) => {
-        console.log(res);
         this.vagas = res?.dados || [];
         this.carregando = false;
       },

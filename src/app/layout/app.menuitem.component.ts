@@ -185,7 +185,6 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
             } else if ( this.layoutService.isSlim() || this.layoutService.isSlimPlus()) {
                 const height = top + oHeight;
                 overlay.style.top = vHeight < height ? `${top - (height - vHeight)}px` : `${top}px`;
-                console.log('top',top,'vHeight',vHeight,'oHeight',oHeight,'height',height);
             }
         }
       }

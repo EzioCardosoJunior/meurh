@@ -25,19 +25,16 @@ export class UltimoEmpregoService {
 
   // === BUSCAR ===
   getUltimoEmprego(id_usuario: number): Observable<any> {
-    console.log('getUltimoEmprego chamado com id_usuario:', id_usuario);
     return this.http.get<any>(`${this.baseUrl}/get_ultimo_emprego.php?id_usuario=${id_usuario}`);
   }
 
   // === SALVAR (INSERT) ===
   salvarUltimoEmprego(data: UltimoEmprego): Observable<any> {
-    console.log('salvarUltimoEmprego payload:', data);
     return this.http.post<any>(`${this.baseUrl}/salvar_emprego_atual.php`, data);
   }
 
   // === ATUALIZAR ===
   atualizarUltimoEmprego(data: UltimoEmprego): Observable<any> {
-    console.log('atualizarUltimoEmprego payload:', data);
     return this.http.post<any>(`${this.baseUrl}/update_ultimo_emprego.php`, data);
   }
 
@@ -46,12 +43,8 @@ export class UltimoEmpregoService {
     const payload: UltimoEmprego = { ...formData, id_usuario };
    
     if (payload.id && Number(payload.id) > 0) {
-      console.log('Decisão: atualizar (id presente). Payload:', payload);
       return this.atualizarUltimoEmprego(payload);
     }
-
-    
-    console.log('Decisão: salvar novo (sem id). Payload:', payload);
     return this.salvarUltimoEmprego(payload);
   }
 
@@ -66,17 +59,13 @@ export class UltimoEmpregoService {
         if (res && res.sucesso && res.dados && res.dados.id) {
           // já existe → usa update (inclui id do registro retornado)
           payload.id = res.dados.id;
-          console.log('Backend diz que existe registro. Atualizando. payload:', payload);
           return this.atualizarUltimoEmprego(payload);
         } else {
           // não existe → salvar
-          console.log('Backend diz que não existe registro. Salvando. payload:', payload);
           return this.salvarUltimoEmprego(payload);
         }
       }),
       catchError(err => {
-        // Se ocorrer erro ao consultar (por ex. 404), tratamos como inexistente e salvamos
-        console.warn('Erro ao consultar backend (tratado como "não existe"), salvando novo. Erro:', err);
         return this.salvarUltimoEmprego(payload);
       })
     );

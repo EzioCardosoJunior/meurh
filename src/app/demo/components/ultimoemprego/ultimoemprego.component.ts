@@ -65,29 +65,11 @@ export class UltimoEmpregoComponent implements OnInit {
         });
     }
 
-    /*  carregarDados() {
-         if (!this.id_usuario) return;
- 
-         this.empregoService.getUltimoEmprego(this.id_usuario).subscribe({
-             next: (res) => {
-                 console.log('Dados carregados do emprego:', res);
-                 if (res?.sucesso && res?.dados) {
-                     this.empregoForm.patchValue(res.dados);
- 
-                     if (res.dados.atual) {
-                         this.empregoForm.get('data_termino')?.disable();
-                     }
-                 }
-             }
-         });
-     } */
-
     carregarDados() {
         if (!this.id_usuario) return;
 
         this.empregoService.getUltimoEmprego(this.id_usuario).subscribe({
             next: (res) => {
-                console.log('Dados carregados do emprego:', res);
                 if (res.dados) {
                     // Se veio um emprego salvo
                     this.empregoForm.patchValue(res);
@@ -121,7 +103,6 @@ export class UltimoEmpregoComponent implements OnInit {
         this.empregoService.salvarOuAtualizar(this.id_usuario, this.empregoForm.getRawValue())
             .subscribe({
                 next: () => {
-                    console.log('Dados do emprego salvos com sucesso.', this.empregoForm.getRawValue());
                     this.messageService.add({
                         severity: 'success',
                         summary: 'Sucesso',
