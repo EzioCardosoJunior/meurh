@@ -15,12 +15,12 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'E-Commerce',
+                        label: 'Perfil profissional',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/']
                     },
                     {
-                        label: 'Banking',
+                        label: 'Perfil empresarial',
                         icon: 'pi pi-fw pi-image',
                         routerLink: ['/dashboard-banking']
                     }

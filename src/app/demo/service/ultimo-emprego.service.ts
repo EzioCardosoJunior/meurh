@@ -25,6 +25,7 @@ export class UltimoEmpregoService {
 
   // === BUSCAR ===
   getUltimoEmprego(id_usuario: number): Observable<any> {
+    console.log('Buscando último emprego para id_usuario:', id_usuario);
     return this.http.get<any>(`${this.baseUrl}/get_ultimo_emprego.php?id_usuario=${id_usuario}`);
   }
 
