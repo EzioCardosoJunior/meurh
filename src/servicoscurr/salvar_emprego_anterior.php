@@ -46,6 +46,9 @@ $chefe_contato     = !empty($dados['chefe_contato']) ? trim($dados['chefe_contat
 $cargo_funcao      = trim($dados['cargo_funcao']);
 $descricao_ativ    = !empty($dados['descricao_atividades']) ? trim($dados['descricao_atividades']) : null;
 
+// === NOVO CAMPO: SALÁRIO FINAL ===
+$salario_final = !empty($dados['salario_final']) ? floatval($dados['salario_final']) : null;
+
 // === VERIFICAR SE USUÁRIO EXISTE ===
 $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE id = :id LIMIT 1");
 $stmt->execute([':id' => $id_usuario]);
@@ -58,9 +61,9 @@ if ($stmt->rowCount() === 0) {
 
 // === INSERIR EMPREGO ANTERIOR ===
 $sql = "INSERT INTO empregos_anteriores 
-        (id_usuario, nome_empresa, data_entrada, data_saida, chefe_nome, chefe_contato, cargo_funcao, descricao_atividades)
+        (id_usuario, nome_empresa, data_entrada, data_saida, chefe_nome, chefe_contato, cargo_funcao, descricao_atividades, salario_final)
         VALUES 
-        (:id_usuario, :nome_empresa, :data_entrada, :data_saida, :chefe_nome, :chefe_contato, :cargo_funcao, :descricao_atividades)";
+        (:id_usuario, :nome_empresa, :data_entrada, :data_saida, :chefe_nome, :chefe_contato, :cargo_funcao, :descricao_atividades, :salario_final)";
 
 $stmt = $pdo->prepare($sql);
 
@@ -72,7 +75,8 @@ $ok = $stmt->execute([
     ':chefe_nome'        => $chefe_nome,
     ':chefe_contato'     => $chefe_contato,
     ':cargo_funcao'      => $cargo_funcao,
-    ':descricao_atividades' => $descricao_ativ
+    ':descricao_atividades' => $descricao_ativ,
+    ':salario_final'     => $salario_final
 ]);
 
 if ($ok) {
@@ -84,4 +88,3 @@ if ($ok) {
     http_response_code(500);
     echo json_encode(['erro' => 'Falha ao salvar emprego anterior.']);
 }
-?>

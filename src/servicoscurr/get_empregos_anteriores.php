@@ -11,8 +11,12 @@ $user = 'tendapro01_add1';
 $pass = '060610Ejcj1';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        $user,
+        $pass,
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode(['erro' => 'Falha na conexão: ' . $e->getMessage()]);
@@ -39,7 +43,17 @@ if ($stmt->rowCount() === 0) {
 }
 
 // === CONSULTAR EMPREGOS ANTERIORES ===
-$sql = "SELECT *
+$sql = "SELECT 
+            id,
+            id_usuario,
+            nome_empresa,
+            data_entrada,
+            data_saida,
+            chefe_nome,
+            chefe_contato,
+            cargo_funcao,
+            descricao_atividades,
+            salario_final  -- NOVO CAMPO GARANTIDO
         FROM empregos_anteriores
         WHERE id_usuario = :id_usuario
         ORDER BY data_entrada DESC";

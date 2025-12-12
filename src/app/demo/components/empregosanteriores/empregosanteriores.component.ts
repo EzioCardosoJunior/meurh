@@ -28,7 +28,10 @@ export class EmpregosAnterioresComponent implements OnInit {
             chefe_nome: ['', Validators.required],
             chefe_contato: ['', Validators.required],
             cargo_funcao: ['', Validators.required],
-            descricao_atividades: ['', Validators.required]
+            descricao_atividades: ['', Validators.required],
+
+            // 🔥 NOVO CAMPO
+            salario_final: ['', Validators.required]
         });
 
         this.carregarEmpregos();
@@ -63,7 +66,6 @@ export class EmpregosAnterioresComponent implements OnInit {
         }
 
         const id_usuario = Number(localStorage.getItem('usuario_id'));
-
         const payload = { id_usuario, ...this.empregoForm.value };
 
         this.empregosService.salvarEmprego(payload).subscribe({
@@ -89,6 +91,7 @@ export class EmpregosAnterioresComponent implements OnInit {
 
     deleteEmprego(id_registro: number) {
         const id_usuario = Number(localStorage.getItem('usuario_id'));
+
         this.empregosService.deletarEmprego(id_usuario, id_registro).subscribe({
             next: (res) => {
                 this.messageService.add({

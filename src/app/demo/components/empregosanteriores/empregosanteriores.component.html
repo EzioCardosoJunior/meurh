@@ -14,6 +14,10 @@
                         <th>Entrada</th>
                         <th>Saída</th>
                         <th>Cargo</th>
+
+                        <!-- NOVA COLUNA -->
+                        <th>Salário Final</th>
+
                         <th style="width: 6rem;"></th>
                     </tr>
                 </ng-template>
@@ -24,8 +28,15 @@
                         <td>{{ emp.data_entrada }}</td>
                         <td>{{ emp.data_saida }}</td>
                         <td>{{ emp.cargo_funcao }}</td>
+
+                        <!-- MOSTRAR VALOR FORMATADO -->
+                        <td>R$ {{ emp.salario_final | number:'1.2-2' }}</td>
+
                         <td class="text-center">
-                            <button pButton icon="pi pi-trash" class="p-button-danger p-button-text p-button-rounded"
+                            <button 
+                                pButton 
+                                icon="pi pi-trash" 
+                                class="p-button-danger p-button-text p-button-rounded"
                                 (click)="confirmDelete(emp.id)">
                             </button>
                         </td>
@@ -34,6 +45,7 @@
             </p-table>
         </div>
     </div>
+
     <!-- FORMULÁRIO -->
     <div class="col-12">
         <div class="card p-fluid">
@@ -52,13 +64,24 @@
 
                         <div class="field">
                             <label>Data de entrada</label>
-                            <input pInputText formControlName="data_entrada" />
+                            <input type="date" pInputText formControlName="data_entrada" />
                         </div>
 
                         <div class="field">
                             <label>Data de saída</label>
-                            <input pInputText formControlName="data_saida" />
+                            <input type="date" pInputText formControlName="data_saida" />
                         </div>
+
+                        <!-- NOVO CAMPO -->
+                        <div class="field">
+                            <label>Salário Final (R$)</label>
+                            <input 
+                                pInputText 
+                                type="number"
+                                formControlName="salario_final"
+                                placeholder="Ex: 2500.00" />
+                        </div>
+
                     </div>
 
                     <!-- COLUNA 2 -->
@@ -90,11 +113,21 @@
                 </div>
 
                 <div class="flex gap-3 mt-4">
-                    <button pButton class="p-button-danger p-button-outlined flex-1" label="Limpar" icon="pi pi-trash"
-                        type="button" (click)="empregoForm.reset()">
+                    <button 
+                        pButton 
+                        class="p-button-danger p-button-outlined flex-1"
+                        label="Limpar" 
+                        icon="pi pi-trash"
+                        type="button"
+                        (click)="empregoForm.reset()">
                     </button>
 
-                    <button pButton class="p-button-primary flex-1" label="Salvar" icon="pi pi-check" type="button"
+                    <button 
+                        pButton 
+                        class="p-button-primary flex-1"
+                        label="Salvar" 
+                        icon="pi pi-check" 
+                        type="button"
                         (click)="salvarEmprego()">
                     </button>
                 </div>
@@ -102,6 +135,4 @@
             </form>
         </div>
     </div>
-
-
 </div>
