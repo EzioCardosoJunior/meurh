@@ -110,7 +110,7 @@ export class AppMenuComponent implements OnInit {
                     }
                 ]
             },
-            {
+           /*  {
                 label: 'Vagas',
                 icon: 'pi pi-users',
                 items: [
@@ -125,7 +125,7 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['/dashboard-banking']
                     }
                 ]
-            },
+            }, */
              {
                 label: 'Cadastro de Vagas',
                 icon: 'pi pi-users',
@@ -138,7 +138,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Listar inscritos por vaga',
                         icon: 'pi pi-fw pi-folder-open',
-                        routerLink: ['/inscritosvagas']
+                        routerLink: ['/candidatosporvaga']
                     },
                     {
                         label: 'Listar vagas',

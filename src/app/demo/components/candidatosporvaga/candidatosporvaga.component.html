@@ -1,55 +1,93 @@
 <p-toast></p-toast>
-<p-confirmDialog></p-confirmDialog>
 
-<div class="card p-4">
+<div class="grid">
 
-  <h2 class="text-900 font-bold mb-4">Minhas Vagas</h2>
+  <!-- COLUNA 1 — LISTA DE VAGAS -->
+  <div class="col-12 lg:col-4">
+    <div class="card p-3">
 
-  <p-table
-    [value]="vagas"
-    [loading]="carregando"
-    responsiveLayout="scroll"
-    class="w-full">
+      <h3 class="text-900 font-bold mb-3">Minhas Vagas</h3>
 
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Título</th>
-        <th>Modelo</th>
-        <th>Tipo</th>
-        <th>Cidade</th>
-        <th>Estado</th>
-        <th>Ações</th>
-      </tr>
-    </ng-template>
+      <p-listbox 
+        [options]="vagas" 
+        optionLabel="titulo"
+        [(ngModel)]="selecionada"
+        (onChange)="selecionarVaga($event.value)"
+        [filter]="true"
+        [style]="{ width: '100%' }"
+        [emptyFilterMessage]="'Nenhuma vaga encontrada'"
+        [listStyle]="{ 'max-height': '400px' }">
+      </p-listbox>
 
-    <ng-template pTemplate="body" let-vaga>
-      <tr>
-        <td>{{ vaga.titulo }}</td>
-        <td>{{ vaga.modelo_trabalho }}</td>
-        <td>{{ vaga.tipo_contrato }}</td>
-        <td>{{ vaga.cidade }}</td>
-        <td>{{ vaga.estado }}</td>
+    </div>
+  </div>
 
-        <td>
-          <button 
-            pButton 
-            icon="pi pi-times"
-            label="Cancelar"
-            class="p-button-danger p-button-sm"
-            (click)="confirmarCancelamento(vaga)">
-          </button>
-        </td>
-      </tr>
-    </ng-template>
+  <!-- COLUNA 2 — LISTA DE CANDIDATOS -->
+  <div class="col-12 lg:col-8">
+    <div class="card p-4">
 
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="6" class="text-center text-600">
-          Você ainda não se candidatou a nenhuma vaga.
-        </td>
-      </tr>
-    </ng-template>
+      <h3 class="text-900 font-bold mb-4">
+        Candidatos para: 
+        <span class="text-primary">{{ selecionada?.titulo || 'Selecione uma vaga' }}</span>
+      </h3>
 
-  </p-table>
+      <p-table 
+        [value]="candidatos"
+        [loading]="carregandoCandidatos"
+        responsiveLayout="scroll">
+
+        <!-- CABEÇALHO -->
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Agendado</th>
+          </tr>
+        </ng-template>
+
+        <!-- LINHAS -->
+        <ng-template pTemplate="body" let-c>
+          <tr>
+            <td>{{ c.nome_candidato }}</td>
+            <td>{{ c.email }}</td>
+            <td>{{ c.cpf }}</td>
+            <td>{{ c.data_candidatura }}</td>
+            <td>{{ c.status }}</td>
+
+            <!-- NOVA COLUNA COM SELECT -->
+            <td>
+              <p-dropdown
+                [options]="[
+                  {label: 'SIM', value: 'SIM'},
+                  {label: 'NÃO', value: 'NÃO'},
+                  {label: 'A REVISAR', value: 'A REVISAR'}
+                ]"
+                [(ngModel)]="c.agendado"
+                placeholder="Selecione"
+                (onChange)="atualizarAgendado(c)"
+                styleClass="w-full"
+              >
+              </p-dropdown>
+            </td>
+
+          </tr>
+        </ng-template>
+
+        <!-- SEM RESULTADOS -->
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6" class="text-center">
+              Nenhum candidato para esta vaga.
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+
+    </div>
+  </div>
 
 </div>

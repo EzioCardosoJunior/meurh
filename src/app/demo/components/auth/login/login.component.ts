@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
   providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
+
   loginForm!: FormGroup;
   loading = false;
 
@@ -29,7 +30,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
-      this.messageService.add({ severity: 'warn', summary: 'Atenção', detail: 'Preencha todos os campos.' });
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Preencha todos os campos.'
+      });
       return;
     }
 
@@ -38,11 +43,35 @@ export class LoginComponent implements OnInit {
     this.authService.loginRequest(this.loginForm.value).subscribe({
       next: (res) => {
         this.loading = false;
+
         if (res.sucesso) {
-          this.messageService.add({ severity: 'success', summary: 'Bem-vindo', detail: res.usuario.nome });
-          this.router.navigate(['/']); // redireciona à home
+          const usuario = res.usuario;
+          const funcao = usuario.funcao; // empresa ou funcionario
+
+          // salvar no localStorage
+          localStorage.setItem('usuario', JSON.stringify(usuario));
+          localStorage.setItem('usuario_id', String(usuario.id));
+          localStorage.setItem('funcao', funcao);
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Bem-vindo',
+            detail: usuario.nome
+          });
+
+          // redirecionamento por perfil
+          if (funcao === 'empresa') {
+            this.router.navigate(['/dashboard-banking']);
+          } else {
+            this.router.navigate(['/']);
+          }
+
         } else {
-          this.messageService.add({ severity: 'error', summary: 'Erro', detail: res.erro || 'Credenciais inválidas' });
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: res.erro || 'Credenciais inválidas'
+          });
         }
       },
       error: (err) => {

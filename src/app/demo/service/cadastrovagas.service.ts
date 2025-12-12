@@ -17,6 +17,7 @@ export class CadastroVagasService {
   }
 
   listarVagasEmpresa(id_empresa: number) {
+    console.log('ID da empresa:', id_empresa);
     return this.http.get<any>(`${this.baseUrl}/listar_vagas_empresa.php?id_empresa=${id_empresa}`);
   }
 
@@ -76,6 +77,12 @@ export class CadastroVagasService {
     );
   }
 
+  atualizarAgendado(id_candidatura: number, agendado: string) {
+    return this.http.post(`${this.baseUrl}/update_agendado.php`, {
+      id_candidatura,
+      agendado
+    });
+  }
 
 
 

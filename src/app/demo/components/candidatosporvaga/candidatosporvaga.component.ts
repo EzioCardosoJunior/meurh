@@ -1,75 +1,85 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService, ConfirmationService } from 'primeng/api';
 import { CadastroVagasService } from '../../service/cadastrovagas.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   templateUrl: './candidatosporvaga.component.html',
-  providers: [MessageService, ConfirmationService]
+  providers: [MessageService]
 })
 export class CandidatosPorVagaComponent implements OnInit {
 
-  id_usuario = Number(localStorage.getItem('usuario_id'));
+  id_empresa = Number(localStorage.getItem('usuario_id'));
+
   vagas: any[] = [];
-  carregando = false;
+  candidatos: any[] = [];
+
+  selecionada: any = null;
+  carregandoVagas = false;
+  carregandoCandidatos = false;
 
   constructor(
     private vagasService: CadastroVagasService,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
-  ) {}
+    private messageService: MessageService
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.carregarVagas();
   }
 
   carregarVagas() {
-    this.carregando = true;
+    this.carregandoVagas = true;
 
-    this.vagasService.listarVagasCandidatadas(this.id_usuario).subscribe({
+    this.vagasService.listarVagasEmpresa(this.id_empresa).subscribe({
       next: (res) => {
+        console.log(res);
         this.vagas = res?.dados || [];
-        this.carregando = false;
+        this.carregandoVagas = false;
       },
       error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: 'Falha ao carregar suas vagas cadastradas.'
+          detail: 'Não foi possível carregar suas vagas.'
         });
-        this.carregando = false;
+        this.carregandoVagas = false;
       }
     });
   }
 
-  confirmarCancelamento(vaga: any) {
-    this.confirmationService.confirm({
-      message: `Deseja cancelar sua candidatura para "${vaga.titulo}"?`,
-      icon: "pi pi-exclamation-triangle",
-      acceptLabel: "Sim",
-      rejectLabel: "Não",
-      accept: () => this.cancelarCandidatura(vaga)
-    });
+  selecionarVaga(vaga: any) {
+    this.selecionada = vaga;
+    this.buscarCandidatos(vaga.id);
   }
 
-  cancelarCandidatura(vaga: any) {
+  atualizarAgendado(vaga: any) {
     this.vagasService
-      .cancelarCandidatura(this.id_usuario, vaga.id)
-      .subscribe({
-        next: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Cancelado',
-            detail: 'Candidatura cancelada com sucesso.'
-          });
-          this.carregarVagas();
-        },
-        error: () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Falha ao cancelar candidatura.'
-          });
-        }
+      .atualizarAgendado(vaga.id_candidatura, vaga.agendado)
+      .subscribe(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Atualizado',
+          detail: 'Status agendado atualizado com sucesso.'
+        });
       });
+  }
+
+
+  buscarCandidatos(id_vaga: number) {
+    this.carregandoCandidatos = true;
+
+    this.vagasService.listarCandidatosDaVaga(this.id_empresa, id_vaga).subscribe({
+      next: (res) => {
+        this.candidatos = res?.dados || [];
+        this.carregandoCandidatos = false;
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Falha ao buscar candidatos.'
+        });
+        this.carregandoCandidatos = false;
+      }
+    });
   }
 }

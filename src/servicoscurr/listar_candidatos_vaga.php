@@ -49,7 +49,8 @@ try {
             u.email,
             u.cpf,
             c.data_candidatura,
-            c.status
+            c.status,
+            c.agendado
         FROM candidaturas_vagas c
         INNER JOIN usuarios u ON u.id = c.id_usuario
         WHERE c.id_vaga = :id_vaga

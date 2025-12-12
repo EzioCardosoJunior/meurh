@@ -7,6 +7,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+
   private tokenKey = 'authToken';
   private baseUrl = '/api';
 
@@ -16,13 +17,18 @@ export class AuthService {
    * Envia o login para o backend e salva o token/localStorage em caso de sucesso
    */
   loginRequest(credentials: { nome_usuario: string; senha: string }): Observable<any> {
-    
+
     return this.http.post<any>(`${this.baseUrl}/loginUsr.php`, credentials).pipe(
       tap(response => {
         if (response.sucesso && response.token) {
+
+          // salva token
           this.login(response.token);
+
+          // salva dados do usuário
           localStorage.setItem('usuario', JSON.stringify(response.usuario));
-          localStorage.setItem('usuario_id', JSON.stringify(response.usuario.id));
+          localStorage.setItem('usuario_id', String(response.usuario.id));
+          localStorage.setItem('funcao', response.usuario.funcao); // empresa/funcionario
         }
       })
     );
@@ -35,6 +41,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem('usuario');
+    localStorage.removeItem('usuario_id');
+    localStorage.removeItem('funcao');
     this.router.navigate(['/auth/login']);
   }
 
@@ -50,5 +58,9 @@ export class AuthService {
   getUsuario(): any {
     const user = localStorage.getItem('usuario');
     return user ? JSON.parse(user) : null;
+  }
+
+  getFuncao(): string | null {
+    return localStorage.getItem('funcao');
   }
 }
