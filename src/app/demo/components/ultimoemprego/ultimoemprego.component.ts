@@ -14,8 +14,6 @@ export class UltimoEmpregoComponent implements OnInit {
     id_usuario = Number(localStorage.getItem('usuario_id'));
     registroEmprego: any[] | null = null;
 
-
-
     constructor(
         private fb: FormBuilder,
         private empregoService: UltimoEmpregoService,
@@ -26,13 +24,15 @@ export class UltimoEmpregoComponent implements OnInit {
     ngOnInit(): void {
         this.carregarTabela();
 
+        // FORM ATUALIZADO COM SALÁRIO
         this.empregoForm = this.fb.group({
             empresa: ['', Validators.required],
             funcao: ['', Validators.required],
             data_entrada: ['', Validators.required],
             data_termino: [''],
             atual: [false],
-            atividades: ['']
+            atividades: [''],
+            salario_atual: [null] // CAMPO NOVO
         });
 
         this.monitorarEmpregoAtual();
@@ -43,14 +43,13 @@ export class UltimoEmpregoComponent implements OnInit {
         this.empregoService.getUltimoEmprego(this.id_usuario).subscribe({
             next: (res) => {
                 if (res) {
-                    this.registroEmprego = [res]; // tabela recebe array
+                    this.registroEmprego = [res];
                 } else {
                     this.registroEmprego = [];
                 }
             }
         });
     }
-
 
     monitorarEmpregoAtual() {
         this.empregoForm.get('atual')?.valueChanges.subscribe((value) => {
@@ -70,29 +69,30 @@ export class UltimoEmpregoComponent implements OnInit {
 
         this.empregoService.getUltimoEmprego(this.id_usuario).subscribe({
             next: (res) => {
-                if (res.dados) {
-                    // Se veio um emprego salvo
-                    this.empregoForm.patchValue(res);
+                if (res?.id) {
 
-                    // Desabilita o form inteiro
+                    // PATCH DO FORM INCLUINDO SALÁRIO
+                    this.empregoForm.patchValue({
+                        empresa: res.empresa,
+                        funcao: res.funcao,
+                        data_entrada: res.data_entrada,
+                        data_termino: res.data_termino,
+                        atual: res.atual,
+                        atividades: res.atividades,
+                        salario_atual: res.salario_atual // NOVO CAMPO
+                    });
+
+                    // DESABILITA CAMPOS
                     this.empregoForm.disable();
 
-                    // Mantém botão de excluir funcionando
-                    this.empregoForm.enable({ onlySelf: true });
-                    this.empregoForm.get('empresa')?.disable();
-                    this.empregoForm.get('funcao')?.disable();
-                    this.empregoForm.get('data_entrada')?.disable();
-                    this.empregoForm.get('data_termino')?.disable();
-                    this.empregoForm.get('atual')?.disable();
-                    this.empregoForm.get('atividades')?.disable();
-
-                    // Guarda o ID no form para update/delete
-                    this.empregoForm.addControl('id', this.fb.control(res.id));
+                    // Fazer botão de excluir funcionar
+                    if (!this.empregoForm.contains('id')) {
+                        this.empregoForm.addControl('id', this.fb.control(res.id));
+                    }
                 }
             }
         });
     }
-
 
     salvar() {
         if (this.empregoForm.invalid) {
@@ -100,7 +100,8 @@ export class UltimoEmpregoComponent implements OnInit {
             return;
         }
 
-        this.empregoService.salvarOuAtualizar(this.id_usuario, this.empregoForm.getRawValue())
+        this.empregoService
+            .salvarOuAtualizar(this.id_usuario, this.empregoForm.getRawValue())
             .subscribe({
                 next: () => {
                     this.messageService.add({
@@ -108,12 +109,14 @@ export class UltimoEmpregoComponent implements OnInit {
                         summary: 'Sucesso',
                         detail: 'Dados do emprego salvos com sucesso!'
                     });
+                    this.carregarDados();
+                    this.carregarTabela();
                 },
                 error: () => {
                     this.messageService.add({
                         severity: 'error',
                         summary: 'Erro',
-                        detail: 'Falha ao salvar2.'
+                        detail: 'Falha ao salvar.'
                     });
                 }
             });
@@ -123,17 +126,21 @@ export class UltimoEmpregoComponent implements OnInit {
         if (!this.id_usuario) return;
 
         this.empregoService.deleteUltimoEmprego(this.id_usuario).subscribe({
-            next: (res) => {
+            next: () => {
                 this.messageService.add({
                     severity: 'success',
                     summary: 'Sucesso',
                     detail: 'Registro deletado!'
                 });
 
-                // Limpa e reabilita o formulário
                 this.limpar();
                 this.empregoForm.enable();
-                this.empregoForm.removeControl('id');
+
+                if (this.empregoForm.contains('id')) {
+                    this.empregoForm.removeControl('id');
+                }
+
+                this.registroEmprego = [];
             },
             error: () => {
                 this.messageService.add({
@@ -149,20 +156,10 @@ export class UltimoEmpregoComponent implements OnInit {
         this.confirmationService.confirm({
             message: 'Deseja excluir o registro?',
             accept: () => {
-                this.empregoService.deleteUltimoEmprego(this.id_usuario).subscribe(() => {
-                    this.registroEmprego = null;
-                    this.messageService.add({
-                        severity: 'success',
-                        summary: 'Sucesso',
-                        detail: 'Registro excluído!'
-                    });
-                });
+                this.excluir();
             }
         });
     }
-
-
-
 
     limpar() {
         this.empregoForm.reset({
@@ -171,7 +168,8 @@ export class UltimoEmpregoComponent implements OnInit {
             data_entrada: '',
             data_termino: '',
             atual: false,
-            atividades: ''
+            atividades: '',
+            salario_atual: null
         });
 
         this.empregoForm.get('data_termino')?.enable();
