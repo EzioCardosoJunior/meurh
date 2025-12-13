@@ -60,8 +60,8 @@ export class LoginComponent implements OnInit {
           });
 
           // redirecionamento por perfil
-          if (funcao === 'empresa') {
-            this.router.navigate(['/dashboard-banking']);
+          if (funcao === 'funcionário') {
+            this.router.navigate(['/perfil-profissional']);
           } else {
             this.router.navigate(['/']);
           }

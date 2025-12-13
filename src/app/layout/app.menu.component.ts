@@ -15,14 +15,14 @@ export class AppMenuComponent implements OnInit {
                 icon: 'pi pi-home',
                 items: [
                     {
-                        label: 'Perfil profissional',
+                        label: 'Perfil empresarial',
                         icon: 'pi pi-fw pi-home',
                         routerLink: ['/']
                     },
                     {
-                        label: 'Perfil empresarial',
+                        label: 'Perfil profissional',
                         icon: 'pi pi-fw pi-image',
-                        routerLink: ['/dashboard-banking']
+                        routerLink: ['/perfil-profissional']
                     }
                 ]
             },
@@ -122,7 +122,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Minhas vagas',
                         icon: 'pi pi-fw pi-folder-open',
-                        routerLink: ['/dashboard-banking']
+                        routerLink: ['/perfil-profissional']
                     }
                 ]
             }, */

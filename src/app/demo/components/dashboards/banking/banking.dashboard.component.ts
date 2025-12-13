@@ -83,13 +83,13 @@ export class BankingDashboardComponent implements OnInit, OnDestroy {
         //credit card section
         this.cards = [
             {
-                logo: 'assets/layout/images/logo-freya-single.svg',
+                logo: 'assets/layout/images/pix.png',
                 cardNo: '5454-5454-9999-8888',
                 validDate: '05/28',
                 name: 'John Doe'
             },
             {
-                logo: 'assets/layout/images/logo-freya-single.svg',
+                logo: 'assets/layout/images/banco.jpg',
                 cardNo: '5454-5454-9999-7777',
                 validDate: '08/26',
                 name: 'John Doe'
