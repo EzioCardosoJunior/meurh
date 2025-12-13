@@ -8,64 +8,12 @@
                 <div class="flex flex-column sm:flex-row align-items-center gap-3">
                     <img [src]="fotoUrl" class="w-3rem h-3rem flex-shrink-0" alt="Foto do usuário" />
                     <div class="flex flex-column align-items-center sm:align-items-start">
-                        <h4 class="text-800 font-medium m-0 mb-1">Welcome Amy</h4>
-                        <p class="text-600 m-0">Your last login was on 01/02/2023 at 10:24 am</p>
+                        <h4 class="text-800 font-medium m-0 mb-1"><b>{{nomeUsr}}</b></h4>
+                        <p class="text-600 m-0">Último acesso realizado em {{ultimoLogin}}</p>
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2 sm:ml-auto justify-content-center">
-                    <div class="exchnage-rates flex">
-                        <div class="flex align-items-center p-2 cursor-pointer hover:surface-0 border-round transition-duration-200"
-                            (click)="op.toggle($event)">
-                            <i class="pi pi-angle-up text-green-500 mr-1"></i>
-                            <i class="pi pi-dollar"></i> <span>1.32</span>
-                        </div>
-                        <p-overlayPanel #op [style]="{ width: '300px' }">
-                            <ng-template pTemplate>
-                                <h5 class="font-medium m-0 mb-1">USD to EUR</h5>
-                                <p class="m-0 p-0 mb-3">
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. <a class="ml-1">more
-                                        detail <i class="pi pi-arrow-up" style="transform: rotate(45deg)"></i></a>
-                                </p>
 
-                                <p-chart type="bar" height="180" [data]="usdChartData"
-                                    [options]="chartOptions"></p-chart>
-                            </ng-template>
-                        </p-overlayPanel>
-                        <div class="flex align-items-center p-2 cursor-pointer hover:surface-0 border-round transition-duration-200"
-                            (click)="op2.toggle($event)">
-                            <i class="pi pi-angle-down mr-1" style="color: #ff6e49"></i>
-                            <i class="pi pi-fw pi-bitcoin"></i> <span>60,000</span>
-                        </div>
-                        <p-overlayPanel #op2 [style]="{ width: '300px' }">
-                            <ng-template pTemplate>
-                                <h5 class="font-medium m-0 mb-1">BTC to USD</h5>
-                                <p class="m-0 p-0 mb-3">
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. <a class="ml-1">more
-                                        detail <i class="pi pi-arrow-up" style="transform: rotate(45deg)"></i></a>
-                                </p>
-
-                                <p-chart type="bar" height="180" [data]="btcChartData"
-                                    [options]="chartOptions"></p-chart>
-                            </ng-template>
-                        </p-overlayPanel>
-                        <div class="flex align-items-center p-2 cursor-pointer hover:surface-0 border-round transition-duration-200"
-                            (click)="op3.toggle($event)">
-                            <i class="pi pi-angle-up text-green-500 mr-1"></i>
-                            <i class="pi pi-pound"></i> <span>1.60</span>
-                        </div>
-                        <p-overlayPanel #op3 [style]="{ width: '300px' }">
-                            <ng-template pTemplate>
-                                <h5 class="font-medium m-0 mb-1">GBP to USD</h5>
-                                <p class="m-0 p-0 mb-3">
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. <a class="ml-1">more
-                                        detail <i class="pi pi-arrow-up" style="transform: rotate(45deg)"></i></a>
-                                </p>
-
-                                <p-chart type="bar" height="180" [data]="poundChartData"
-                                    [options]="chartOptions"></p-chart>
-                            </ng-template>
-                        </p-overlayPanel>
-                    </div>
                     <div class="flex gap-2">
                         <button type="button" pButton pTooltip="Exchange" tooltipPosition="bottom" icon="pi pi-arrows-h"
                             class="p-button-rounded p-button-outlined flex-shrink-0"></button>
@@ -329,11 +277,9 @@
                     <div class="inline-flex align-items-center w-full md:w-auto">
                         <span class="p-input-icon-left flex-auto">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search"
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Busca"
                                 class="w-full" style="border-radius: 2rem" />
-                        </span>
-                        <button pButton pRipple icon="pi pi-upload" class="p-button-rounded mx-3 flex-shrink-0"
-                            (click)="dt.exportCSV()"></button>
+                        </span>                        
                     </div>
                 </div>
                 <p-table #dt [value]="transactions" [paginator]="true" [rows]="3" styleClass=""

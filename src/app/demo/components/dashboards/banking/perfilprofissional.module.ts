@@ -7,8 +7,8 @@ import { ChartModule } from 'primeng/chart';
 import { RippleModule } from 'primeng/ripple';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
-import { BankingDashboardComponent } from './banking.dashboard.component';
-import { BankingDashboardRoutingModule } from './banking.dashboard-routing.module';
+import { PerfilProfissionalComponent } from './perfilprofissional.component';
+import { PerfilProfissionalRoutingModule } from './perfilprofissional-routing.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { TabViewModule } from 'primeng/tabview';
@@ -34,7 +34,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         TableModule,
         InputNumberModule,
         ChartModule,
-        BankingDashboardRoutingModule,
+        PerfilProfissionalRoutingModule,
         DropdownModule,
         FormsModule,
         TabViewModule,
@@ -49,7 +49,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         InputMaskModule,
         ToastModule
     ],
-    declarations: [BankingDashboardComponent],
+    declarations: [PerfilProfissionalComponent],
     providers: [MessageService, ConfirmationService]
 })
-export class BankingDashboardModule {}
+export class PerfilProfissionalModule {}

@@ -2,25 +2,28 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmEventType, ConfirmationService, FilterService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
+import { IdentidadeUsrService } from 'src/app/demo/service/identidade-usr.service';
 import { PhotoService } from 'src/app/demo/service/photo.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
-    templateUrl: './banking.dashboard.component.html'
+    templateUrl: './perfilprofissional.component.html'
 })
-export class BankingDashboardComponent implements OnInit, OnDestroy {
+export class PerfilProfissionalComponent implements OnInit, OnDestroy {
 
     id_usuario = Number(localStorage.getItem('usuario_id'));
+    fotoUrl: string = 'assets/layout/images/semusuario.png';
+    nomeUsr: any;
     msgs1: any = [
         {
             severity: 'custom',
-            detail: `👋 Hello! Welcome to Freya! Before start please complete your profile to
-        know you better.`
+            detail: `👋 Seja muito bem-vindo! Este é seu perfil profissional. Lembramos que o preenchimento de
+            seus dados de forma completa aumenta suas chances de ser selecionado para entrevistas de emprego.`
         }
     ];
 
-    fotoUrl: string = 'assets/layout/images/semusuario.png';
-
+    
+    ultimoLogin: any;
     //chart data
     chartData: any; //main chart Data
     chartOptions: any; //main chart options
@@ -77,15 +80,18 @@ export class BankingDashboardComponent implements OnInit, OnDestroy {
     //config subscription
     subscription: Subscription;
 
-    constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private layoutService: LayoutService, private filterService: FilterService,
-        private photoService: PhotoService) {
+    constructor(private messageService: MessageService, 
+        private confirmationService: ConfirmationService, 
+        private layoutService: LayoutService, private filterService: FilterService,
+        private photoService: PhotoService, private identidadeService: IdentidadeUsrService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
             this.initChart();
         });
     }
 
     ngOnInit() {
-        this.carregarFoto()
+        this.carregarFoto();
+        this.carregarDados();
         this.cards = [
             {
                 logo: 'assets/layout/images/pix.png',
@@ -257,6 +263,20 @@ export class BankingDashboardComponent implements OnInit, OnDestroy {
                         res.foto_url +
                         '?t=' +
                         new Date().getTime();
+                }
+            }
+        });
+    }
+
+    carregarDados() {
+        if (!this.id_usuario) return;
+
+        this.identidadeService.getUsuario(this.id_usuario).subscribe({
+            next: (res) => {
+                if (res?.sucesso && res?.dados) {
+                    this.nomeUsr = res.dados.nome;
+                    this.ultimoLogin = res.dados.ultimo_login;
+                    console.log(res.dados);
                 }
             }
         });
