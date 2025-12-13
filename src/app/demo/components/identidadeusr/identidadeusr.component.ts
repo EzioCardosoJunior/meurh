@@ -14,7 +14,7 @@ export class IdentidadeUsrComponent implements OnInit {
   id_usuario = Number(localStorage.getItem('usuario_id'));
 
   // FOTO PADRÃO
-  fotoUrl: string = 'assets/demo/images/avatar/profile.jpg';
+  fotoUrl: string = 'assets/layout/images/semusuario.png';
 
   @ViewChild('inputFoto') inputFoto!: ElementRef;
 

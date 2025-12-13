@@ -2,13 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmEventType, ConfirmationService, FilterService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
+import { PhotoService } from 'src/app/demo/service/photo.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
     templateUrl: './banking.dashboard.component.html'
 })
 export class BankingDashboardComponent implements OnInit, OnDestroy {
-    // message on top
+
+    id_usuario = Number(localStorage.getItem('usuario_id'));
     msgs1: any = [
         {
             severity: 'custom',
@@ -16,6 +18,8 @@ export class BankingDashboardComponent implements OnInit, OnDestroy {
         know you better.`
         }
     ];
+
+    fotoUrl: string = 'assets/layout/images/semusuario.png';
 
     //chart data
     chartData: any; //main chart Data
@@ -73,14 +77,15 @@ export class BankingDashboardComponent implements OnInit, OnDestroy {
     //config subscription
     subscription: Subscription;
 
-    constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private layoutService: LayoutService, private filterService: FilterService) {
+    constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private layoutService: LayoutService, private filterService: FilterService,
+        private photoService: PhotoService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
             this.initChart();
         });
     }
 
     ngOnInit() {
-        //credit card section
+        this.carregarFoto()
         this.cards = [
             {
                 logo: 'assets/layout/images/pix.png',
@@ -238,6 +243,23 @@ export class BankingDashboardComponent implements OnInit, OnDestroy {
         ];
 
         this.initChart();
+    }
+
+    carregarFoto() {
+        this.photoService.getFotoUsuario(this.id_usuario).subscribe({
+            next: (res) => {
+
+                if (res?.foto_url) {
+
+                    // URL COMPLETA ABSOLUTA + cache-buster
+                    this.fotoUrl =
+                        'https://tendapromos.com.br/servicoscurr/' +
+                        res.foto_url +
+                        '?t=' +
+                        new Date().getTime();
+                }
+            }
+        });
     }
 
     initChart() {

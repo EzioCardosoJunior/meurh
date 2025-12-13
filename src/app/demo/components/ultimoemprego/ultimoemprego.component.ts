@@ -43,7 +43,6 @@ export class UltimoEmpregoComponent implements OnInit {
         this.empregoService.getUltimoEmprego(this.id_usuario).subscribe({
             next: (res) => {
                 if (res) {
-                    console.log('Resposta do último emprego:', res);
                     this.registroEmprego = [res.dados];
                 } else {
                     this.registroEmprego = [];
