@@ -13,6 +13,7 @@ export class CadastroVagasService {
   constructor(private http: HttpClient) { }
 
   criarVaga(dados: any): Observable<any> {
+    console.log('Enviando dados da vaga:', dados);
     return this.http.post(`${this.baseUrl}/salvar_vaga.php`, dados);
   }
 

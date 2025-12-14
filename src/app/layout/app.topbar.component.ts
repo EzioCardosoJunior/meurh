@@ -62,7 +62,6 @@ export class AppTopbarComponent {
         this.identidadeService.getUsuario(this.id_usuario).subscribe({
             next: (res) => {
                 if (res?.sucesso && res?.dados) {
-                    console.log(res.dados);
                 }
             }
         });

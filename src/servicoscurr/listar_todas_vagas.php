@@ -27,9 +27,9 @@ $id_usuario = isset($_GET['id_usuario']) ? intval($_GET['id_usuario']) : null;
 
 try {
 
-    // =============================
-    // COM USUÁRIO LOGADO
-    // =============================
+    // =================================================
+    // COM USUÁRIO LOGADO (verifica candidatura)
+    // =================================================
     if ($id_usuario) {
 
         $sql = "
@@ -38,14 +38,23 @@ try {
                 v.titulo,
                 v.descricao,
                 v.salario,
+
+                -- NOVOS CAMPOS
+                v.segmento,
+                v.jornada_trabalho,
+
                 v.modelo_trabalho,
                 v.tipo_contrato,
                 v.cidade,
                 v.estado,
                 DATE_FORMAT(v.data_criacao, '%d/%m/%Y %H:%i') AS data_criacao,
+
                 u.nome AS nome_empresa,
 
-                CASE WHEN c.id IS NULL THEN 0 ELSE 1 END AS ja_candidatado
+                CASE 
+                    WHEN c.id IS NULL THEN 0 
+                    ELSE 1 
+                END AS ja_candidatado
 
             FROM vagas v
             INNER JOIN usuarios u 
@@ -64,9 +73,9 @@ try {
         $stmt->execute();
 
     } 
-    // =============================
+    // =================================================
     // VISITANTE — SEM USUÁRIO
-    // =============================
+    // =================================================
     else {
 
         $sql = "
@@ -75,11 +84,17 @@ try {
                 v.titulo,
                 v.descricao,
                 v.salario,
+
+                -- NOVOS CAMPOS
+                v.segmento,
+                v.jornada_trabalho,
+
                 v.modelo_trabalho,
                 v.tipo_contrato,
                 v.cidade,
                 v.estado,
                 DATE_FORMAT(v.data_criacao, '%d/%m/%Y %H:%i') AS data_criacao,
+
                 u.nome AS nome_empresa,
                 0 AS ja_candidatado
 
@@ -98,14 +113,14 @@ try {
 
     echo json_encode([
         'sucesso' => true,
-        'total' => count($vagas),
-        'dados' => $vagas
+        'total'   => count($vagas),
+        'dados'   => $vagas
     ]);
 
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([
-        'erro' => 'Erro ao listar vagas',
+        'erro'    => 'Erro ao listar vagas',
         'detalhe' => $e->getMessage()
     ]);
 }

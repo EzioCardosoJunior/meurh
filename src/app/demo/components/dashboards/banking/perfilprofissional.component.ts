@@ -257,7 +257,6 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
         this.contaService.getConta(this.id_usuario).subscribe({
             next: (res) => {
                 if (res && res.conta) {
-                    console.log('Conta carregada no perfil profissional:', res.conta);
                     this.conta = res.conta.conta;
                     this.titular_nome = res.conta.titular_nome;
                     this.banco = res.conta.banco;
@@ -294,7 +293,6 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
                 if (res?.sucesso && res?.dados) {
                     this.nomeUsr = res.dados.nome;
                     this.ultimoLogin = res.dados.ultimo_login;
-                    console.log(res.dados);
                 }
             }
         });

@@ -5,7 +5,7 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header("Content-Type: application/json; charset=utf-8");
 
 // Conexão
-$host = 'mysql.tendappromos.com.br';
+$host = 'mysql.tendapromos.com.br';
 $dbname = 'tendapromos01';
 $user = 'tendapro01_add1';
 $pass = '060610Ejcj1';
