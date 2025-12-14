@@ -6,32 +6,43 @@
   </div>
 
   <form [formGroup]="vagaForm" class="grid p-4">
-    
+
+    <!-- TÍTULO -->
     <div class="col-12 lg:col-6 field mb-4">
       <label class="text-900 font-medium mb-2 block">Título da vaga</label>
-      <input pInputText placeholder="Ex: Vendedor, Analista, Gerente..."
-             formControlName="titulo"
-             class="w-full" />
+      <input
+        pInputText
+        placeholder="Ex: Vendedor, Analista, Gerente..."
+        formControlName="titulo"
+        class="w-full" />
     </div>
 
+    <!-- SALÁRIO -->
     <div class="col-12 lg:col-6 field mb-4">
       <label class="text-900 font-medium mb-2 block">Salário</label>
-      <input pInputText placeholder="Ex: 2500.00"
-             formControlName="salario"
-             class="w-full" />
+      <input
+        pInputText
+        type="number"
+        placeholder="Ex: 2500.00"
+        formControlName="salario"
+        class="w-full" />
     </div>
 
+    <!-- DESCRIÇÃO -->
     <div class="col-12 field mb-4">
       <label class="text-900 font-medium mb-2 block">Descrição da vaga</label>
-      <textarea pInputTextarea rows="5"
-                placeholder="Descreva responsabilidades, requisitos, benefícios..."
-                formControlName="descricao"
-                class="w-full"></textarea>
+      <textarea
+        pInputTextarea
+        rows="5"
+        placeholder="Descreva responsabilidades, requisitos, benefícios..."
+        formControlName="descricao"
+        class="w-full"></textarea>
     </div>
 
+    <!-- MODELO DE TRABALHO -->
     <div class="col-12 lg:col-6 field mb-4">
       <label class="text-900 font-medium mb-2 block">Modelo de trabalho</label>
-      <p-dropdown 
+      <p-dropdown
         [options]="modelosTrabalho"
         placeholder="Selecione"
         formControlName="modelo_trabalho"
@@ -39,9 +50,10 @@
       </p-dropdown>
     </div>
 
+    <!-- TIPO DE CONTRATO -->
     <div class="col-12 lg:col-6 field mb-4">
       <label class="text-900 font-medium mb-2 block">Tipo de contrato</label>
-      <p-dropdown 
+      <p-dropdown
         [options]="tiposContrato"
         placeholder="Selecione"
         formControlName="tipo_contrato"
@@ -49,27 +61,57 @@
       </p-dropdown>
     </div>
 
+    <!-- SEGMENTO -->
+    <div class="col-12 lg:col-6 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Segmento</label>
+      <p-dropdown
+        [options]="segmentos"
+        placeholder="Selecione o segmento"
+        formControlName="segmento"
+        styleClass="w-full">
+      </p-dropdown>
+    </div>
+
+    <!-- JORNADA -->
+    <div class="col-12 lg:col-6 field mb-4">
+      <label class="text-900 font-medium mb-2 block">Jornada de trabalho</label>
+      <input
+        pInputText
+        placeholder="Ex: 44h semanais, 6x1, Escala 12x36"
+        formControlName="jornada_trabalho"
+        class="w-full" />
+    </div>
+
+    <!-- CIDADE -->
     <div class="col-12 lg:col-6 field mb-4">
       <label class="text-900 font-medium mb-2 block">Cidade</label>
-      <input pInputText placeholder="Cidade"
-             formControlName="cidade"
-             class="w-full" />
+      <input
+        pInputText
+        placeholder="Cidade"
+        formControlName="cidade"
+        class="w-full" />
     </div>
 
+    <!-- ESTADO -->
     <div class="col-12 lg:col-6 field mb-4">
       <label class="text-900 font-medium mb-2 block">Estado (UF)</label>
-      <input pInputText maxlength="2"
-             placeholder="Ex: SP, RJ, MG"
-             formControlName="estado"
-             class="w-full uppercase" />
+      <input
+        pInputText
+        maxlength="2"
+        placeholder="Ex: SP, RJ, MG"
+        formControlName="estado"
+        class="w-full uppercase" />
     </div>
 
+    <!-- BOTÃO -->
     <div class="col-12 flex justify-content-end mt-4">
-      <button pButton type="button" 
-              label="Salvar vaga"
-              icon="pi pi-check"
-              class="p-button-primary"
-              (click)="salvarVaga()">
+      <button
+        pButton
+        type="button"
+        label="Salvar vaga"
+        icon="pi pi-check"
+        class="p-button-primary"
+        (click)="salvarVaga()">
       </button>
     </div>
 

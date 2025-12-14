@@ -26,11 +26,23 @@ export class CadastroVagasComponent implements OnInit {
     { label: 'Outros', value: 'outro' }
   ];
 
+  // 🔹 NOVO: Segmentos
+  segmentos = [
+    { label: 'Comércio', value: 'Comércio' },
+    { label: 'Indústria', value: 'Indústria' },
+    { label: 'Educação', value: 'Educação' },
+    { label: 'Serviços', value: 'Serviços' },
+    { label: 'Setor público', value: 'Setor público' },
+    { label: 'Agro e Pecuária', value: 'Agro e Pecuária' },
+    { label: 'Tecnologia', value: 'Tecnologia' },
+    { label: 'Outros', value: 'Outros' }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private cadastroVagas: CadastroVagasService,
     private messageService: MessageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.criarFormulario();
@@ -43,8 +55,13 @@ export class CadastroVagasComponent implements OnInit {
       salario: [''],
       modelo_trabalho: ['', Validators.required],
       tipo_contrato: ['', Validators.required],
+
+      // 🔹 NOVOS CAMPOS
+      segmento: ['', Validators.required],
+      jornada_trabalho: ['', Validators.required],
+
       cidade: ['', Validators.required],
-      estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]],
+      estado: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2)]]
     });
   }
 
@@ -66,7 +83,7 @@ export class CadastroVagasComponent implements OnInit {
     };
 
     this.cadastroVagas.criarVaga(payload).subscribe({
-      next: (res) => {
+      next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',

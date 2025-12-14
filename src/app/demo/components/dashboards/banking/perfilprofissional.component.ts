@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmEventType, ConfirmationService, FilterService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
+import { ContaBancariaService } from 'src/app/demo/service/contabancaria.service';
 import { IdentidadeUsrService } from 'src/app/demo/service/identidade-usr.service';
 import { PhotoService } from 'src/app/demo/service/photo.service';
+import { PixService } from 'src/app/demo/service/pix.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
@@ -14,6 +16,10 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     id_usuario = Number(localStorage.getItem('usuario_id'));
     fotoUrl: string = 'assets/layout/images/semusuario.png';
     nomeUsr: any;
+    banco: any;
+    pix: any;
+    conta: any;
+    titular_nome: any;
     msgs1: any = [
         {
             severity: 'custom',
@@ -22,7 +28,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
         }
     ];
 
-    
+
     ultimoLogin: any;
     //chart data
     chartData: any; //main chart Data
@@ -80,8 +86,8 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     //config subscription
     subscription: Subscription;
 
-    constructor(private messageService: MessageService, 
-        private confirmationService: ConfirmationService, 
+    constructor(private messageService: MessageService, pixService: PixService, private contaService: ContaBancariaService,
+        private confirmationService: ConfirmationService,
         private layoutService: LayoutService, private filterService: FilterService,
         private photoService: PhotoService, private identidadeService: IdentidadeUsrService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
@@ -92,17 +98,12 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.carregarFoto();
         this.carregarDados();
+        this.carregarConta();
         this.cards = [
             {
                 logo: 'assets/layout/images/pix.png',
                 cardNo: '5454-5454-9999-8888',
                 validDate: '05/28',
-                name: 'John Doe'
-            },
-            {
-                logo: 'assets/layout/images/banco.jpg',
-                cardNo: '5454-5454-9999-7777',
-                validDate: '08/26',
                 name: 'John Doe'
             }
         ];
@@ -249,6 +250,23 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
         ];
 
         this.initChart();
+    }
+
+    carregarConta() {
+
+        this.contaService.getConta(this.id_usuario).subscribe({
+            next: (res) => {
+                if (res && res.conta) {
+                    console.log('Conta carregada no perfil profissional:', res.conta);
+                    this.conta = res.conta.conta;
+                    this.titular_nome = res.conta.titular_nome;
+                    this.banco = res.conta.banco;
+                }
+            },
+            error: () => {
+                // Se 404 → não tem conta cadastrada → form vazio mesmo
+            }
+        });
     }
 
     carregarFoto() {
