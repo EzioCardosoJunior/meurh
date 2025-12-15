@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Table } from 'primeng/table';
 import { MenuItem } from 'primeng/api';
+import { UltimosUsuariosService } from 'src/app/demo/service/ultimos-usuarios.service';
 
 @Component({
     templateUrl: './ecommerce.dashboard.component.html'
@@ -12,10 +13,12 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     msgs1: any = [
         {
             severity: 'custom',
-            detail: `👋 Hello! Welcome to Freya! Before start please complete your profile to
-    know you better.`
+            detail: `👋 Olá! Neste ambiente você consegue visualizar, de forma amigável, os dados de sua empresa.`
         }
     ];
+    usuarios: any[] = [];
+    ultimosUsuarios: any[] = [];
+    carregando = false;
     //orders data for main chart
     orders: any = {
         monthlyData: {
@@ -283,7 +286,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     //config subscription
     subscription: Subscription;
 
-    constructor(private layoutService: LayoutService) {
+    constructor(private layoutService: LayoutService, private ultimosUsuariosService: UltimosUsuariosService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
             this.initChart();
         });
@@ -291,7 +294,31 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.initChart();
+        this.carregarUsuarios();
         this.selectedDate = this.dateRanges[0];
+    }
+
+    carregarUsuarios() {
+        this.ultimosUsuariosService.listarUltimosUsuarios().subscribe({
+            next: (res) => {
+                this.usuarios = res?.dados || [];
+                console.log('Usuários carregados:', this.usuarios.length);
+
+                // pega apenas os 10 primeiros (já vêm ordenados)
+                this.ultimosUsuarios = this.usuarios.slice(0, 10);
+            }
+        });
+    }
+
+    tempoRelativo(data: string): string {
+        const diffMs = Date.now() - new Date(data).getTime();
+        const diffHoras = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffDias = Math.floor(diffHoras / 24);
+
+        if (diffHoras < 1) return 'agora';
+        if (diffHoras < 24) return `${diffHoras}h atrás`;
+        if (diffDias < 7) return `${diffDias}d atrás`;
+        return `${Math.floor(diffDias / 7)}sem atrás`;
     }
 
     initChart() {
