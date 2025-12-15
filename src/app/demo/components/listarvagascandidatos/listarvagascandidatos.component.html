@@ -2,15 +2,12 @@
 <p-confirmDialog></p-confirmDialog>
 
 <div class="card p-4">
-
   <h2 class="text-900 font-bold mb-4">Minhas Vagas</h2>
-
   <p-table
     [value]="vagas"
     [loading]="carregando"
     responsiveLayout="scroll"
     class="w-full">
-
     <ng-template pTemplate="header">
       <tr>
         <th>Título</th>
@@ -21,7 +18,6 @@
         <th>Ações</th>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="body" let-vaga>
       <tr>
         <td>{{ vaga.titulo }}</td>
@@ -29,7 +25,6 @@
         <td>{{ vaga.tipo_contrato }}</td>
         <td>{{ vaga.cidade }}</td>
         <td>{{ vaga.estado }}</td>
-
         <td>
           <button 
             pButton 
@@ -41,7 +36,6 @@
         </td>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="emptymessage">
       <tr>
         <td colspan="6" class="text-center text-600">
@@ -49,7 +43,5 @@
         </td>
       </tr>
     </ng-template>
-
   </p-table>
-
 </div>

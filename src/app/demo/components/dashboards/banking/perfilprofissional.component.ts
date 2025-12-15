@@ -1,7 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmEventType, ConfirmationService, FilterService, MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { forkJoin } from 'rxjs';
 import { Subscription } from 'rxjs';
+import { CadastroVagasService } from 'src/app/demo/service/cadastrovagas.service';
 import { ContaBancariaService } from 'src/app/demo/service/contabancaria.service';
 import { IdentidadeUsrService } from 'src/app/demo/service/identidade-usr.service';
 import { PhotoService } from 'src/app/demo/service/photo.service';
@@ -9,7 +11,8 @@ import { PixService } from 'src/app/demo/service/pix.service';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 
 @Component({
-    templateUrl: './perfilprofissional.component.html'
+    templateUrl: './perfilprofissional.component.html',
+    providers: [MessageService]
 })
 export class PerfilProfissionalComponent implements OnInit, OnDestroy {
 
@@ -20,6 +23,11 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     pix: any;
     conta: any;
     titular_nome: any;
+    vagas: any[] = [];
+    minhasVagas: any[] = [];
+    carregando = false;
+
+
     msgs1: any = [
         {
             severity: 'custom',
@@ -47,12 +55,10 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     dateRanges: any[] = []; // for main chart
     selectedDate: any;
 
-    dateRanges2: any[] = []; // for pie chart
     selectedDate2: any;
 
     //credit cards
     cards: any[] = [];
-    selectedCard: any;
 
     // add credit card dialog
     displayBasic = false;
@@ -88,10 +94,11 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
 
     constructor(private messageService: MessageService, pixService: PixService, private contaService: ContaBancariaService,
         private confirmationService: ConfirmationService,
+        private vagasService: CadastroVagasService,
         private layoutService: LayoutService, private filterService: FilterService,
         private photoService: PhotoService, private identidadeService: IdentidadeUsrService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
-            this.initChart();
+            // this.initChart();
         });
     }
 
@@ -99,31 +106,21 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
         this.carregarFoto();
         this.carregarDados();
         this.carregarConta();
+        this.carregarVagas();
         this.cards = [
             {
                 logo: 'assets/layout/images/pix.png',
-                cardNo: '5454-5454-9999-8888',
-                validDate: '05/28',
-                name: 'John Doe'
             }
         ];
 
-        this.selectedCard = this.cards[0];
-
         //dropdown date ranges
+
         this.dateRanges = [
-            { name: 'Daily', code: 'DAY' },
+            { name: 'Tipo de contrato', code: 'tipo_contrato' },
             { name: 'Weekly', code: 'WEEK' },
             { name: 'Monthly', code: 'MONTH' }
         ];
 
-        this.dateRanges2 = [
-            { name: 'Last 7 Days', code: '7day' },
-            { name: 'Last 30 Days', code: '30day' },
-            { name: 'Last 90 Days', code: '90day' }
-        ];
-
-        this.selectedDate = this.dateRanges[2];
 
         // accounts data for quick actions
         this.accounts = [
@@ -249,7 +246,107 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
             }
         ];
 
-        this.initChart();
+
+    }
+
+    /* carregarVagas() {
+        this.carregando = true;
+        if (this.id_usuario) {
+            // USUÁRIO LOGADO → consulta com candidatura
+            this.vagasService.listarTodasVagasParaCandidato(this.id_usuario)
+                .subscribe({
+                    next: (res) => {
+                        this.vagas = res?.dados || [];
+                        this.carregando = false;
+                        this.selectedDate = this.dateRanges[2];
+                    },
+                    error: () => this.erroCarregar()
+                });
+
+            this.vagasService.listarVagasCandidatadas(this.id_usuario).subscribe({
+                next: (res) => {
+                    this.minhasVagas = res?.dados || [];
+                    this.carregando = false;
+                    console.log(res);
+                    this.initChart(this.vagas, this.minhasVagas);
+                },
+                error: () => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erro',
+                        detail: 'Falha ao carregar suas vagas cadastradas.'
+                    });
+                    this.carregando = false;
+                }
+            });
+
+
+        } else {
+            // VISITANTE → lista vagas normais
+            this.vagasService
+                .listarTodasVagas()
+                .subscribe({
+                    next: (res) => {
+                        this.vagas = res?.dados || [];
+                        this.carregando = false;
+                    },
+                    error: () => this.erroCarregar()
+                });
+        }
+    } */
+
+    carregarVagas() {
+        this.carregando = true;
+
+        if (this.id_usuario) {
+
+            forkJoin({
+                todas: this.vagasService.listarTodasVagasParaCandidato(this.id_usuario),
+                candidatadas: this.vagasService.listarVagasCandidatadas(this.id_usuario)
+            }).subscribe({
+                next: ({ todas, candidatadas }) => {
+
+                    this.vagas = todas?.dados || [];
+                    this.minhasVagas = candidatadas?.dados || [];
+
+                    this.selectedDate = this.dateRanges[2];
+
+                    // AGORA sim: ambas garantidamente carregadas
+                    this.initChart(this.vagas, this.minhasVagas);
+
+                    this.carregando = false;
+                },
+                error: () => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erro',
+                        detail: 'Falha ao carregar vagas.'
+                    });
+                    this.carregando = false;
+                }
+            });
+
+        } else {
+
+            this.vagasService.listarTodasVagas().subscribe({
+                next: (res) => {
+                    this.vagas = res?.dados || [];
+                    this.carregando = false;
+                },
+                error: () => this.erroCarregar()
+            });
+
+        }
+    }
+
+
+    private erroCarregar() {
+        this.carregando = false;
+        this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao carregar vagas.'
+        });
     }
 
     carregarConta() {
@@ -266,6 +363,38 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
                 // Se 404 → não tem conta cadastrada → form vazio mesmo
             }
         });
+    }
+
+    confirmarCancelamento(vaga: any) {
+        this.confirmationService.confirm({
+            message: `Deseja cancelar sua candidatura para "${vaga.titulo}"?`,
+            icon: "pi pi-exclamation-triangle",
+            acceptLabel: "Sim",
+            rejectLabel: "Não",
+            accept: () => this.cancelarCandidatura(vaga)
+        });
+    }
+
+    cancelarCandidatura(vaga: any) {
+        this.vagasService
+            .cancelarCandidatura(this.id_usuario, vaga.id)
+            .subscribe({
+                next: () => {
+                    this.messageService.add({
+                        severity: 'success',
+                        summary: 'Cancelado',
+                        detail: 'Candidatura cancelada com sucesso.'
+                    });
+                    this.carregarVagas();
+                },
+                error: () => {
+                    this.messageService.add({
+                        severity: 'error',
+                        summary: 'Erro',
+                        detail: 'Falha ao cancelar candidatura.'
+                    });
+                }
+            });
     }
 
     carregarFoto() {
@@ -298,18 +427,32 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
         });
     }
 
-    initChart() {
+    initChart(vg: any, mg: any) {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
+        const contagemTipoContrato = vg.reduce((acc: any, vaga: any) => {
+            const tipo = vaga.tipo_contrato;
+            acc[tipo] = (acc[tipo] || 0) + 1;
+            return acc;
+        }, {});
+
+        const contagemTipoContratoCandidatadas = mg.reduce((acc2: any, vaga2: any) => {
+            const tipo2 = vaga2.tipo_contrato;
+            acc2[tipo2] = (acc2[tipo2] || 0) + 1;
+            return acc2;
+        }, {});
+
+        console.log(contagemTipoContrato);
+
         this.chartData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: ['CLT', 'Temporário', 'PJ', 'Estágio', 'Outros'],
             datasets: [
                 {
-                    label: 'Income',
-                    data: [8000, 8100, 5600, 5500, 4000, 6500, 5900, 8000, 8100, 5600, 5500, 4000],
+                    label: 'Total de vagas',
+                    data: [contagemTipoContrato.clt, contagemTipoContrato.temporario, contagemTipoContrato.pj, contagemTipoContrato.estagio, contagemTipoContrato.outros],
                     fill: false,
                     borderColor: documentStyle.getPropertyValue('--green-300'),
                     tension: 0.4,
@@ -318,8 +461,8 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
                     borderRadius: 6
                 },
                 {
-                    label: 'Expenses',
-                    data: [1200, 5100, 6200, 3300, 2100, 6200, 4500, 1200, 5100, 6200, 3300, 2100],
+                    label: 'Vagas candidatadas',
+                    data: [contagemTipoContratoCandidatadas.clt, contagemTipoContratoCandidatadas.temporario, contagemTipoContratoCandidatadas.pj, contagemTipoContratoCandidatadas.estagio, contagemTipoContratoCandidatadas.outros],
 
                     borderColor: documentStyle.getPropertyValue('--red-300'),
                     backgroundColor: '#ff3d3238',
@@ -395,8 +538,9 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
                             }
 
                             if (context.parsed.y !== null) {
-                                label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                                label += `${context.parsed.y} vagas`;
                             }
+
                             return label;
                         }
                     }

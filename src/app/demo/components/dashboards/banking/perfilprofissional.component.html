@@ -58,7 +58,7 @@
                     <div class="card">
                         <div class="card-header gap-3">
                             <div class="card-title">
-                                <h6>Money Flow</h6>
+                                <h6>Vagas Disponíveis</h6>
                                 <p class="subtitle">
                                     Your <b>{{ selectedDate.name }}</b> Income & Expenses data.
                                 </p>
@@ -147,7 +147,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <h3 class="text-0" style="letter-spacing: -0.5px">Banco: {{banco}}</h3>
-                                            
+
                                             <h3 class="text-0" style="letter-spacing: -0.5px">Pix: {{banco}}</h3>
 
                                             <h4 class="text-0">Numero da conta: {{conta}}</h4>
@@ -162,7 +162,7 @@
                         </p-carousel>
                     </div>
                 </div>
-                <div class="col-12 md:col-6 xl:col-12">
+                <!-- <div class="col-12 md:col-6 xl:col-12">
                     <div class="card" *ngIf="cards">
                         <div class="card-header gap-3">
                             <div class="card-title">
@@ -262,10 +262,40 @@
                             </p-tabPanel>
                         </p-tabView>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
-        <div class="col-12 xl:col-6">
+        <div class="card p-4 col-12 xl:col-12">
+            <h2 class="text-900 font-bold mb-4">Me candidatei</h2>
+            <p-table [value]="minhasVagas" [loading]="carregando" responsiveLayout="scroll" class="w-full">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Título</th>
+                        <th>Modelo</th>
+                        <th>Tipo</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-vaga>
+                    <tr>
+                        <td>{{ vaga.titulo }}</td>
+                        <td>{{ vaga.modelo_trabalho }}</td>
+                        <td>{{ vaga.tipo_contrato }}</td>
+                        <td>{{ vaga.cidade }}</td>
+                        <td>{{ vaga.estado }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6" class="text-center text-600">
+                            Você ainda não se candidatou a nenhuma vaga.
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <!-- <div class="col-12 xl:col-12">
             <div class="card h-full">
                 <div class="card-header gap-3 flex-wrap md:flex-nowrap">
                     <div class="card-title">
@@ -332,8 +362,8 @@
                     </ng-template>
                 </p-table>
             </div>
-        </div>
-        <div class="col-12 sm:col-6 xl:col-3">
+        </div> -->
+        <!--   <div class="col-12 sm:col-6 xl:col-3">
             <div class="card h-full">
                 <div class="card-header gap-3">
                     <div class="card-title">
@@ -348,8 +378,8 @@
                 </div>
                 <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="300px"></p-chart>
             </div>
-        </div>
-        <div class="col-12 sm:col-6 xl:col-3">
+        </div> -->
+        <!-- <div class="col-12 sm:col-6 xl:col-3">
             <div class="card h-full flex align-items-center justify-content-start p-5"
                 style="background: linear-gradient(to left bottom, var(--primary-lighter-color), var(--primary-400))">
                 <div class="flex flex-column">
@@ -360,7 +390,7 @@
                         class="p-button-primary w-full p-button-lg"></button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 <p-toast></p-toast>
