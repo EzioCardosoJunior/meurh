@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { Table } from 'primeng/table';
-import { MenuItem } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { UltimosUsuariosService } from 'src/app/demo/service/ultimos-usuarios.service';
+import { CadastroVagasService } from 'src/app/demo/service/cadastrovagas.service';
 
 @Component({
-    templateUrl: './ecommerce.dashboard.component.html'
+    templateUrl: './ecommerce.dashboard.component.html',
+    providers: [MessageService]
 })
 export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     // message on top
@@ -18,6 +20,9 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     ];
     usuarios: any[] = [];
     ultimosUsuarios: any[] = [];
+    id_empresa = Number(localStorage.getItem('usuario_id'));
+    vagas: any[] = [];
+    vagasRecentes: any[] = [];
     carregando = false;
     //orders data for main chart
     orders: any = {
@@ -286,7 +291,11 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     //config subscription
     subscription: Subscription;
 
-    constructor(private layoutService: LayoutService, private ultimosUsuariosService: UltimosUsuariosService) {
+    constructor(
+        private vagasService: CadastroVagasService,
+        private messageService: MessageService, 
+        private layoutService: LayoutService, 
+        private ultimosUsuariosService: UltimosUsuariosService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
             this.initChart();
         });
@@ -295,6 +304,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initChart();
         this.carregarUsuarios();
+        this.carregarVagas();
         this.selectedDate = this.dateRanges[0];
     }
 
@@ -302,10 +312,28 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
         this.ultimosUsuariosService.listarUltimosUsuarios().subscribe({
             next: (res) => {
                 this.usuarios = res?.dados || [];
-                console.log('Usuários carregados:', this.usuarios.length);
-
                 // pega apenas os 10 primeiros (já vêm ordenados)
-                this.ultimosUsuarios = this.usuarios.slice(0, 10);
+                this.ultimosUsuarios = this.usuarios.slice(0, 5);
+            }
+        });
+    }
+
+    carregarVagas() {
+        this.carregando = true;
+
+        this.vagasService.listarVagasEmpresa(this.id_empresa).subscribe({
+            next: (res) => {
+                this.vagas = res?.dados || [];
+                this.vagasRecentes = this.vagas.slice(0, 5);
+                this.carregando = false;
+            },
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erro',
+                    detail: 'Falha ao carregar vagas.'
+                });
+                this.carregando = false;
             }
         });
     }
