@@ -124,7 +124,7 @@
                     <p-tabView>
                         <p-tabPanel header="Unshipped Orders" class="w-full p-0">
                             <ng-template pTemplate="header">
-                                <div class="pr-2" pBadge value="6" severity="info">
+                                <div class="pr-2" pBadge value="{{ultimosUsuarios.length}}" severity="info">
                                     <h6 class="m-0 mr-2">Candidatos</h6>
                                 </div>
                             </ng-template>
@@ -169,7 +169,7 @@
                         </p-tabPanel>
                         <p-tabPanel header="Messages" class="w-full p-0">
                             <ng-template pTemplate="header">
-                                <div class="pr-2" pBadge value="3" severity="warning">
+                                <div class="pr-2" pBadge value="{{vagasRecentes.length}}" severity="warning">
                                     <h6 class="m-0 mr-2">Vagas</h6>
                                 </div>
                             </ng-template>
