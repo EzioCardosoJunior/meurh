@@ -75,19 +75,10 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     selectedDate: any;
 
     // popup menu items for waiting actions
-    items: MenuItem[] = [
-        {
-            icon: 'pi pi-check',
-            label: 'Complete'
-        },
-
-        {
-            icon: 'pi pi-times',
-            label: 'Cancel'
-        },
+    items: MenuItem[] = [       
         {
             icon: 'pi pi-external-link',
-            label: 'Details'
+            label: 'Detalhes'
         }
     ];
 
@@ -249,45 +240,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
                 }
             ]
         },
-        {
-            image: 'assets/demo/images/product/bamboo-watch.jpg',
-            name: 'Eco-Friendly Timepiece: Experience Style with our Bamboo Watch',
-            adDesc: `Stay on time and on trend with the Bamboo-Watch. Made with sustainable bamboo materials, this watch not only looks great but also helps protect the environment. With its precise timekeeping and versatile design, the Bamboo-Watch is perfect for any occasion. Get yours today and join the eco-movement in style.`,
-            adCTR: '6%',
-            adROI: '22%',
-            detailedData: [
-                {
-                    name: 'Mail',
-                    adROI: '10%',
-                    adCTR: '3%',
-                    adCR: '2%',
-                    impressions: 5000,
-                    clicks: 100,
-                    adCPA: '$50.00',
-                    adCPC: '$2.00'
-                },
-                {
-                    name: 'Google Ads',
-                    adROI: '15%',
-                    adCTR: '6%',
-                    adCR: '4%',
-                    impressions: 10000,
-                    clicks: 400,
-                    adCPA: '$37.50',
-                    adCPC: '$1.50'
-                },
-                {
-                    name: 'FB Ads',
-                    adROI: '20%',
-                    adCTR: '7%',
-                    adCR: '5%',
-                    impressions: 15000,
-                    clicks: 750,
-                    adCPA: '$31.25',
-                    adCPC: '$1.25'
-                }
-            ]
-        }
+       /*  */
     ];
 
     //config subscription
@@ -299,12 +252,11 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
         private layoutService: LayoutService,
         private ultimosUsuariosService: UltimosUsuariosService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
-            this.initChart();
+           // this.initChart();
         });
     }
 
-    ngOnInit() {
-        this.initChart();
+    ngOnInit() {        
         this.carregarUsuarios();
         this.carregarVagas();
         this.selectedDate = this.dateRanges[0];
@@ -340,6 +292,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
             next: (res) => {
                 this.vagas = res?.dados || [];
                 this.vagasRecentes = this.vagas.slice(0, 5);
+                this.initChart(this.vagas);
                 this.carregando = false;
             },
             error: () => {
@@ -364,11 +317,18 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
         return `${Math.floor(diffDias / 7)}sem atrás`;
     }
 
-    initChart() {
+    initChart(vg: any) {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+        const contagemTipoContrato = vg.reduce((acc: any, vaga: any) => {
+            const tipo = vaga.tipo_contrato;
+            console.log(tipo);
+            acc[tipo] = (acc[tipo] || 0) + 1;
+            return acc;
+        }, {});
 
         //custom tooltip
         const getOrCreateTooltip = (chart: any) => {
@@ -576,45 +536,13 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
                 }
             ]
         };
-        this.chartOptions1 = {
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor,
-                        usePointStyle: true,
-                        boxHeight: 15,
-                        pointStyleWidth: 17,
-                        padding: 14
-                    }
-                }
-            },
-            interaction: {
-                mode: 'nearest',
-                axis: 'x',
-                intersect: false
-            },
-
-            maintainAspectRatio: false,
-            hover: {
-                mode: 'index'
-            },
-            scales: {
-                x: {
-                    display: false
-                },
-                y: {
-                    display: false
-                }
-            }
-        };
-
-        //sales by category pie chart
+      
         this.pieData = {
-            labels: ['Watches', 'Clothing', 'Gadgets', 'Accessories'],
+            labels: ['CLT', 'Temporário', 'PJ', 'Estágio', 'Outros'],
             datasets: [
                 {
-                    data: [300, 50, 100, 80],
-                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--orange-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--cyan-300')],
+                    data: [contagemTipoContrato.clt, contagemTipoContrato.temporario, contagemTipoContrato.pj, contagemTipoContrato.estagio, contagemTipoContrato.outro],
+                    backgroundColor: [documentStyle.getPropertyValue('--primary-300'), documentStyle.getPropertyValue('--orange-300'), documentStyle.getPropertyValue('--green-300'), documentStyle.getPropertyValue('--cyan-300'), documentStyle.getPropertyValue('--red-300')],
                     borderColor: surfaceBorder
                 }
             ]
@@ -637,25 +565,6 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
 
     onDateChangeBarChart() {
         const documentStyle = getComputedStyle(document.documentElement);
-        const monthlyData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [
-                {
-                    label: 'Orders',
-                    data: this.orders.monthlyData.orders,
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--primary-color'),
-                    borderRadius: 12
-                },
-                {
-                    label: 'Units',
-                    data: this.orders.monthlyData.orderUnits,
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--primary-light-color'),
-                    borderRadius: 12
-                }
-            ]
-        };
 
         const dailyData = {
             labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
@@ -677,67 +586,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
             ]
         };
 
-        const weeklyData = {
-            labels: [
-                'Week 1',
-                'Week 2',
-                'Week 3',
-                'Week 4',
-                'Week 5',
-                'Week 6',
-                'Week 7',
-                'Week 8',
-                'Week 9',
-                'Week 10',
-                'Week 11',
-                'Week 12',
-                'Week 13',
-                'Week 14',
-                'Week 15',
-                'Week 16',
-                'Week 17',
-                'Week 18',
-                'Week 19',
-                'Week 20',
-                'Week 21',
-                'Week 22',
-                'Week 23',
-                'Week 24'
-            ],
-            datasets: [
-                {
-                    label: 'Orders',
-                    data: this.orders.weeklyData.orders,
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--primary-color'),
-                    borderRadius: 6
-                },
-                {
-                    label: 'Units',
-                    data: this.orders.weeklyData.orderUnits,
-                    fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--primary-light-color'),
-                    borderRadius: 6
-                }
-            ]
-        };
-
-        let newBarData = { ...this.chartData };
-        switch (this.selectedDate.name) {
-            case 'Monthly':
-                newBarData = monthlyData;
-                break;
-            case 'Weekly':
-                newBarData = weeklyData;
-                break;
-            case 'Daily':
-                newBarData = dailyData;
-                break;
-            default:
-                break;
-        }
-
-        this.chartData = newBarData;
+       
     }
 
     //sum function for main chart data

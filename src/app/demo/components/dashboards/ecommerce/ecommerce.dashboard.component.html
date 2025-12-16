@@ -61,50 +61,27 @@
         <div class="card">
             <div class="card-header gap-3">
                 <div class="card-title">
-                    <h6>Orders</h6>
-                    <p class="subtitle">
-                        Your <b>{{ selectedDate.name }}</b> orders data from
-                        <b>{{ selectedDate.code == 'DAY' ? orders.dailyData.dateRange : selectedDate.code == 'WEEK' ?
-                            orders.weeklyData.dateRange : orders.monthlyData.dateRange }}</b>
-                    </p>
+                    <h6>Entrevistas agendadas</h6>
+                    <p class="subtitle">Entrevistas agendadas no periodo</p>
                 </div>
-                <p-dropdown [options]="dateRanges" [(ngModel)]="selectedDate" placeholder="Monthly" optionLabel="name"
-                    [showClear]="false" styleClass="w-9rem" (onChange)="onDateChangeBarChart()"></p-dropdown>
             </div>
             <div class="chart-info mb-3 flex align-items-center gap-5 flex-wrap">
                 <div class="info">
-                    <h6 class="m-0 mb-1 text-color-secondary font-normal">Total Orders</h6>
-                    <p class="m-0 p-0 font-bold">
-                        {{ selectedDate.code == 'DAY' ? sumOf(orders.dailyData.orders) : selectedDate.code == 'WEEK' ?
-                        sumOf(orders.weeklyData.orders) : sumOf(orders.monthlyData.orders) }}
-                    </p>
+                    <h6 class="m-0 mb-1 text-color-secondary font-normal">Total de candidatos</h6>
+                    <p class="m-0 p-0 font-bold">{{ usuarios.length }}</p>
                 </div>
                 <div class="info">
-                    <h6 class="m-0 mb-1 text-color-secondary font-normal">Total Units</h6>
+                    <h6 class="m-0 mb-1 text-color-secondary font-normal">Total de entrevistas</h6>
                     <p class="m-0 p-0 font-bold">
                         {{ selectedDate.code == 'DAY' ? sumOf(orders.dailyData.orderUnits) : selectedDate.code == 'WEEK'
                         ? sumOf(orders.weeklyData.orderUnits) : sumOf(orders.monthlyData.orderUnits) }}
                     </p>
                 </div>
                 <div class="info">
-                    <h6 class="m-0 mb-1 text-color-secondary font-normal">Total Sales</h6>
+                    <h6 class="m-0 mb-1 text-color-secondary font-normal">Total de vagas</h6>
                     <p class="m-0 p-0 font-bold">
                         {{ selectedDate.code == 'DAY' ? orders.dailyData.totalSales : selectedDate.code == 'WEEK' ?
                         orders.weeklyData.totalSales : orders.monthlyData.totalSales }}
-                    </p>
-                </div>
-                <div class="info">
-                    <h6 class="m-0 mb-1 text-color-secondary font-normal">Avg. sales/orders item</h6>
-                    <p class="m-0 p-0 font-bold">
-                        {{ selectedDate.code == 'DAY' ? orders.dailyData.avarageSalesByOrder : selectedDate.code ==
-                        'WEEK' ? orders.weeklyData.avarageSalesByOrder : orders.monthlyData.avarageSalesByOrder }}
-                    </p>
-                </div>
-                <div class="info">
-                    <h6 class="m-0 mb-1 text-color-secondary font-normal">Avg. units/orders item</h6>
-                    <p class="m-0 p-0 font-bold">
-                        {{ selectedDate.code == 'DAY' ? orders.dailyData.avarageUnitByOrder : selectedDate.code ==
-                        'WEEK' ? orders.weeklyData.avarageUnitByOrder : orders.monthlyData.avarageUnitByOrder }}
                     </p>
                 </div>
             </div>
@@ -207,20 +184,22 @@
                 <div class="card">
                     <div class="card-header gap-3 pb-2">
                         <div class="card-title">
-                            <h6>Sales By Category</h6>
-                            <p class="subtitle">Categorized sales data</p>
+                            <h6>Vagas Por tipo de contrato</h6>
+                            <p class="subtitle">(CLT, PJ, etc...)</p>
                         </div>
                     </div>
                     <div class="flex align-items-center justify-content-between">
                         <ul class="list-none p-0 m-0">
                             <li class="mb-3 flex align-items-center"><i
-                                    class="pi pi-circle-fill text-primary-300 mr-2"></i><span>Watches</span></li>
+                                    class="pi pi-circle-fill text-primary-300 mr-2"></i><span>CLT</span></li>
                             <li class="mb-3 flex align-items-center"><i
-                                    class="pi pi-circle-fill text-orange-300 mr-2"></i><span>Clothing</span></li>
+                                    class="pi pi-circle-fill text-orange-300 mr-2"></i><span>Temporário</span></li>
                             <li class="mb-3 flex align-items-center"><i
-                                    class="pi pi-circle-fill text-green-300 mr-2"></i><span>Gadgets</span></li>
+                                    class="pi pi-circle-fill text-green-300 mr-2"></i><span>PJ</span></li>
                             <li class="mb-3 flex align-items-center"><i
-                                    class="pi pi-circle-fill text-cyan-300 mr-2"></i><span>Accessories</span></li>
+                                    class="pi pi-circle-fill text-cyan-300 mr-2"></i><span>Estágio</span></li>
+                            <li class="mb-3 flex align-items-center"><i
+                                    class="pi pi-circle-fill text-red-300 mr-2"></i><span>Outros</span></li>
                         </ul>
                         <p-chart type="doughnut" [data]="pieData" [options]="pieOptions" height="140px"
                             width="140px"></p-chart>
