@@ -76,11 +76,24 @@ export class CadastroVagasService {
     );
   }
 
+  salvarEntrevista(payload: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/salvar_entrevista.php`,
+      payload
+    );
+  }
+
   atualizarAgendado(id_candidatura: number, agendado: string) {
     return this.http.post(`${this.baseUrl}/update_agendado.php`, {
       id_candidatura,
       agendado
     });
+  }
+
+  getTotalEntrevistasPendentes() {
+    return this.http.get<any>(
+      `${this.baseUrl}/total_entrevistas_pendentes.php`
+    );
   }
 
 

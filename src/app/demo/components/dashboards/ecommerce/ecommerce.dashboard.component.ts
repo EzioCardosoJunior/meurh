@@ -26,6 +26,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     usuariosOnline: any;
     contadorOnLine: number = 0;
     carregando = false;
+    totalEntrevistas: number = 0;
     //orders data for main chart
     orders: any = {
         monthlyData: {
@@ -75,7 +76,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     selectedDate: any;
 
     // popup menu items for waiting actions
-    items: MenuItem[] = [       
+    items: MenuItem[] = [
         {
             icon: 'pi pi-external-link',
             label: 'Detalhes'
@@ -240,7 +241,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
                 }
             ]
         },
-       /*  */
+        /*  */
     ];
 
     //config subscription
@@ -252,13 +253,14 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
         private layoutService: LayoutService,
         private ultimosUsuariosService: UltimosUsuariosService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
-           // this.initChart();
+            // this.initChart();
         });
     }
 
-    ngOnInit() {        
+    ngOnInit() {
         this.carregarUsuarios();
         this.carregarVagas();
+        this.totalEntrevistasPendentes();
         this.selectedDate = this.dateRanges[0];
 
         this.ultimosUsuariosService.getUsuariosOnline().subscribe({
@@ -285,6 +287,14 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+
+    totalEntrevistasPendentes() {
+        this.vagasService.getTotalEntrevistasPendentes().subscribe(res => {
+            this.totalEntrevistas = res.total;
+        });
+    }
+
 
     carregarVagas() {
         this.carregando = true;
@@ -325,7 +335,6 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
 
         const contagemTipoContrato = vg.reduce((acc: any, vaga: any) => {
             const tipo = vaga.tipo_contrato;
-            console.log(tipo);
             acc[tipo] = (acc[tipo] || 0) + 1;
             return acc;
         }, {});
@@ -536,7 +545,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
                 }
             ]
         };
-      
+
         this.pieData = {
             labels: ['CLT', 'Temporário', 'PJ', 'Estágio', 'Outros'],
             datasets: [
@@ -586,7 +595,7 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
             ]
         };
 
-       
+
     }
 
     //sum function for main chart data

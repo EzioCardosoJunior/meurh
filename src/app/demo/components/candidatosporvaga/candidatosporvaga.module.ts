@@ -24,15 +24,21 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
 import { ListboxModule } from 'primeng/listbox';
+import { DialogModule } from 'primeng/dialog';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @NgModule({
-    imports: [CommonModule, FormsModule,
-        FormsModule,
+    imports: [CommonModule, 
+        DialogModule,
+        RadioButtonModule,
+        InputTextModule,
+        ButtonModule, FormsModule,
         CheckboxModule,
         ButtonModule,
         ConfirmDialogModule,
         TableModule,
         ListboxModule,
+        DialogModule,
         ReactiveFormsModule, ToastModule, MessagesModule, MessageModule, CandidatosPorVagaRoutingModule, AutoCompleteModule, CalendarModule, ChipsModule, DropdownModule, InputMaskModule, InputNumberModule, CascadeSelectModule, MultiSelectModule, InputTextareaModule, InputTextModule],
     declarations: [CandidatosPorVagaComponent],
     providers: [MessageService]

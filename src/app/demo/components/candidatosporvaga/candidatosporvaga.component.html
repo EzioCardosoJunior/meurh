@@ -8,15 +8,9 @@
 
       <h3 class="text-900 font-bold mb-3">Minhas Vagas</h3>
 
-      <p-listbox 
-        [options]="vagas" 
-        optionLabel="titulo"
-        [(ngModel)]="selecionada"
-        (onChange)="selecionarVaga($event.value)"
-        [filter]="true"
-        [style]="{ width: '100%' }"
-        [emptyFilterMessage]="'Nenhuma vaga encontrada'"
-        [listStyle]="{ 'max-height': '400px' }">
+      <p-listbox [options]="vagas" optionLabel="titulo" [(ngModel)]="selecionada"
+        (onChange)="selecionarVaga($event.value)" [filter]="true" [style]="{ width: '100%' }"
+        [emptyFilterMessage]="'Nenhuma vaga encontrada'" [listStyle]="{ 'max-height': '400px' }">
       </p-listbox>
 
     </div>
@@ -27,16 +21,12 @@
     <div class="card p-4">
 
       <h3 class="text-900 font-bold mb-4">
-        Candidatos para: 
+        Candidatos para:
         <span class="text-primary">{{ selecionada?.titulo || 'Selecione uma vaga' }}</span>
       </h3>
+      <p-table [value]="candidatos" [loading]="carregandoCandidatos" responsiveLayout="scroll" selectionMode="single"
+        [(selection)]="candidatoSelecionado" (onRowSelect)="abrirDialogAgendamento($event.data)">
 
-      <p-table 
-        [value]="candidatos"
-        [loading]="carregandoCandidatos"
-        responsiveLayout="scroll">
-
-        <!-- CABEÇALHO -->
         <ng-template pTemplate="header">
           <tr>
             <th>Nome</th>
@@ -48,31 +38,14 @@
           </tr>
         </ng-template>
 
-        <!-- LINHAS -->
         <ng-template pTemplate="body" let-c>
-          <tr>
+          <tr [pSelectableRow]="c">
             <td>{{ c.nome_candidato }}</td>
             <td>{{ c.email }}</td>
             <td>{{ c.cpf }}</td>
             <td>{{ c.data_candidatura }}</td>
             <td>{{ c.status }}</td>
-
-            <!-- NOVA COLUNA COM SELECT -->
-            <td>
-              <p-dropdown
-                [options]="[
-                  {label: 'SIM', value: 'SIM'},
-                  {label: 'NÃO', value: 'NÃO'},
-                  {label: 'A REVISAR', value: 'A REVISAR'}
-                ]"
-                [(ngModel)]="c.agendado"
-                placeholder="Selecione"
-                (onChange)="atualizarAgendado(c)"
-                styleClass="w-full"
-              >
-              </p-dropdown>
-            </td>
-
+            <td>{{ c.agendado }}</td>
           </tr>
         </ng-template>
 
@@ -88,6 +61,48 @@
       </p-table>
 
     </div>
+
+
   </div>
+
+</div>
+<div>
+  <p-dialog header="Agendamento de Entrevista" [(visible)]="dialogAgendamento" [modal]="true"
+    [style]="{ width: '450px' }">
+
+    <div class="p-fluid">
+
+      <!-- AGENDADO -->
+      <div class="field">
+        <label class="mr-2">Status:</label>
+        <p-radioButton name="agendado" value="SIM" [(ngModel)]="formAgendamento.agendado" label="Sim"></p-radioButton>
+        <p-radioButton name="agendado" value="NÃO" [(ngModel)]="formAgendamento.agendado" label="Não"
+          class="ml-3"></p-radioButton>
+        <p-radioButton name="agendado" value="A REVISAR" [(ngModel)]="formAgendamento.agendado" label="A revisar"
+          class="ml-3"></p-radioButton>
+      </div>
+
+      <!-- DATA -->
+      <div class="field">
+        <label>Data da entrevista</label>
+        <input type="datetime-local" pInputText [(ngModel)]="formAgendamento.data_entrevista">
+      </div>
+
+      <!-- ENTREVISTADOR -->
+      <div class="field">
+        <label>Entrevistador</label>
+        <input pInputText [(ngModel)]="formAgendamento.entrevistador_nome">
+      </div>
+
+    </div>
+
+    <ng-template pTemplate="footer">
+      <button pButton label="Cancelar" class="p-button-text" (click)="dialogAgendamento=false"></button>
+      <button pButton label="Salvar" icon="pi pi-check" (click)="salvarAgendamento()">
+      </button>
+
+    </ng-template>
+
+  </p-dialog>
 
 </div>
