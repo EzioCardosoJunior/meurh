@@ -267,7 +267,6 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
                 next: (res) => {
                     this.minhasVagas = res?.dados || [];
                     this.carregando = false;
-                    console.log(res);
                     this.initChart(this.vagas, this.minhasVagas);
                 },
                 error: () => {
@@ -444,8 +443,6 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
             acc2[tipo2] = (acc2[tipo2] || 0) + 1;
             return acc2;
         }, {});
-
-        console.log(contagemTipoContrato);
 
         this.chartData = {
             labels: ['CLT', 'Temporário', 'PJ', 'Estágio', 'Outros'],

@@ -9,7 +9,7 @@ export class UltimosUsuariosService {
 
   private baseUrl = '/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * Busca os 10 últimos usuários cadastrados
@@ -18,6 +18,10 @@ export class UltimosUsuariosService {
     return this.http.get<any>(
       `${this.baseUrl}/get_ultimos_usuarios_cad.php`
     );
+  }
+
+  getUsuariosOnline(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/get_usuarios_online.php`);
   }
 
 }

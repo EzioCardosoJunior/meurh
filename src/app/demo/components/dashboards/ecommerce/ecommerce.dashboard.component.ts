@@ -23,6 +23,8 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
     id_empresa = Number(localStorage.getItem('usuario_id'));
     vagas: any[] = [];
     vagasRecentes: any[] = [];
+    usuariosOnline: any;
+    contadorOnLine: number = 0;
     carregando = false;
     //orders data for main chart
     orders: any = {
@@ -293,8 +295,8 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
 
     constructor(
         private vagasService: CadastroVagasService,
-        private messageService: MessageService, 
-        private layoutService: LayoutService, 
+        private messageService: MessageService,
+        private layoutService: LayoutService,
         private ultimosUsuariosService: UltimosUsuariosService) {
         this.subscription = this.layoutService.configUpdate$.subscribe((config) => {
             this.initChart();
@@ -306,6 +308,20 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
         this.carregarUsuarios();
         this.carregarVagas();
         this.selectedDate = this.dateRanges[0];
+
+        this.ultimosUsuariosService.getUsuariosOnline().subscribe({
+            next: (res) => {
+                this.usuariosOnline = res?.dados || [];
+                this.contadorOnLine = this.usuariosOnline.length;
+            },
+            error: () => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Erro',
+                    detail: 'Falha ao carregar usuários online.'
+                });
+            }
+        });
     }
 
     carregarUsuarios() {
@@ -320,7 +336,6 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
 
     carregarVagas() {
         this.carregando = true;
-
         this.vagasService.listarVagasEmpresa(this.id_empresa).subscribe({
             next: (res) => {
                 this.vagas = res?.dados || [];

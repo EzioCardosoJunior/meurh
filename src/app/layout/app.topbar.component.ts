@@ -4,6 +4,7 @@ import { AppSidebarComponent } from './app.sidebar.component';
 import { AuthService } from '../demo/service/auth.service';
 import { IdentidadeUsrService } from '../demo/service/identidade-usr.service';
 import { PhotoService } from '../demo/service/photo.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-topbar',
@@ -15,12 +16,21 @@ export class AppTopbarComponent {
     activeItem!: number;
     id_usuario = Number(localStorage.getItem('usuario_id'));
     fotoUrl: string = 'assets/layout/images/semusuario.png';
-    constructor(public layoutService: LayoutService, public el: ElementRef, private authService: AuthService,
+    constructor(
+        private http: HttpClient, public layoutService: LayoutService, public el: ElementRef, private authService: AuthService,
         private photoService: PhotoService, private identidadeService: IdentidadeUsrService) { }
 
     ngOnInit() {
         this.carregarFoto();
         this.carregarDados();
+        this.startHeartbeat();
+    }
+    startHeartbeat() {
+        setInterval(() => {            
+            this.http.post('/api/heartbeat.php', {
+                id_usuario: this.id_usuario
+            }).subscribe();
+        }, 30000); // a cada 30s
     }
 
     onMenuButtonClick() {
