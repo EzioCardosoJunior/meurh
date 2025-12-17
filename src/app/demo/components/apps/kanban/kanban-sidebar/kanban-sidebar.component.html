@@ -4,7 +4,7 @@
             <div class="px-4 py-6 border-bottom-1 surface-border flex align-items-center justify-content-between h-4rem">
                 <p-inplace #inplace [closable]="true" closeIcon="pi pi-check" styleClass="h-3rem" (onActivate)="focus(1)" styleClass="white-space-nowrap">
                     <ng-template pTemplate="display">
-                        <span class="block text-900 font-semibold text-lg pl-2" pTooltip="Click to edit">{{ formValue.title ? formValue.title : 'Untitled' }}</span>
+                        <span class="block text-900 font-semibold text-lg pl-2" pTooltip="Click to edit">{{ formValue.title ? formValue.title : 'Untitled' }}1111111111</span>
                     </ng-template>
                     <ng-template pTemplate="content">
                         <input #inputTitle type="text" name="title" [(ngModel)]="formValue.title" pInputText class="w-13rem sm:w-18rem h-3rem text-900 text-lg" (keydown.enter)="inplace.deactivate()" />

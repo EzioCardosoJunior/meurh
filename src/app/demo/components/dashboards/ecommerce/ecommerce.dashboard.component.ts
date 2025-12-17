@@ -364,17 +364,14 @@ export class EcommerceDashboardComponent implements OnInit, OnDestroy {
             return tooltipEl;
         };
         const externalTooltipHandler = (context: any) => {
-            // Tooltip Element
             const { chart, tooltip } = context;
             const tooltipEl = getOrCreateTooltip(chart);
 
-            // Hide if no tooltip
             if (tooltip.opacity === 0) {
                 tooltipEl.style.opacity = 0;
                 return;
             }
 
-            // Set Text
             if (tooltip.body) {
                 const titleLines = tooltip.title || [];
                 const bodyLines = tooltip.body.map((b: any) => b.lines);

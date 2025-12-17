@@ -12,6 +12,7 @@ export class IdentidadeUsrComponent implements OnInit {
 
   identidadeForm!: FormGroup;
   id_usuario = Number(localStorage.getItem('usuario_id'));
+  nome_usuario: any;
 
   // FOTO PADRÃO
   fotoUrl: string = 'assets/layout/images/semusuario.png';
@@ -38,7 +39,7 @@ export class IdentidadeUsrComponent implements OnInit {
       nova_senha: [''],
       repetir_senha: [''],
       nome_usuario: [''],
-
+      nome: [''],
       cpf: [''],
       rg: [''],
       reservista: [''],
@@ -52,6 +53,8 @@ export class IdentidadeUsrComponent implements OnInit {
     this.identidadeService.getUsuario(this.id_usuario).subscribe({
       next: (res) => {
         if (res?.sucesso && res?.dados) {
+          console.log(res.dados);
+          this.nome_usuario = res.dados.nome;
           this.identidadeForm.patchValue(res.dados);
         }
       }
