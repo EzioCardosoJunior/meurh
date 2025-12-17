@@ -13,6 +13,9 @@ export class IdentidadeUsrComponent implements OnInit {
   identidadeForm!: FormGroup;
   id_usuario = Number(localStorage.getItem('usuario_id'));
   nome_usuario: any;
+  dataNascimentoFormatada: string | null = null;
+  idade: number | null = null;
+
 
   // FOTO PADRÃO
   fotoUrl: string = 'assets/layout/images/semusuario.png';
@@ -24,7 +27,7 @@ export class IdentidadeUsrComponent implements OnInit {
     private identidadeService: IdentidadeUsrService,
     private messageService: MessageService,
     private photoService: PhotoService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.criarFormulario();
@@ -53,20 +56,26 @@ export class IdentidadeUsrComponent implements OnInit {
     this.identidadeService.getUsuario(this.id_usuario).subscribe({
       next: (res) => {
         if (res?.sucesso && res?.dados) {
-          console.log(res.dados);
+
           this.nome_usuario = res.dados.nome;
           this.identidadeForm.patchValue(res.dados);
+
+          if (res.dados.data_nascimento) {
+            this.dataNascimentoFormatada = this.formatarData(res.dados.data_nascimento);
+            this.idade = this.calcularIdade(res.dados.data_nascimento);
+          }
         }
       }
     });
   }
+
 
   carregarFoto() {
     this.photoService.getFotoUsuario(this.id_usuario).subscribe({
       next: (res) => {
 
         if (res?.foto_url) {
-          
+
           // URL COMPLETA ABSOLUTA + cache-buster
           this.fotoUrl =
             'https://tendapromos.com.br/servicoscurr/' +
@@ -161,5 +170,30 @@ export class IdentidadeUsrComponent implements OnInit {
       cnh: ''
     });
   }
+
+  private formatarData(dataIso: string): string {
+    const [ano, mes, dia] = dataIso.split('-');
+    return `${dia}/${mes}/${ano}`;
+  }
+
+  private calcularIdade(dataIso: string): number {
+    const hoje = new Date();
+    const nascimento = new Date(dataIso);
+
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
+
+    const mesAtual = hoje.getMonth();
+    const mesNascimento = nascimento.getMonth();
+
+    if (
+      mesAtual < mesNascimento ||
+      (mesAtual === mesNascimento && hoje.getDate() < nascimento.getDate())
+    ) {
+      idade--;
+    }
+
+    return idade;
+  }
+
 
 }
