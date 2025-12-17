@@ -31,7 +31,7 @@
                     <div class="card surface-card text-700 flex justify-content-between pt-4 h-full">
                         <div class="overview-info">
                             <h6 class="m-0 mb-1">Entrevistas agendadas</h6>
-                            <h1 class="m-0">0</h1>
+                            <h1 class="m-0">{{totalEntrevistasCandidato}}</h1>
                         </div>
                         <i class="pi pi-comments text-3xl"></i>
                     </div>
@@ -69,7 +69,7 @@
                             <div class="card-title">
                                 <h6>Vagas Disponíveis</h6>
                                 <p class="subtitle">
-                                    Your <b>{{ selectedDate.name }}</b> Income & Expenses data.
+                                    Vagas totais disponíveis no sistema.
                                 </p>
                             </div>
                             <p-dropdown [options]="dateRanges" [(ngModel)]="selectedDate" placeholder="Monthly"

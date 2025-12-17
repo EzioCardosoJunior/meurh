@@ -97,6 +97,13 @@ export class CadastroVagasService {
   }
 
 
+  getTotalEntrevistasPendentesCandidato(id_usuario: number) {
+    return this.http.get<any>(
+      `${this.baseUrl}/total_entrevistas_agendadas_usuario.php`, { params: { id_usuario } }
+    );
+  }
+
+
 
 
 }

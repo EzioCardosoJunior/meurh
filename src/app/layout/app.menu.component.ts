@@ -325,12 +325,6 @@ export class AppMenuComponent implements OnInit {
                         label: 'Free Blocks',
                         icon: 'pi pi-fw pi-eye',
                         routerLink: ['/blocks']
-                    },
-                    {
-                        label: 'All Blocks',
-                        icon: 'pi pi-fw pi-globe',
-                        url: ['https://www.primefaces.org/primeblocks-ng'],
-                        target: '_blank'
                     }
                 ]
             },
@@ -347,18 +341,6 @@ export class AppMenuComponent implements OnInit {
                         label: 'Colors',
                         icon: 'pi pi-fw pi-palette',
                         routerLink: ['utilities/colors']
-                    },
-                    {
-                        label: 'PrimeFlex',
-                        icon: 'pi pi-fw pi-desktop',
-                        url: ['https://www.primefaces.org/primeflex/'],
-                        target: '_blank'
-                    },
-                    {
-                        label: 'Figma',
-                        icon: 'pi pi-fw pi-pencil',
-                        url: ['https://www.figma.com/file/IeKkGeDwEmJeD6PbgANgSo/Preview-%7C-Freya-2.0.0?node-id=0%3A1&t=xfDlPQhWfSukbuaQ-1'],
-                        target: '_blank'
                     }
                 ]
             },
@@ -464,7 +446,7 @@ export class AppMenuComponent implements OnInit {
                     }
                 ]
             },
-            {
+           /*  {
                 label: 'E-Commerce',
                 icon: 'pi pi-fw pi-wallet',
                 items: [
@@ -504,8 +486,8 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['ecommerce/order-summary']
                     }
                 ]
-            },
-            {
+            }, */
+            /* {
                 label: 'User Management',
                 icon: 'pi pi-fw pi-user',
                 items: [
@@ -520,7 +502,8 @@ export class AppMenuComponent implements OnInit {
                         routerLink: ['profile/create']
                     }
                 ]
-            },
+            } */
+           /* ,
             {
                 label: 'Hierarchy',
                 icon: 'pi pi-fw pi-align-left',
@@ -590,23 +573,7 @@ export class AppMenuComponent implements OnInit {
                         ]
                     }
                 ]
-            },
-            {
-                label: 'Start',
-                icon: 'pi pi-fw pi-download',
-                items: [
-                    {
-                        label: 'Buy Now',
-                        icon: 'pi pi-fw pi-shopping-cart',
-                        url: ['https://www.primefaces.org/store']
-                    },
-                    {
-                        label: 'Documentation',
-                        icon: 'pi pi-fw pi-info-circle',
-                        routerLink: ['/documentation']
-                    }
-                ]
-            }
+            } */
         ];
     }
 }

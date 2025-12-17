@@ -26,6 +26,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     vagas: any[] = [];
     minhasVagas: any[] = [];
     carregando = false;
+    totalEntrevistasCandidato: any;
 
 
     msgs1: any = [
@@ -107,6 +108,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
         this.carregarDados();
         this.carregarConta();
         this.carregarVagas();
+        this.totalEntrevistasPendentesCandidato();
         this.cards = [
             {
                 logo: 'assets/layout/images/pix.png',
@@ -371,6 +373,12 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
             acceptLabel: "Sim",
             rejectLabel: "Não",
             accept: () => this.cancelarCandidatura(vaga)
+        });
+    }
+
+    totalEntrevistasPendentesCandidato() {
+        this.vagasService.getTotalEntrevistasPendentesCandidato(this.id_usuario).subscribe(res => {
+            this.totalEntrevistasCandidato = res.total;
         });
     }
 
