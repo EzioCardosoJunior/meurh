@@ -20,7 +20,7 @@ const routes: Routes = [
             { path: 'profile', data: { breadcrumb: 'User Management' }, loadChildren: () => import('./demo/components/profile/profile.module').then((m) => m.ProfileModule) },
             { path: 'documentation', data: { breadcrumb: 'Documentation' }, loadChildren: () => import('./demo/components/documentation/documentation.module').then((m) => m.DocumentationModule) },
             { path: 'blocks', data: { breadcrumb: 'Prime Blocks' }, loadChildren: () => import('./demo/components/primeblocks/primeblocks.module').then((m) => m.PrimeBlocksModule) },
-           // { path: 'ecommerce', data: { breadcrumb: 'E-Commerce' }, loadChildren: () => import('./demo/components/ecommerce/ecommerce.module').then((m) => m.EcommerceModule) },
+           // { path: 'ecommerce', data: { breadcrumb: 'E-Commerce' }, loadChildren: () => import('./demo/components/ecommerce/ecommerce.module').then((m) => m.PerfilEmpresarialModule) },
             { path: 'identidadeusr', data: { breadcrumb: 'Identificação' }, loadChildren: () => import('./demo/components/identidadeusr/identidadeusr.module').then((m) => m.IdentidadeUsrModule) },
             { path: 'enderecousr', data: { breadcrumb: 'Endereço e localização' }, loadChildren: () => import('./demo/components/enderecousr/enderecousr.module').then((m) => m.EnderecoUsrModule) },
             { path: 'origemusr', data: { breadcrumb: 'Nacionalidae e origem' }, loadChildren: () => import('./demo/components/origemusr/origemusr.module').then((m) => m.OrigemUsrModule) },

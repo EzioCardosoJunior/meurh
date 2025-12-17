@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 @NgModule({
     imports: [
         RouterModule.forChild([
-            { path: '', data: { breadcrumb: 'Perfil profissional' }, loadChildren: () => import('./ecommerce/ecommerce.dashboard.module').then((m) => m.EcommerceDashboardModule) },
+            { path: '', data: { breadcrumb: 'Perfil profissional' }, loadChildren: () => import('./perfilempresarial/perfilempresarial.dashboard.module').then((m) => m.PerfilEmpresarialDashboardModule) },
             { path: 'perfil-profissional', data: { breadcrumb: 'Perfil Profissional' }, loadChildren: () => import('./perfilprofissional/perfilprofissional.module').then((m) => m.PerfilProfissionalModule) }
         ])
     ],

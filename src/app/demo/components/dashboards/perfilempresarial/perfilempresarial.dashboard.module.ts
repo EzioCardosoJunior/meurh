@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EcommerceDashboardComponent } from './ecommerce.dashboard.component';
-import { EcommerceDashboardRoutigModule } from './ecommerce.dashboard-routing.module';
+import { PerfilEmpresarialDashboardComponent } from './perfilempresarial.dashboard.component';
+import { PerfilEmpresarialDashboardRoutigModule } from './perfilempresarial.dashboard-routing.module';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +22,7 @@ import { BadgeModule } from 'primeng/badge';
 @NgModule({
     imports: [
         CommonModule,
-        EcommerceDashboardRoutigModule,
+        PerfilEmpresarialDashboardRoutigModule,
         ButtonModule,
         RippleModule,
         DropdownModule,
@@ -40,6 +40,6 @@ import { BadgeModule } from 'primeng/badge';
         MenuModule,
         BadgeModule
     ],
-    declarations: [EcommerceDashboardComponent]
+    declarations: [PerfilEmpresarialDashboardComponent]
 })
-export class EcommerceDashboardModule {}
+export class PerfilEmpresarialDashboardModule {}

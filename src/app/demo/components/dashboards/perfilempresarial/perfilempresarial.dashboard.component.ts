@@ -7,10 +7,10 @@ import { UltimosUsuariosService } from 'src/app/demo/service/ultimos-usuarios.se
 import { CadastroVagasService } from 'src/app/demo/service/cadastrovagas.service';
 
 @Component({
-    templateUrl: './ecommerce.dashboard.component.html',
+    templateUrl: './perfilempresarial.dashboard.component.html',
     providers: [MessageService]
 })
-export class EcommerceDashboardComponent implements OnInit, OnDestroy {
+export class PerfilEmpresarialDashboardComponent implements OnInit, OnDestroy {
     // message on top
     msgs1: any = [
         {
