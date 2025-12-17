@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
     imports: [
         RouterModule.forChild([
             { path: '', data: { breadcrumb: 'Perfil profissional' }, loadChildren: () => import('./ecommerce/ecommerce.dashboard.module').then((m) => m.EcommerceDashboardModule) },
-            { path: 'perfil-profissional', data: { breadcrumb: 'Perfil Profissional' }, loadChildren: () => import('./banking/perfilprofissional.module').then((m) => m.PerfilProfissionalModule) }
+            { path: 'perfil-profissional', data: { breadcrumb: 'Perfil Profissional' }, loadChildren: () => import('./perfilprofissional/perfilprofissional.module').then((m) => m.PerfilProfissionalModule) }
         ])
     ],
     exports: [RouterModule]
