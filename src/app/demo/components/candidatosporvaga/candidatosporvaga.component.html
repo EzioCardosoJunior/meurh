@@ -2,50 +2,70 @@
 
 <div class="grid">
 
+  <!-- ========================= -->
   <!-- COLUNA 1 — LISTA DE VAGAS -->
+  <!-- ========================= -->
   <div class="col-12 lg:col-4">
     <div class="card p-3">
 
       <h3 class="text-900 font-bold mb-3">Minhas Vagas</h3>
 
-      <p-listbox [options]="vagas" optionLabel="titulo" [(ngModel)]="selecionada"
-        (onChange)="selecionarVaga($event.value)" [filter]="true" [style]="{ width: '100%' }"
-        [emptyFilterMessage]="'Nenhuma vaga encontrada'" [listStyle]="{ 'max-height': '400px' }">
+      <p-listbox
+        [options]="vagas"
+        optionLabel="titulo"
+        [(ngModel)]="selecionada"
+        (onChange)="selecionarVaga($event.value)"
+        [filter]="true"
+        [style]="{ width: '100%' }"
+        [emptyFilterMessage]="'Nenhuma vaga encontrada'"
+        [listStyle]="{ 'max-height': '400px' }">
       </p-listbox>
 
     </div>
   </div>
 
+  <!-- =============================== -->
   <!-- COLUNA 2 — LISTA DE CANDIDATOS -->
+  <!-- =============================== -->
   <div class="col-12 lg:col-8">
     <div class="card p-4">
 
       <h3 class="text-900 font-bold mb-4">
         Candidatos para:
-        <span class="text-primary">{{ selecionada?.titulo || 'Selecione uma vaga' }}</span>
+        <span class="text-primary">
+          {{ selecionada?.titulo || 'Selecione uma vaga' }}
+        </span>
       </h3>
-      <p-table [value]="candidatos" [loading]="carregandoCandidatos" responsiveLayout="scroll" selectionMode="single"
-        [(selection)]="candidatoSelecionado" (onRowSelect)="abrirDialogAgendamento($event.data)">
 
+      <p-table
+        [value]="candidatos"
+        [loading]="carregandoCandidatos"
+        responsiveLayout="scroll"
+        selectionMode="single"
+        [(selection)]="candidatoSelecionado"
+        (onRowSelect)="abrirDialogAgendamento($event.data)">
+
+        <!-- CABEÇALHO -->
         <ng-template pTemplate="header">
           <tr>
             <th>Nome</th>
             <th>Email</th>
-            <th>CPF</th>
-            <th>Data</th>
+            <th>CPF</th>            
             <th>Status</th>
             <th>Agendado</th>
+            <th>Data Entrevista</th>
           </tr>
         </ng-template>
 
+        <!-- LINHAS -->
         <ng-template pTemplate="body" let-c>
           <tr [pSelectableRow]="c">
             <td>{{ c.nome_candidato }}</td>
             <td>{{ c.email }}</td>
             <td>{{ c.cpf }}</td>
-            <td>{{ c.data_candidatura }}</td>
             <td>{{ c.status }}</td>
             <td>{{ c.agendado }}</td>
+            <td>{{ c.data_entrevista }}</td>
           </tr>
         </ng-template>
 
@@ -61,48 +81,100 @@
       </p-table>
 
     </div>
-
-
   </div>
 
 </div>
-<div>
-  <p-dialog header="Agendamento de Entrevista" [(visible)]="dialogAgendamento" [modal]="true"
-    [style]="{ width: '450px' }">
 
-    <div class="p-fluid">
+<!-- ================================= -->
+<!-- DIALOG — AGENDAMENTO DE ENTREVISTA -->
+<!-- ================================= -->
+<p-dialog
+  header="Agendamento de Entrevista"
+  [(visible)]="dialogAgendamento"
+  [modal]="true"
+  [style]="{ width: '450px' }">
 
-      <!-- AGENDADO -->
-      <div class="field">
-        <label class="mr-2">Status:</label>
-        <p-radioButton name="agendado" value="SIM" [(ngModel)]="formAgendamento.agendado" label="Sim"></p-radioButton>
-        <p-radioButton name="agendado" value="NÃO" [(ngModel)]="formAgendamento.agendado" label="Não"
-          class="ml-3"></p-radioButton>
-        <p-radioButton name="agendado" value="A REVISAR" [(ngModel)]="formAgendamento.agendado" label="A revisar"
-          class="ml-3"></p-radioButton>
+  <form [formGroup]="agendamentoForm" class="p-fluid">
+
+    <!-- STATUS (OBRIGATÓRIO) -->
+    <div class="field">
+      <label class="block mb-2">
+        Status <span class="text-red-500">*</span>
+      </label>
+
+      <div class="flex gap-3">
+        <p-radioButton
+          name="agendado"
+          value="SIM"
+          formControlName="agendado"
+          label="Sim">
+        </p-radioButton>
+
+        <p-radioButton
+          name="agendado"
+          value="NÃO"
+          formControlName="agendado"
+          label="Não">
+        </p-radioButton>
+
+        <p-radioButton
+          name="agendado"
+          value="A REVISAR"
+          formControlName="agendado"
+          label="A revisar">
+        </p-radioButton>
       </div>
 
-      <!-- DATA -->
-      <div class="field">
-        <label>Data da entrevista</label>
-        <input type="datetime-local" pInputText [(ngModel)]="formAgendamento.data_entrevista">
-      </div>
-
-      <!-- ENTREVISTADOR -->
-      <div class="field">
-        <label>Entrevistador</label>
-        <input pInputText [(ngModel)]="formAgendamento.entrevistador_nome">
-      </div>
-
+      <small
+        class="p-error"
+        *ngIf="tentouSalvar && agendamentoForm.get('agendado')?.invalid">
+        Status é obrigatório.
+      </small>
     </div>
 
-    <ng-template pTemplate="footer">
-      <button pButton label="Cancelar" class="p-button-text" (click)="dialogAgendamento=false"></button>
-      <button pButton label="Salvar" icon="pi pi-check" (click)="salvarAgendamento()">
-      </button>
+    <!-- DATA DA ENTREVISTA (OBRIGATÓRIA) -->
+    <div class="field">
+      <label>
+        Data da entrevista <span class="text-red-500">*</span>
+      </label>
 
-    </ng-template>
+      <input
+        type="datetime-local"
+        pInputText
+        formControlName="data_entrevista" />
 
-  </p-dialog>
+      <small
+        class="p-error"
+        *ngIf="tentouSalvar && agendamentoForm.get('data_entrevista')?.invalid">
+        Data da entrevista é obrigatória.
+      </small>
+    </div>
 
-</div>
+    <!-- ENTREVISTADOR -->
+    <div class="field">
+      <label>Entrevistador</label>
+      <input
+        pInputText
+        formControlName="entrevistador_nome" />
+    </div>
+
+  </form>
+
+  <!-- FOOTER -->
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      label="Cancelar"
+      class="p-button-text"
+      (click)="dialogAgendamento = false">
+    </button>
+
+    <button
+      pButton
+      label="Salvar"
+      icon="pi pi-check"
+      (click)="salvarAgendamento()">
+    </button>
+  </ng-template>
+
+</p-dialog>

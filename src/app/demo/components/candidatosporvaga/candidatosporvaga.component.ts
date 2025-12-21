@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CadastroVagasService } from '../../service/cadastrovagas.service';
 import { MessageService } from 'primeng/api';
 
@@ -14,27 +15,42 @@ export class CandidatosPorVagaComponent implements OnInit {
   candidatos: any[] = [];
 
   selecionada: any = null;
-  carregandoVagas = false;
-  carregandoCandidatos = false;
-  dialogAgendamento = false;
   candidatoSelecionado: any = null;
 
-  formAgendamento: any = {
-    agendado: 'A REVISAR',
-    data_entrevista: '',
-    entrevistador_nome: ''
-  };
+  carregandoVagas = false;
+  carregandoCandidatos = false;
+
+  dialogAgendamento = false;
+  tentouSalvar = false;
+
+  agendamentoForm!: FormGroup;
 
   constructor(
     private vagasService: CadastroVagasService,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.carregarVagas();
+    this.criarFormularioAgendamento();
   }
 
-  carregarVagas() {
+  /* =====================================================
+     FORMULÁRIO
+  ===================================================== */
+  criarFormularioAgendamento(): void {
+    this.agendamentoForm = this.fb.group({
+      agendado: [null, Validators.required],
+      data_entrevista: [null, Validators.required],
+      entrevistador_nome: ['']
+    });
+  }
+
+  /* =====================================================
+     VAGAS
+  ===================================================== */
+  carregarVagas(): void {
     this.carregandoVagas = true;
 
     this.vagasService.listarVagasEmpresa(this.id_empresa).subscribe({
@@ -43,37 +59,78 @@ export class CandidatosPorVagaComponent implements OnInit {
         this.carregandoVagas = false;
       },
       error: () => {
+        this.carregandoVagas = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
           detail: 'Não foi possível carregar suas vagas.'
         });
-        this.carregandoVagas = false;
       }
     });
   }
 
-  abrirDialogAgendamento(candidato: any) {
-    this.candidatoSelecionado = candidato;
+  selecionarVaga(vaga: any): void {
+    this.selecionada = vaga;
+    this.buscarCandidatos(vaga.id);
+  }
 
-    // Pré-carrega dados se existirem
-    this.formAgendamento = {
-      agendado: candidato.agendado || 'A REVISAR',
-      data_entrevista: candidato.data_entrevista || '',
+  /* =====================================================
+     CANDIDATOS
+  ===================================================== */
+  buscarCandidatos(id_vaga: number): void {
+    this.carregandoCandidatos = true;
+
+    this.vagasService
+      .listarCandidatosDaVaga(this.id_empresa, id_vaga)
+      .subscribe({
+        next: (res) => {
+          this.candidatos = res?.dados || [];
+          this.carregandoCandidatos = false;
+        },
+        error: () => {
+          this.carregandoCandidatos = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Falha ao buscar candidatos.'
+          });
+        }
+      });
+  }
+
+  /* =====================================================
+     DIÁLOGO DE AGENDAMENTO
+  ===================================================== */
+  abrirDialogAgendamento(candidato: any): void {
+    this.candidatoSelecionado = candidato;
+    this.tentouSalvar = false;
+
+    this.agendamentoForm.reset({
+      agendado: candidato.agendado || null,
+      data_entrevista: candidato.data_entrevista || null,
       entrevistador_nome: candidato.entrevistador_nome || ''
-    };
+    });
 
     this.dialogAgendamento = true;
   }
 
-  salvarAgendamento() {
+  salvarAgendamento(): void {
+    this.tentouSalvar = true;
+
+    if (this.agendamentoForm.invalid) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Preencha os campos obrigatórios.'
+      });
+      return;
+    }
 
     const payload = {
       id_candidatura: this.candidatoSelecionado.id_candidatura,
       id_vaga: this.selecionada.id,
       id_usuario_editor: Number(localStorage.getItem('usuario_id')),
-
-      ...this.formAgendamento
+      ...this.agendamentoForm.value
     };
 
     this.vagasService.salvarEntrevista(payload).subscribe({
@@ -81,57 +138,21 @@ export class CandidatosPorVagaComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Sucesso',
-          detail: 'Entrevista salva com sucesso'
+          detail: 'Entrevista salva com sucesso.'
         });
 
         this.dialogAgendamento = false;
 
-        // Atualiza coluna "Agendado" na tabela
-        this.candidatoSelecionado.agendado = this.formAgendamento.agendado;
+        // Atualiza visualmente a tabela
+        this.candidatoSelecionado.agendado =
+          this.agendamentoForm.value.agendado;
       },
       error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: 'Falha ao salvar entrevista'
+          detail: 'Falha ao salvar entrevista.'
         });
-      }
-    });
-  }
-
-  selecionarVaga(vaga: any) {
-    this.selecionada = vaga;
-    this.buscarCandidatos(vaga.id);
-  }
-
-  atualizarAgendado(vaga: any) {
-    this.vagasService
-      .atualizarAgendado(vaga.id_candidatura, vaga.agendado)
-      .subscribe(() => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Atualizado',
-          detail: 'Status agendado atualizado com sucesso.'
-        });
-      });
-  }
-
-
-  buscarCandidatos(id_vaga: number) {
-    this.carregandoCandidatos = true;
-
-    this.vagasService.listarCandidatosDaVaga(this.id_empresa, id_vaga).subscribe({
-      next: (res) => {
-        this.candidatos = res?.dados || [];
-        this.carregandoCandidatos = false;
-      },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Falha ao buscar candidatos.'
-        });
-        this.carregandoCandidatos = false;
       }
     });
   }

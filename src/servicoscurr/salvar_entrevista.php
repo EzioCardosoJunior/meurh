@@ -107,16 +107,20 @@ try {
 
     // === ATUALIZA candidaturas_vagas ===
     $sqlCandidatura = "
-        UPDATE candidaturas_vagas
-        SET agendado = :agendado
-        WHERE id = :id_candidatura
-    ";
+    UPDATE candidaturas_vagas
+    SET
+        agendado = :agendado,
+        data_entrevista = :data_entrevista
+    WHERE id = :id_candidatura
+";
+
 
     $stmt2 = $pdo->prepare($sqlCandidatura);
     $stmt2->execute([
-        ':agendado' => $agendado,
-        ':id_candidatura' => $id_candidatura
-    ]);
+    ':agendado' => $agendado,
+    ':data_entrevista' => $data_entrevista,
+    ':id_candidatura' => $id_candidatura
+]);
 
     // === COMMIT ===
     $pdo->commit();
