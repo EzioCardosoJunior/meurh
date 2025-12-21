@@ -96,6 +96,12 @@ export class CadastroVagasService {
     );
   }
 
+  getProximaEntrevistaPendente(id_usuario: any) {
+    return this.http.get<any>(
+      `${this.baseUrl}/get_proxima_entrevista.php?id_usuario=${id_usuario}`
+    );
+  }
+
 
   getTotalEntrevistasPendentesCandidato(id_usuario: number) {
     return this.http.get<any>(

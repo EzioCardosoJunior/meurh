@@ -48,10 +48,13 @@
                 <div class="col-12 sm:col">
                     <div class="card bg-blue-300 text-white flex justify-content-between pt-4 h-full">
                         <div class="overview-info">
-                            <h6 class="m-0 mb-1 text-white">Subscriptions</h6>
-                            <h1 class="m-0 text-white">$126.82</h1>
+                            <h6 class="m-0 mb-1 text-white">Próxima entrevista agendada</h6>
+                            <h3 class="m-0 text-white">
+                                {{ dataProximaEntrevista | date:'dd/MM/yyyy \'às\' HH:mm' }}
+                            </h3>
+
                         </div>
-                        <i class="pi pi-dollar text-3xl"></i>
+                        <i class="pi pi-calendar text-3xl"></i>
                     </div>
                 </div>
                 <div class="col-12 sm:col">
@@ -72,7 +75,7 @@
                                     Vagas totais disponíveis no sistema.
                                 </p>
                             </div>
-                           
+
                         </div>
                         <p-chart type="bar" height="540" [data]="chartData" [options]="chartOptions"></p-chart>
                     </div>
@@ -85,7 +88,8 @@
                 <ng-template pTemplate="header">
                     <div class="block w-8">
                         <h2 class="p-0 m-0 mb-3">Atualizar Pix</h2>
-                        <p class="p-0 m-0">Estas informações não são obrigatórias e destinam-se a recebimentos. Não pague nada utilizando estes campos.</p>
+                        <p class="p-0 m-0">Estas informações não são obrigatórias e destinam-se a recebimentos. Não
+                            pague nada utilizando estes campos.</p>
                     </div>
                 </ng-template>
                 <div class="flex justify-content-between align-items-center gap-7">

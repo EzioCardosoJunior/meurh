@@ -27,6 +27,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     minhasVagas: any[] = [];
     carregando = false;
     totalEntrevistasCandidato: any;
+    dataProximaEntrevista: any;
 
 
     msgs1: any = [
@@ -108,6 +109,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
         this.carregarDados();
         this.carregarConta();
         this.carregarVagas();
+        this.proximaEntrevistaPendente()
         this.totalEntrevistasPendentesCandidato();
         this.cards = [
             {
@@ -379,6 +381,13 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     totalEntrevistasPendentesCandidato() {
         this.vagasService.getTotalEntrevistasPendentesCandidato(this.id_usuario).subscribe(res => {
             this.totalEntrevistasCandidato = res.total;
+        });
+    }
+
+    proximaEntrevistaPendente() {
+        this.vagasService.getProximaEntrevistaPendente(this.id_usuario).subscribe(res => {
+            this.dataProximaEntrevista = res.entrevista.data_entrevista;
+            console.log(res);
         });
     }
 
