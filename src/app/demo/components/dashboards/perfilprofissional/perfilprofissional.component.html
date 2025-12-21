@@ -39,10 +39,10 @@
                 <div class="col-12 sm:col">
                     <div class="card bg-orange-300 text-white flex justify-content-between pt-4 h-full">
                         <div class="overview-info">
-                            <h6 class="m-0 mb-1 text-white">Total Preenchido</h6>
-                            <h1 class="m-0 text-white">0 %</h1>
+                            <h6 class="m-0 mb-1 text-white">Vagas que me candidatei</h6>
+                            <h1 class="m-0 text-white">{{minhasVagas.length}}</h1>
                         </div>
-                        <i class="pi pi-percentage text-3xl"></i>
+                        <i class="pi pi-check text-3xl"></i>
                     </div>
                 </div>
                 <div class="col-12 sm:col">
@@ -72,9 +72,7 @@
                                     Vagas totais disponíveis no sistema.
                                 </p>
                             </div>
-                            <p-dropdown [options]="dateRanges" [(ngModel)]="selectedDate" placeholder="Monthly"
-                                optionLabel="name" [showClear]="false" styleClass="w-9rem"
-                                (onChange)="onDateChangeBarChart()"></p-dropdown>
+                           
                         </div>
                         <p-chart type="bar" height="540" [data]="chartData" [options]="chartOptions"></p-chart>
                     </div>

@@ -309,6 +309,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
 
                     this.vagas = todas?.dados || [];
                     this.minhasVagas = candidatadas?.dados || [];
+                    console.log('Vagas carregadas:', this.vagas);
 
                     this.selectedDate = this.dateRanges[2];
 
@@ -379,6 +380,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     totalEntrevistasPendentesCandidato() {
         this.vagasService.getTotalEntrevistasPendentesCandidato(this.id_usuario).subscribe(res => {
             this.totalEntrevistasCandidato = res.total;
+            console.log('Total de entrevistas pendentes:', res);
         });
     }
 
