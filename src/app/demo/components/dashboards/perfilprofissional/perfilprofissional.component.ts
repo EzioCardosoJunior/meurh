@@ -387,7 +387,6 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
     proximaEntrevistaPendente() {
         this.vagasService.getProximaEntrevistaPendente(this.id_usuario).subscribe(res => {
             this.dataProximaEntrevista = res.entrevista.data_entrevista;
-            console.log(res);
         });
     }
 

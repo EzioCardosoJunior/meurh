@@ -1,4 +1,31 @@
+<!-- TOAST PADRÃO -->
 <p-toast></p-toast>
+
+<!-- TOAST DE CONFIRMAÇÃO DE EXCLUSÃO -->
+<p-toast key="confirmDelete">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-column gap-3">
+      <span>{{ message.detail }}</span>
+
+      <div class="flex justify-content-end gap-2">
+        <button
+          pButton
+          label="Cancelar"
+          class="p-button-text"
+          (click)="deletarEntrevista(false)">
+        </button>
+
+        <button
+          pButton
+          label="Sim, deletar"
+          class="p-button-danger"
+          icon="pi pi-trash"
+          (click)="deletarEntrevista(true)">
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>
 
 <div class="grid">
 
@@ -50,7 +77,7 @@
           <tr>
             <th>Nome</th>
             <th>Email</th>
-            <th>CPF</th>            
+            <th>CPF</th>
             <th>Status</th>
             <th>Agendado</th>
             <th>Data Entrevista</th>
@@ -65,7 +92,12 @@
             <td>{{ c.cpf }}</td>
             <td>{{ c.status }}</td>
             <td>{{ c.agendado }}</td>
-            <td>{{ c.data_entrevista }}</td>
+            <td>
+              <span *ngIf="c.data_entrevista; else semData">
+                {{ c.data_entrevista | date:'dd/MM/yyyy HH:mm' }}
+              </span>
+              <ng-template #semData>-</ng-template>
+            </td>
           </tr>
         </ng-template>
 
@@ -96,7 +128,7 @@
 
   <form [formGroup]="agendamentoForm" class="p-fluid">
 
-    <!-- STATUS (OBRIGATÓRIO) -->
+    <!-- STATUS -->
     <div class="field">
       <label class="block mb-2">
         Status <span class="text-red-500">*</span>
@@ -132,7 +164,7 @@
       </small>
     </div>
 
-    <!-- DATA DA ENTREVISTA (OBRIGATÓRIA) -->
+    <!-- DATA DA ENTREVISTA -->
     <div class="field">
       <label>
         Data da entrevista <span class="text-red-500">*</span>
@@ -162,19 +194,34 @@
 
   <!-- FOOTER -->
   <ng-template pTemplate="footer">
-    <button
-      pButton
-      label="Cancelar"
-      class="p-button-text"
-      (click)="dialogAgendamento = false">
-    </button>
+    <div class="flex justify-content-between w-full">
 
-    <button
-      pButton
-      label="Salvar"
-      icon="pi pi-check"
-      (click)="salvarAgendamento()">
-    </button>
+      <button
+        pButton
+        label="Excluir"
+        icon="pi pi-trash"
+        class="p-button-danger p-button-text"
+        *ngIf="candidatoSelecionado?.agendado === 'SIM'"
+        (click)="confirmarDelecao()">
+      </button>
+
+      <div class="flex gap-2">
+        <button
+          pButton
+          label="Cancelar"
+          class="p-button-text"
+          (click)="dialogAgendamento = false">
+        </button>
+
+        <button
+          pButton
+          label="Salvar"
+          icon="pi pi-check"
+          (click)="salvarAgendamento()">
+        </button>
+      </div>
+
+    </div>
   </ng-template>
 
 </p-dialog>

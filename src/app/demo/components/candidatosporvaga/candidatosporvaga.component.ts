@@ -31,6 +31,9 @@ export class CandidatosPorVagaComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
+  /* =====================================================
+     INIT
+  ===================================================== */
   ngOnInit(): void {
     this.carregarVagas();
     this.criarFormularioAgendamento();
@@ -60,11 +63,7 @@ export class CandidatosPorVagaComponent implements OnInit {
       },
       error: () => {
         this.carregandoVagas = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Não foi possível carregar suas vagas.'
-        });
+        this.toastErro('Não foi possível carregar suas vagas.');
       }
     });
   }
@@ -89,17 +88,13 @@ export class CandidatosPorVagaComponent implements OnInit {
         },
         error: () => {
           this.carregandoCandidatos = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Falha ao buscar candidatos.'
-          });
+          this.toastErro('Falha ao buscar candidatos.');
         }
       });
   }
 
   /* =====================================================
-     DIÁLOGO DE AGENDAMENTO
+     AGENDAMENTO
   ===================================================== */
   abrirDialogAgendamento(candidato: any): void {
     this.candidatoSelecionado = candidato;
@@ -118,11 +113,7 @@ export class CandidatosPorVagaComponent implements OnInit {
     this.tentouSalvar = true;
 
     if (this.agendamentoForm.invalid) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Atenção',
-        detail: 'Preencha os campos obrigatórios.'
-      });
+      this.toastAviso('Preencha os campos obrigatórios.');
       return;
     }
 
@@ -135,25 +126,90 @@ export class CandidatosPorVagaComponent implements OnInit {
 
     this.vagasService.salvarEntrevista(payload).subscribe({
       next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Entrevista salva com sucesso.'
-        });
-
+        this.toastSucesso('Entrevista salva com sucesso.');
         this.dialogAgendamento = false;
 
-        // Atualiza visualmente a tabela
-        this.candidatoSelecionado.agendado =
-          this.agendamentoForm.value.agendado;
+        // Atualiza tabela local
+        Object.assign(this.candidatoSelecionado, this.agendamentoForm.value);
       },
       error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Falha ao salvar entrevista.'
-        });
+        this.toastErro('Falha ao salvar entrevista.');
       }
+    });
+  }
+
+  /* =====================================================
+     DELETAR ENTREVISTA (CONFIRMAÇÃO VIA TOAST)
+  ===================================================== */
+  confirmarDelecao(): void {
+    if (!this.candidatoSelecionado) {
+      return;
+    }
+
+    this.messageService.add({
+      key: 'confirmDelete',
+      severity: 'warn',
+      summary: 'Confirmar exclusão',
+      detail: 'Tem certeza que deseja deletar esta entrevista?',
+      sticky: true,
+      data: this.candidatoSelecionado
+    });
+  }
+
+  deletarEntrevista(confirmado: boolean): void {
+    this.messageService.clear('confirmDelete');
+
+    if (!confirmado) {
+      return;
+    }
+
+    const payload = {
+      id_candidatura: this.candidatoSelecionado.id_candidatura,
+      id_vaga: this.selecionada.id,
+      id_usuario_editor: Number(localStorage.getItem('usuario_id'))
+    };
+
+    this.vagasService.deletarEntrevista(payload).subscribe({
+      next: () => {
+        this.toastSucesso('Entrevista removida com sucesso.');
+
+        // Atualiza tabela local
+        this.candidatoSelecionado.agendado = 'NÃO';
+        this.candidatoSelecionado.data_entrevista = null;
+        this.candidatoSelecionado.entrevistador_nome = null;
+
+        this.dialogAgendamento = false;
+      },
+      error: () => {
+        this.toastErro('Falha ao remover entrevista.');
+      }
+    });
+  }
+
+  /* =====================================================
+     TOAST HELPERS
+  ===================================================== */
+  private toastSucesso(msg: string): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso',
+      detail: msg
+    });
+  }
+
+  private toastErro(msg: string): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: msg
+    });
+  }
+
+  private toastAviso(msg: string): void {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Atenção',
+      detail: msg
     });
   }
 }

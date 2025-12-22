@@ -109,6 +109,14 @@ export class CadastroVagasService {
     );
   }
 
+  deletarEntrevista(payload: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/deletar_entrevista.php`,
+      payload
+    );
+  }
+
+
 
 
 
