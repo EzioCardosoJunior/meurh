@@ -5,6 +5,7 @@ import { Product } from 'src/app/demo/api/product';
 import { ProductService } from 'src/app/demo/service/product.service';
 import { Table } from 'primeng/table';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { ShopeeOffersService } from 'src/app/demo/service/shopee-offers.service';
 
 interface expandedRows {
     [key: string]: boolean;
@@ -43,11 +44,16 @@ export class TableDemoComponent implements OnInit {
 
     loading: boolean = true;
 
+    offers: any[] = [];
+    scrollId?: string;
+    loadingShopee = false;
+
     @ViewChild('filter') filter!: ElementRef;
 
-    constructor(private customerService: CustomerService, private productService: ProductService) {}
+    constructor(private shopeeService: ShopeeOffersService, private customerService: CustomerService, private productService: ProductService) { }
 
     ngOnInit() {
+        this.loadOffers();
         this.customerService.getCustomersLarge().then((customers) => {
             this.customers1 = customers;
             this.loading = false;
@@ -84,6 +90,27 @@ export class TableDemoComponent implements OnInit {
 
     onSort() {
         this.updateRowGroupMetaData();
+    }
+
+    loadOffers(): void {
+        this.loading = true;
+
+        this.shopeeService.getOffers(this.scrollId).subscribe({
+            next: (res) => {
+                console.log(res);
+                const data = res?.data?.productOfferV2;
+
+                if (data) {
+                    this.offers.push(...data.nodes);
+                    this.scrollId = data.pageInfo.scrollId;
+                }
+
+                this.loadingShopee = false;
+            },
+            error: () => {
+                this.loadingShopee = false;
+            }
+        })
     }
 
     updateRowGroupMetaData() {
