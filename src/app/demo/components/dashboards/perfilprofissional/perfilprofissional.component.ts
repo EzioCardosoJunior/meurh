@@ -453,7 +453,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
             acc[tipo] = (acc[tipo] || 0) + 1;
             return acc;
         }, {});
-
+ console.log(contagemTipoContrato);
         const contagemTipoContratoCandidatadas = mg.reduce((acc2: any, vaga2: any) => {
             const tipo2 = vaga2.tipo_contrato;
             acc2[tipo2] = (acc2[tipo2] || 0) + 1;
@@ -465,7 +465,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
             datasets: [
                 {
                     label: 'Total de vagas',
-                    data: [contagemTipoContrato.clt, contagemTipoContrato.temporario, contagemTipoContrato.pj, contagemTipoContrato.estagio, contagemTipoContrato.outros],
+                    data: [contagemTipoContrato.clt, contagemTipoContrato.temporario, contagemTipoContrato.pj, contagemTipoContrato.estagio, contagemTipoContrato.outro],
                     fill: false,
                     borderColor: documentStyle.getPropertyValue('--green-300'),
                     tension: 0.4,
@@ -475,7 +475,7 @@ export class PerfilProfissionalComponent implements OnInit, OnDestroy {
                 },
                 {
                     label: 'Vagas candidatadas',
-                    data: [contagemTipoContratoCandidatadas.clt, contagemTipoContratoCandidatadas.temporario, contagemTipoContratoCandidatadas.pj, contagemTipoContratoCandidatadas.estagio, contagemTipoContratoCandidatadas.outros],
+                    data: [contagemTipoContratoCandidatadas.clt, contagemTipoContratoCandidatadas.temporario, contagemTipoContratoCandidatadas.pj, contagemTipoContratoCandidatadas.estagio, contagemTipoContratoCandidatadas.outro],
 
                     borderColor: documentStyle.getPropertyValue('--red-300'),
                     backgroundColor: '#ff3d3238',
